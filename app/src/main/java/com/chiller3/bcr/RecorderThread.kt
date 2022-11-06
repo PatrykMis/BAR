@@ -206,12 +206,10 @@ class RecorderThread(
                         return@evaluate handleDateFormat(it)
                     }
                     it == "direction" -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            when (details.callDirection) {
-                                Call.Details.DIRECTION_INCOMING -> return@evaluate "in"
-                                Call.Details.DIRECTION_OUTGOING -> return@evaluate "out"
-                                Call.Details.DIRECTION_UNKNOWN -> {}
-                            }
+                          when (details.callDirection) {
+                            Call.Details.DIRECTION_INCOMING -> return@evaluate "in"
+                            Call.Details.DIRECTION_OUTGOING -> return@evaluate "out"
+                            Call.Details.DIRECTION_UNKNOWN -> {}
                         }
                     }
                     it == "sim_slot" -> {

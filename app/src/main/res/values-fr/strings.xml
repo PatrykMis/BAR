@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BCR</string>
-    <string name="app_name_full">Basic Call Recorder</string>
+    <string name="app_name">BAR</string>
+    <string name="app_name_full">Basic Audio Recorder</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Général</string>
@@ -43,9 +44,6 @@
     <string name="notification_channel_persistent_name">Service d\'arrière-plan</string>
     <string name="notification_channel_persistent_desc">Notification persistante pour l\'enregistrement en arrière-plan</string>
     <string name="notification_channel_failure_desc">Alertes d\'erreurs pendant l\'enregistrement</string>
-    <string name="notification_recording_in_progress">Enregistrement d\'appel en cours</string>
-    <string name="notification_recording_failed">Enregistrement d\'appel échoué</string>
 
     <!-- Quick settings tile -->
-    <string name="quick_settings_label">Enregsitrement d\'appel</string>
 </resources>

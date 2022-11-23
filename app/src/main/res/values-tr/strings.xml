@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BCR</string>
-    <string name="app_name_full">Basic Call Recorder</string>
+    <string name="app_name">BAR</string>
+    <string name="app_name_full">Basic Audio Recorder</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Genel</string>
@@ -42,12 +43,9 @@
     <string name="notification_channel_persistent_name">Arka plan servisleri</string>
     <string name="notification_channel_persistent_desc">Arka plan çağrı kaydı için kalıcı bildirim</string>
     <string name="notification_channel_failure_desc">Kayıt esnasındaki hatalar için uyarılar</string>
-    <string name="notification_recording_in_progress">Çağrı kaydediliyor</string>
-    <string name="notification_recording_failed">Çağrı kaydı başarısız</string>
-    <string name="notification_action_open">Aç</string> 
-    <string name="notification_action_share">Paylaş</string> 
-    <string name="notification_action_delete">Sil</string> 
+    <string name="notification_action_open">Aç</string>
+    <string name="notification_action_share">Paylaş</string>
+    <string name="notification_action_delete">Sil</string>
 
     <!-- Quick settings tile -->
-    <string name="quick_settings_label">Çağrı kaydı</string>
 </resources>

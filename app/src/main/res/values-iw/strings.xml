@@ -1,6 +1,7 @@
-<resources>
-    <string name="app_name">BCR</string>
-    <string name="app_name_full">מקליט שיחות בסיסי</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingQuantity">
+    <string name="app_name">BAR</string>
+    <string name="app_name_full">מקליט שמע בסיסי</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">כללי</string>
@@ -9,10 +10,6 @@
     <!-- General preferences -->
     <string name="pref_call_recording_name">הקלטת שיחה</string>
     <string name="pref_call_recording_desc">הקלט שיחות יוצאות ונכנסות. חובה לאפשר הרשאות למיקרופון ולהתראות, מומלץ לאפשר גישה לטלפון ולאנשי הקשר על מנת שקבצי ההקלטות יישמרו עם נתוני השיחה</string>
-
-    <string name="pref_initially_paused_name">עצור הקלטה</string>
-    <string name="pref_initially_paused_desc_on">ההקלטה לא תפעל בתחילתה. אם לא תפעיל אותה באמצעות הכפתור בהודעה, קובץ ההקלטה הריק לא ישמר</string>
-    <string name="pref_initially_paused_desc_off">השיחה תוקלט מיד בתחילת שיחה. כדי להשהות ולהמשיך, לחץ על הכפתור בהתראה המוצגת במהלך שיחה</string>
 
     <string name="pref_output_dir_name">מיקום האחסון</string>
     <string name="pref_output_dir_desc">בחר תיקיה לאחסון הקלטות</string>
@@ -50,10 +47,6 @@
     <string name="notification_channel_failure_desc">התראות על שגיאות במהלך הקלטת שיחה</string>
     <string name="notification_channel_success_name">התראות סיום הקלטה בהצלחה</string>
     <string name="notification_channel_success_desc">התראות הקלטות שיחות שהסתיימו בהצלחה</string>
-    <string name="notification_recording_in_progress">הקלטת שיחה מתבצעת</string>
-    <string name="notification_recording_paused">הקלטת שיחה מושהית</string>
-    <string name="notification_recording_failed">הקלטת שיחה נכשלה</string>
-    <string name="notification_recording_succeeded">השיחה הוקלטה בהצלחה</string>
     <string name="notification_internal_android_error">ההקלטה נכשלה ברכיב Android פנימי (%s). ייתכן שהמכשיר או הקושחה אינם תומכים בהקלטת שיחות</string>
     <string name="notification_action_open">פתיחה</string>
     <string name="notification_action_share">שיתוף</string>
@@ -62,5 +55,4 @@
     <string name="notification_action_resume">המשך</string>
 
     <!-- Quick settings tile -->
-    <string name="quick_settings_label">הקלטת שיחה</string>
 </resources>

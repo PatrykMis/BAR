@@ -1,6 +1,7 @@
-<resources>
-    <string name="app_name">BCR</string>
-    <string name="app_name_full">Basic Call Recorder</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">BAR</string>
+    <string name="app_name_full">Basic Audio Recorder</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">General</string>
@@ -9,10 +10,6 @@
     <!-- General preferences -->
     <string name="pref_call_recording_name">Call recording</string>
     <string name="pref_call_recording_desc">Record incoming and outgoing phone calls. Microphone and notification permissions are required for recording in the background.</string>
-
-    <string name="pref_initially_paused_name">Initially paused</string>
-    <string name="pref_initially_paused_desc_on">Recording will be paused after starting. If you don\'t resume it using the button in the notification, the empty output file won\'t be saved.</string>
-    <string name="pref_initially_paused_desc_off">Call will be recorded immediately after connecting. To pause and resume, tap on the button in the notification displayed during a call.</string>
 
     <string name="pref_output_dir_name">Output directory</string>
     <string name="pref_output_dir_desc">Pick a directory to store recordings.</string>
@@ -50,13 +47,9 @@
     <string name="notification_channel_failure_desc">Alerts for errors during call recording</string>
     <string name="notification_channel_success_name">Success alerts</string>
     <string name="notification_channel_success_desc">Alerts for successful call recordings</string>
-    <string name="notification_recording_in_progress">Call recording in progress</string>
     <string name="notification_recording_mic_in_progress">Mic recording in progress</string>
-    <string name="notification_recording_paused">Call recording paused</string>
     <string name="notification_recording_mic_paused">Mic recording paused</string>
-    <string name="notification_recording_failed">Failed to record call</string>
     <string name="notification_recording_mic_failed">Failed to record mic</string>
-    <string name="notification_recording_succeeded">Successfully recorded call</string>
     <string name="notification_recording_mic_succeeded">Successfully recorded mic</string>
     <string name="notification_internal_android_error">The recording failed in an internal Android component (%s). This device or firmware might not support call recording.</string>
 
@@ -67,6 +60,5 @@
     <string name="notification_action_resume">Resume</string>
 
     <!-- Quick settings tile -->
-    <string name="quick_settings_label">Call recording</string>
     <string name="quick_settings_mic_label">Mic recording</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import com.patrykmis.bar.databinding.BottomSheetChipBinding
 import com.patrykmis.bar.databinding.OutputFormatBottomSheetBinding
@@ -146,15 +147,35 @@ class OutputFormatBottomSheetFragment : BottomSheetDialogFragment(),
         }
     }
 
+    private fun checkSampleRateAndShowDialogIfNeeded(sampleRate: SampleRate?) {
+        if (prefs.format?.name == "OGG/Opus" && sampleRate?.value == 44_100u) {
+            prefs.sampleRate = SampleRate(48_000u)
+            showUnsupportedSampleRateDialog()
+        } else {
+            prefs.sampleRate = sampleRate
+        }
+    }
+
+    private fun showUnsupportedSampleRateDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.unsupported_sample_rate))
+            .setNeutralButton(getString(android.R.string.ok)) { _, _ ->
+                refreshSampleRate()
+            }
+            .show()
+    }
+
     override fun onCheckedChanged(group: ChipGroup, checkedIds: MutableList<Int>) {
         when (group) {
             binding.nameGroup -> {
                 prefs.format = chipIdToFormat[checkedIds.first()]!!
                 refreshParam()
+                checkSampleRateAndShowDialogIfNeeded(prefs.sampleRate)
             }
 
             binding.sampleRateGroup -> {
                 prefs.sampleRate = chipIdToSampleRate[checkedIds.first()]
+                checkSampleRateAndShowDialogIfNeeded(prefs.sampleRate)
             }
         }
     }

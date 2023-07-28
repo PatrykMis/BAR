@@ -61,4 +61,6 @@
 
     <!-- Quick settings tile -->
     <string name="quick_settings_mic_label">Mic recording</string>
+
+    <string name="unsupported_sample_rate">This sample rate is unsupported by the chosen format. Defaulting to 48000 Hz.</string>
 </resources>

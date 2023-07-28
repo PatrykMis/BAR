@@ -61,4 +61,6 @@
 
     <!-- Quick settings tile -->
     <string name="quick_settings_mic_label">Nagrywanie dźwięku</string>
+
+    <string name="unsupported_sample_rate">Ta częstotliwość próbkowania nie jest obsługiwana przez wybrany format. Ustawiono na domyślną 48000 Hz.</string>
 </resources>

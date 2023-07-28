@@ -31,10 +31,9 @@ object AacFormat : Format() {
             } else {
                 MediaCodecInfo.CodecProfileLevel.AACObjectHE
             }
-            val channelCount = getInteger(MediaFormat.KEY_CHANNEL_COUNT)
 
             setInteger(MediaFormat.KEY_AAC_PROFILE, profile)
-            setInteger(MediaFormat.KEY_BIT_RATE, param.toInt() * channelCount)
+            setInteger(MediaFormat.KEY_BIT_RATE, param.toInt())
         }
     }
 

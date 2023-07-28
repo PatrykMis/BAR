@@ -23,8 +23,7 @@ object OpusFormat : Format() {
 
     override fun updateMediaFormat(mediaFormat: MediaFormat, param: UInt) {
         mediaFormat.apply {
-            val channelCount = getInteger(MediaFormat.KEY_CHANNEL_COUNT)
-            setInteger(MediaFormat.KEY_BIT_RATE, param.toInt() * channelCount)
+            setInteger(MediaFormat.KEY_BIT_RATE, param.toInt())
         }
     }
 

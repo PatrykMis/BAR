@@ -1,5 +1,8 @@
 package com.patrykmis.bar.format
 
+import android.media.AudioFormat
+import android.media.AudioRecord
+
 import com.patrykmis.bar.Preferences
 
 @JvmInline
@@ -27,13 +30,17 @@ value class SampleRate(val value: UInt) {
         /**
          * Get the saved sample rate from the preferences.
          *
-         * If the saved sample rate is no longer valid or no sample rate is selected, then [default]
-         * is returned.
+         * If the saved sample rate is no longer valid or no sample rate is selected; or
+         * saved format is "OGG/Opus" and saved sample rate is 44.1 kHz
+         * then [default] is returned.
          */
         fun fromPreferences(prefs: Preferences): SampleRate {
             val savedSampleRate = prefs.sampleRate
+            val savedFormat = prefs.format
 
-            if (savedSampleRate != null && all.contains(savedSampleRate)) {
+            if (savedSampleRate != null && all.contains(savedSampleRate) &&
+                !(savedFormat?.name == "OGG/Opus" && savedSampleRate == SampleRate(44_100u))
+            ) {
                 return savedSampleRate
             }
 

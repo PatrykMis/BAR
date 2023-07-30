@@ -118,6 +118,10 @@ class RecorderMicTileService : TileService(), RecorderThread.OnRecordingComplete
 
     private fun refreshTileState() {
         val tile = qsTile
+        if (tile == null) {
+            Log.w(TAG, "Tile was null during refreshTileState")
+            return
+        }
 
         // Tile.STATE_UNAVAILABLE is intentionally not used when permissions haven't been granted.
         // Clicking the tile in that state does not invoke the click handler, so it wouldn't be

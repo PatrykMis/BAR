@@ -1,6 +1,8 @@
 package com.patrykmis.bar
 
+import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.service.quicksettings.Tile
@@ -104,9 +106,17 @@ class RecorderMicTileService : TileService(), RecorderThread.OnRecordingComplete
         super.onClick()
 
         if (!Permissions.haveRequired(this)) {
-            val intent = Intent(this, SettingsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivityAndCollapse(intent)
+            val intent = Intent(this, SettingsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startActivityAndCollapse(PendingIntent.getActivity(
+                    this, 0, intent, PendingIntent.FLAG_IMMUTABLE))
+            } else {
+                @Suppress("StartActivityAndCollapseDeprecated")
+                startActivityAndCollapse(intent)
+            }
         } else if (recorder == null) {
             startRecording()
         } else {

@@ -2,8 +2,8 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -13,10 +13,8 @@ if (useKeystoreProperties) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 android {
@@ -36,8 +34,8 @@ android {
 
     namespace = "com.patrykmis.bar"
 
-    compileSdk = 33
-    buildToolsVersion = "33.0.2"
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "com.patrykmis.bar"

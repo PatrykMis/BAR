@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "BCR"
+rootProject.name = "BAR"
 include(":app")

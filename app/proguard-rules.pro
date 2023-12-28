@@ -14,7 +14,7 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
--keepattributes SourceFile,LineNumberTable
+# -keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
@@ -22,10 +22,11 @@
 
 # Disable obfuscation completely for BCR. As an open source project,
 # shrinking is the only goal of minification.
--dontobfuscate
+# -dontobfuscate
 
 # We construct TreeDocumentFile via reflection in DocumentFileExtensions
 # to speed up SAF performance when doing path lookups.
 -keepclassmembers class androidx.documentfile.provider.TreeDocumentFile {
     <init>(androidx.documentfile.provider.DocumentFile, android.content.Context, android.net.Uri);
 }
+-keep class com.patrykmis.bar.ChipGroupCentered { *; }

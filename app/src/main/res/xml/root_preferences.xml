@@ -1,50 +1,43 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
-        app:title="@string/pref_header_general"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_header_general">
 
         <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             app:key="call_recording"
-            app:title="@string/pref_call_recording_name"
             app:summary="@string/pref_call_recording_desc"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreferenceCompat
-            app:key="initially_paused"
-            app:title="@string/pref_initially_paused_name"
-            app:summaryOff="@string/pref_initially_paused_desc_off"
-            app:summaryOn="@string/pref_initially_paused_desc_on"
-            app:iconSpaceReserved="false" />
+            app:title="@string/pref_call_recording_name" />
 
         <Preference
+            app:iconSpaceReserved="false"
             app:key="output_dir"
             app:persistent="false"
-            app:title="@string/pref_output_dir_name"
             app:summary="@string/pref_output_dir_desc"
-            app:iconSpaceReserved="false" />
+            app:title="@string/pref_output_dir_name" />
 
         <Preference
+            app:iconSpaceReserved="false"
             app:key="output_format"
             app:persistent="false"
-            app:title="@string/pref_output_format_name"
             app:summary="@string/pref_output_format_desc"
-            app:iconSpaceReserved="false" />
+            app:title="@string/pref_output_format_name" />
 
         <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             app:key="inhibit_batt_opt"
-            app:title="@string/pref_inhibit_batt_opt_name"
             app:summary="@string/pref_inhibit_batt_opt_desc"
-            app:iconSpaceReserved="false" />
+            app:title="@string/pref_inhibit_batt_opt_name" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/pref_header_about"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_header_about">
 
-        <com.chiller3.bcr.LongClickablePreference
+        <com.patrykmis.bar.LongClickablePreference
+            app:iconSpaceReserved="false"
             app:key="version"
             app:persistent="false"
-            app:title="@string/pref_version_name"
-            app:iconSpaceReserved="false" />
+            app:title="@string/pref_version_name" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -26,7 +26,7 @@ class Notifications(
         const val CHANNEL_ID_FAILURE = "failure"
         const val CHANNEL_ID_SUCCESS = "success"
 
-        private val LEGACY_CHANNEL_IDS = arrayOf("alerts")
+        private val LEGACY_CHANNEL_IDS = arrayOf<String>()
 
         /** Incremented for each new alert (non-persistent) notification. */
         private var notificationId = 2

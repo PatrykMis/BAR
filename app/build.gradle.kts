@@ -3,7 +3,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -34,8 +33,26 @@ android {
 
     namespace = "com.patrykmis.bar"
 
-    compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
+    buildToolsVersion = "36.1.0"
+
+    androidResources {
+        localeFilters += listOf(
+            "en",
+            "es",
+            "fr",
+            "iw",
+            "pl",
+            "ru",
+            "sk",
+            "tr",
+            "zh-rCN"
+        )
+    }
 
     defaultConfig {
         applicationId = "com.patrykmis.bar"
@@ -43,19 +60,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = versionCode.toString()
-        resourceConfigurations.addAll(
-            listOf(
-                "en",
-                "es",
-                "fr",
-                "iw",
-                "pl",
-                "ru",
-                "sk",
-                "tr",
-                "zh-rCN"
-            )
-        )
 
         buildConfigField(
             "String", "PROVIDER_AUTHORITY",
@@ -97,15 +101,9 @@ android {
             }
         }
     }
-    compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_17)
-        targetCompatibility(JavaVersion.VERSION_17)
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
     buildFeatures {
         buildConfig = true
+        resValues = true
         viewBinding = true
     }
 

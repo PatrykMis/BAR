@@ -132,7 +132,7 @@ class Notifications(
         @StringRes title: Int,
         @DrawableRes icon: Int,
         @StringRes actionText: Int,
-        actionIntent: Intent,
+        actionIntent: PendingIntent,
     ): Notification {
         val notificationIntent = Intent(context, SettingsActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
@@ -145,18 +145,11 @@ class Notifications(
             setContentIntent(pendingIntent)
             setOngoing(true)
 
-            val actionPendingIntent = PendingIntent.getService(
-                context,
-                0,
-                actionIntent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-            )
-
             addAction(
                 Notification.Action.Builder(
                     null,
                     context.getString(actionText),
-                    actionPendingIntent,
+                    actionIntent,
                 ).build()
             )
 

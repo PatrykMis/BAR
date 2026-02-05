@@ -8,7 +8,7 @@ I've decided to fork because BCR has a robust audio recording/encoding pipeline 
 
 ### Features
 
-* Supports Android 11 through 13
+* Supports Android 13 through 16
 * Supports output in various formats:
   * OGG/Opus - Lossy, smallest files, default
   * M4A/AAC - Lossy, smaller files

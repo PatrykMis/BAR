@@ -8,6 +8,7 @@ import android.os.Looper
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
+import com.patrykmis.bar.extension.threadIdCompat
 import kotlin.random.Random
 
 class RecorderMicTileService : TileService(), RecorderThread.OnRecordingCompletedListener {
@@ -237,7 +238,7 @@ class RecorderMicTileService : TileService(), RecorderThread.OnRecordingComplete
     }
 
     override fun onRecordingCompleted(thread: RecorderThread, file: OutputFile?) {
-        Log.i(TAG, "Recording completed: ${thread.id}: ${file?.redacted}")
+        Log.i(TAG, "Recording completed: ${thread.threadIdCompat}: ${file?.redacted}")
         handler.post {
             onThreadExited()
 
@@ -250,7 +251,7 @@ class RecorderMicTileService : TileService(), RecorderThread.OnRecordingComplete
     }
 
     override fun onRecordingFailed(thread: RecorderThread, errorMsg: String?, file: OutputFile?) {
-        Log.w(TAG, "Recording failed: ${thread.id}: ${file?.redacted}")
+        Log.w(TAG, "Recording failed: ${thread.threadIdCompat}: ${file?.redacted}")
         handler.post {
             onThreadExited()
 

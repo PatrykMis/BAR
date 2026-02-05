@@ -13,6 +13,7 @@ import android.system.Os
 import android.util.Log
 import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
+import com.patrykmis.bar.extension.threadIdCompat
 import com.patrykmis.bar.format.Encoder
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
@@ -40,7 +41,7 @@ import android.os.Process as AndroidProcess
 class RecorderThread(
     private val context: Context,
     private val listener: OnRecordingCompletedListener) : Thread(RecorderThread::class.java.simpleName) {
-    private val tag = "${RecorderThread::class.java.simpleName}/${id}"
+    private val tag = "${RecorderThread::class.java.simpleName}/$threadIdCompat"
     private val prefs = Preferences(context)
     private val isDebug = prefs.isDebugMode
 

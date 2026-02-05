@@ -1,5 +1,6 @@
 package com.patrykmis.bar
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
@@ -103,6 +104,7 @@ class RecorderMicTileService : TileService(), RecorderThread.OnRecordingComplete
         tileIsListening = false
     }
 
+    @SuppressLint("StartActivityAndCollapseDeprecated")
     override fun onClick() {
         super.onClick()
 
@@ -115,7 +117,7 @@ class RecorderMicTileService : TileService(), RecorderThread.OnRecordingComplete
                 startActivityAndCollapse(PendingIntent.getActivity(
                     this, 0, intent, PendingIntent.FLAG_IMMUTABLE))
             } else {
-                @Suppress("StartActivityAndCollapseDeprecated")
+                @Suppress("DEPRECATION")
                 startActivityAndCollapse(intent)
             }
         } else if (recorder == null) {

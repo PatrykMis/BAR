@@ -56,8 +56,8 @@ android {
 
     defaultConfig {
         applicationId = "com.patrykmis.bar"
-        minSdk = 30
-        targetSdk = 34
+        minSdk = 33
+        targetSdk = 36
         versionCode = 1
         versionName = versionCode.toString()
 

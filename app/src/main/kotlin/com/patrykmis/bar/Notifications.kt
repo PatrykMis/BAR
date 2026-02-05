@@ -8,7 +8,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
@@ -162,9 +161,7 @@ class Notifications(
             )
 
             // Inhibit 10-second delay when showing persistent notification
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE)
-            }
+            setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE)
             build()
         }
     }
@@ -338,12 +335,9 @@ class Notifications(
     fun vibrateIfEnabled(channelId: String) {
         val channel = notificationManager.getNotificationChannel(channelId)
         if (channel.shouldVibrate()) {
-            val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val vibratorManager = context.getSystemService(VibratorManager::class.java)
-                vibratorManager.defaultVibrator
-            } else {
-                context.getSystemService(Vibrator::class.java)
-            }
+            val vibrator = context
+                .getSystemService(VibratorManager::class.java)
+                .defaultVibrator
 
             if (vibrator.hasVibrator()) {
                 val pattern = channel.vibrationPattern ?: defaultPattern

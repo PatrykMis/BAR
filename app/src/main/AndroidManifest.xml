@@ -27,7 +27,6 @@
             android:name=".RecorderMicTileService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="microphone"
             android:icon="@drawable/ic_launcher_quick_settings"
             android:label="@string/quick_settings_mic_label"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -38,6 +37,11 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <service
+            android:name=".RecorderService"
+            android:exported="false"
+            android:foregroundServiceType="microphone" />
 
         <provider
             android:name=".RecorderProvider"
@@ -50,9 +54,13 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".RecorderGateActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Transparent" />
     </application>
 </manifest>

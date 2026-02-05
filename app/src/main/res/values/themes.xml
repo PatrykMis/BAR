@@ -6,4 +6,11 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
+
+<style name="Theme.Transparent" parent="Theme.Material3.DayNight.NoActionBar">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:backgroundDimEnabled">false</item>
+</style>
 </resources>

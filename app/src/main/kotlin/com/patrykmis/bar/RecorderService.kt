@@ -42,31 +42,33 @@ class RecorderService : Service(), RecorderThread.OnRecordingCompletedListener {
             ACTION_TOGGLE -> {
                 if (recorder == null) startRecording() else requestStopRecording()
             }
+
             ACTION_PAUSE, ACTION_RESUME -> {
                 recorder?.isPaused = intent?.action == ACTION_PAUSE
                 updateForegroundState()
             }
+
             else -> {
                 Log.w(TAG, "Unknown action: ${intent?.action}")
             }
         }
         return START_NOT_STICKY
     }
-    
-        private fun createPauseIntent(): PendingIntent =
-            PendingIntent.getService(
-                this,
-                1,
-                Intent(this, RecorderService::class.java).setAction(ACTION_PAUSE),
-                PendingIntent.FLAG_IMMUTABLE
-            )
-    
-        private fun createResumeIntent(): PendingIntent =
-            PendingIntent.getService(
-                this,
-                2,
-                Intent(this, RecorderService::class.java).setAction(ACTION_RESUME),
-                PendingIntent.FLAG_IMMUTABLE
+
+    private fun createPauseIntent(): PendingIntent =
+        PendingIntent.getService(
+            this,
+            1,
+            Intent(this, RecorderService::class.java).setAction(ACTION_PAUSE),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+    private fun createResumeIntent(): PendingIntent =
+        PendingIntent.getService(
+            this,
+            2,
+            Intent(this, RecorderService::class.java).setAction(ACTION_RESUME),
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     /**

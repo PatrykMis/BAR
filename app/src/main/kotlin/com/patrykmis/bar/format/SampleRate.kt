@@ -1,9 +1,7 @@
 package com.patrykmis.bar.format
 
-import android.media.AudioFormat
-import android.media.AudioRecord
-
 import com.patrykmis.bar.Preferences
+import com.patrykmis.bar.format.SampleRate.Companion.default
 
 @JvmInline
 value class SampleRate(val value: UInt) {

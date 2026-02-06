@@ -9,12 +9,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.VibrationEffect
-import android.os.Vibrator
 import android.os.VibratorManager
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import java.util.*
+import com.patrykmis.bar.Notifications.Companion.CHANNEL_ID_FAILURE
+import com.patrykmis.bar.Notifications.Companion.CHANNEL_ID_SUCCESS
 
 class Notifications(
     private val context: Context,

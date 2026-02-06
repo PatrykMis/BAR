@@ -7,8 +7,6 @@ import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
-import com.patrykmis.bar.extension.threadIdCompat
-import kotlin.random.Random
 
 class RecorderMicTileService : TileService() {
     companion object {
@@ -41,8 +39,11 @@ class RecorderMicTileService : TileService() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                startActivityAndCollapse(PendingIntent.getActivity(
-                    this, 0, intent, PendingIntent.FLAG_IMMUTABLE))
+                startActivityAndCollapse(
+                    PendingIntent.getActivity(
+                        this, 0, intent, PendingIntent.FLAG_IMMUTABLE
+                    )
+                )
             } else {
                 @Suppress("DEPRECATION")
                 startActivityAndCollapse(intent)
@@ -60,8 +61,11 @@ class RecorderMicTileService : TileService() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            startActivityAndCollapse(PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_IMMUTABLE))
+            startActivityAndCollapse(
+                PendingIntent.getActivity(
+                    this, 0, intent, PendingIntent.FLAG_IMMUTABLE
+                )
+            )
         } else {
             @Suppress("DEPRECATION")
             startActivityAndCollapse(intent)

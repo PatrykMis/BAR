@@ -1,6 +1,7 @@
 package com.patrykmis.bar
 
 import android.content.Context
+import com.patrykmis.bar.Retention.Companion.default
 import java.time.Duration
 
 sealed interface Retention {

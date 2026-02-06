@@ -1,9 +1,7 @@
 package com.patrykmis.bar
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
@@ -17,10 +15,12 @@ import com.patrykmis.bar.extension.threadIdCompat
 import com.patrykmis.bar.format.Encoder
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
-import java.lang.Process
 import java.nio.ByteBuffer
 import java.text.ParsePosition
-import java.time.*
+import java.time.DateTimeException
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.DateTimeParseException
 import java.time.format.SignStyle
@@ -40,7 +40,8 @@ import android.os.Process as AndroidProcess
  */
 class RecorderThread(
     private val context: Context,
-    private val listener: OnRecordingCompletedListener) : Thread(RecorderThread::class.java.simpleName) {
+    private val listener: OnRecordingCompletedListener
+) : Thread(RecorderThread::class.java.simpleName) {
     private val tag = "${RecorderThread::class.java.simpleName}/$threadIdCompat"
     private val prefs = Preferences(context)
     private val isDebug = prefs.isDebugMode
@@ -533,9 +534,8 @@ class RecorderThread(
 
         while (!isCancelled) {
             val begin = System.nanoTime()
-            // We do a non-blocking read because on Samsung devices, when the call ends, the audio
-            // device immediately stops producing data and blocks forever until the next call is
-            // active.
+            // Use non-blocking read to avoid AudioRecord deadlock on some OEMs (e.g. Samsung)
+            // when audio source stops producing data unexpectedly.
             val n = audioRecord.read(buffer, buffer.remaining(), AudioRecord.READ_NON_BLOCKING)
             val recordElapsed = System.nanoTime() - begin
             var encodeElapsed = 0L

@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
+import com.patrykmis.bar.output.OutputFile
 
 class NotificationActionService : Service() {
     companion object {

@@ -1,4 +1,4 @@
-package com.patrykmis.bar
+package com.patrykmis.bar.output
 
 import android.content.ContentResolver
 import android.content.Context

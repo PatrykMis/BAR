@@ -11,10 +11,17 @@ import android.system.Os
 import android.util.Log
 import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
+import com.patrykmis.bar.extension.listFilesWithNames
+import com.patrykmis.bar.extension.renameToPreserveExt
 import com.patrykmis.bar.extension.threadIdCompat
 import com.patrykmis.bar.format.Encoder
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
+import com.patrykmis.bar.output.DaysRetention
+import com.patrykmis.bar.output.NoRetention
+import com.patrykmis.bar.output.OutputDirUtils
+import com.patrykmis.bar.output.OutputFile
+import com.patrykmis.bar.output.Retention
 import java.nio.ByteBuffer
 import java.text.ParsePosition
 import java.time.DateTimeException
@@ -463,7 +470,7 @@ class RecorderThread(
             minBufSize * 6,
         )
         val initialBufSize = audioRecord.bufferSizeInFrames *
-                audioRecord.format.frameSizeInBytesCompat
+                audioRecord.format.frameSizeInBytes
         Log.d(tag, "AudioRecord initial buffer size: $initialBufSize")
 
         Log.d(tag, "AudioRecord format: ${audioRecord.format}")
@@ -523,7 +530,7 @@ class RecorderThread(
     private fun encodeLoop(audioRecord: AudioRecord, encoder: Encoder, bufSize: Int) {
         var numFramesTotal = 0L
         var numFramesEncoded = 0L
-        val frameSize = audioRecord.format.frameSizeInBytesCompat
+        val frameSize = audioRecord.format.frameSizeInBytes
 
         // Use a slightly larger buffer to reduce the chance of problems under load
         val factor = 2

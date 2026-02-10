@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.core.net.toFile
 import com.google.android.material.color.DynamicColors
+import com.patrykmis.bar.output.OutputDirUtils
 
 class RecorderApplication : Application() {
     override fun onCreate() {

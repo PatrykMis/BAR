@@ -15,6 +15,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.patrykmis.bar.Notifications.Companion.CHANNEL_ID_FAILURE
 import com.patrykmis.bar.Notifications.Companion.CHANNEL_ID_SUCCESS
+import com.patrykmis.bar.extension.formattedString
+import com.patrykmis.bar.output.OutputFile
+import com.patrykmis.bar.settings.SettingsActivity
 
 class Notifications(
     private val context: Context,

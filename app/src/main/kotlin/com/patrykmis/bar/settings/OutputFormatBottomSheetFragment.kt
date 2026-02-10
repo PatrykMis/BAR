@@ -1,4 +1,4 @@
-package com.patrykmis.bar
+package com.patrykmis.bar.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import com.patrykmis.bar.Preferences
+import com.patrykmis.bar.R
 import com.patrykmis.bar.databinding.BottomSheetChipBinding
 import com.patrykmis.bar.databinding.OutputFormatBottomSheetBinding
 import com.patrykmis.bar.format.Format

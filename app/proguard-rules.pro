@@ -20,10 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Disable obfuscation completely for BCR. As an open source project,
-# shrinking is the only goal of minification.
-# -dontobfuscate
-
 # We construct TreeDocumentFile via reflection in DocumentFileExtensions
 # to speed up SAF performance when doing path lookups.
 -keepclassmembers class androidx.documentfile.provider.TreeDocumentFile {

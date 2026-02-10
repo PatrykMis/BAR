@@ -29,4 +29,3 @@
 -keepclassmembers class androidx.documentfile.provider.TreeDocumentFile {
     <init>(androidx.documentfile.provider.DocumentFile, android.content.Context, android.net.Uri);
 }
--keep class com.patrykmis.bar.ChipGroupCentered { *; }

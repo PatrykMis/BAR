@@ -44,7 +44,7 @@ class RecorderService : Service(), RecorderThread.OnRecordingCompletedListener {
             }
 
             ACTION_PAUSE, ACTION_RESUME -> {
-                recorder?.isPaused = intent?.action == ACTION_PAUSE
+                recorder?.isPaused = intent.action == ACTION_PAUSE
                 updateForegroundState()
             }
 

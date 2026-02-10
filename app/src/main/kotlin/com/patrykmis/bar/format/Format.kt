@@ -3,7 +3,6 @@ package com.patrykmis.bar.format
 import android.media.AudioFormat
 import android.media.MediaFormat
 import com.patrykmis.bar.Preferences
-import com.patrykmis.bar.frameSizeInBytesCompat
 import java.io.FileDescriptor
 
 sealed class Format {
@@ -48,7 +47,7 @@ sealed class Format {
             setString(MediaFormat.KEY_MIME, mimeTypeAudio)
             setInteger(MediaFormat.KEY_CHANNEL_COUNT, audioFormat.channelCount)
             setInteger(MediaFormat.KEY_SAMPLE_RATE, audioFormat.sampleRate)
-            setInteger(KEY_X_FRAME_SIZE_IN_BYTES, audioFormat.frameSizeInBytesCompat)
+            setInteger(KEY_X_FRAME_SIZE_IN_BYTES, audioFormat.frameSizeInBytes)
         }
 
         updateMediaFormat(format, param ?: paramInfo.default)

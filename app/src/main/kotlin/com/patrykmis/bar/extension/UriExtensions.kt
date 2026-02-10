@@ -1,4 +1,4 @@
-package com.patrykmis.bar
+package com.patrykmis.bar.extension
 
 import android.content.ContentResolver
 import android.net.Uri

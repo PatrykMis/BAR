@@ -3,6 +3,7 @@ package com.patrykmis.bar
 import android.content.Context
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
+import com.patrykmis.bar.extension.findFileFast
 import java.util.Properties
 import java.util.regex.Matcher
 import java.util.regex.Pattern

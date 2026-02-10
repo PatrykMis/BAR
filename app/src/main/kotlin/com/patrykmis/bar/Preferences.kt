@@ -8,6 +8,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
+import com.patrykmis.bar.output.Retention
 import java.io.File
 
 class Preferences(private val context: Context) {

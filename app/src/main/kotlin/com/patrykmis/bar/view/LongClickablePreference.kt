@@ -1,4 +1,4 @@
-package com.patrykmis.bar
+package com.patrykmis.bar.view
 
 import android.content.Context
 import android.util.AttributeSet

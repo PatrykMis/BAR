@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import com.patrykmis.bar.extension.threadIdCompat
+import com.patrykmis.bar.output.OutputFile
 
 class RecorderService : Service(), RecorderThread.OnRecordingCompletedListener {
 

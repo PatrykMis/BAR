@@ -1,4 +1,4 @@
-package com.patrykmis.bar
+package com.patrykmis.bar.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.Slider
+import com.patrykmis.bar.OpenPersistentDocumentTree
+import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.databinding.OutputDirectoryBottomSheetBinding
+import com.patrykmis.bar.extension.formattedString
+import com.patrykmis.bar.output.Retention
 
 class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.OnChangeListener {
     private var _binding: OutputDirectoryBottomSheetBinding? = null

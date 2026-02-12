@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
@@ -92,7 +93,7 @@ class Preferences(private val context: Context) {
      * persisting permissions for the new URI fails, the saved output directory is not changed.
      */
     var outputDir: Uri?
-        get() = prefs.getString(PREF_OUTPUT_DIR, null)?.let { Uri.parse(it) }
+        get() = prefs.getString(PREF_OUTPUT_DIR, null)?.let { it.toUri() }
         set(uri) {
             val oldUri = outputDir
             if (oldUri == uri) {

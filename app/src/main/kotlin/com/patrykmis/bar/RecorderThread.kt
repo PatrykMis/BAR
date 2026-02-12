@@ -76,7 +76,7 @@ class RecorderThread(
     private var formatter = FORMATTER
 
     // Filename
-    private val filenameLock = Object()
+    private val filenameLock = Any()
     private lateinit var filenameTemplate: FilenameTemplate
     private lateinit var filename: String
     private val redactions = HashMap<String, String>()

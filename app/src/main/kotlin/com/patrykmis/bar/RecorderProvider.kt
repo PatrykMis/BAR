@@ -7,6 +7,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.ParcelFileDescriptor
+import androidx.core.net.toUri
 
 /**
  * This is an extremely minimal content provider so that BAR can provide an openable/shareable URI
@@ -36,7 +37,7 @@ class RecorderProvider : ContentProvider() {
             }
 
             return try {
-                Uri.parse(param)
+                param.toUri()
             } catch (e: Exception) {
                 null
             }

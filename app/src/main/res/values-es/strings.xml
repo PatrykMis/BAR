@@ -29,7 +29,7 @@
     <string name="retention_keep_all">Mantener todo</string>
     <plurals name="retention_days">
         <item quantity="one">Mantener %d día</item>
-        <item quantity="other">Mantener %d días</item>
+        <item quantity="many">Mantener %d días</item>
     </plurals>
 
     <!-- Output format bottom sheet -->

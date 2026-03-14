@@ -1,7 +1,7 @@
 [versions]
-androidx-activity = "1.12.4"
+androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
-androidx-core = "1.17.0"
+androidx-core = "1.18.0"
 androidx-documentfile = "1.1.0"
 androidx-fragment = "1.8.9"
 androidx-preference = "1.2.1"

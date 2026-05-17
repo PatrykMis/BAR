@@ -1,5 +1,6 @@
 [versions]
 androidx-activity = "1.13.0"
+androidx-annotation = "1.10.0"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.18.0"
 androidx-documentfile = "1.1.0"
@@ -11,6 +12,7 @@ material = "1.14.0"
 
 [libraries]
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidx-activity" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "androidx-annotation" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }

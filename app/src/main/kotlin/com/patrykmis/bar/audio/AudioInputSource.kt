@@ -31,11 +31,8 @@ enum class AudioInputSource(
 
     fun displayName(context: Context): String = context.getString(labelRes)
 
-    fun isAvailable(context: Context): Boolean =
-        when (this) {
-            Unprocessed -> isUnprocessedAvailable(context)
-            VoiceRecognition, Microphone -> true
-        }
+    fun needsUnsupportedWarning(context: Context): Boolean =
+        this == Unprocessed && !isUnprocessedSupported(context)
 
     companion object {
         private val TAG = AudioInputSource::class.java.simpleName
@@ -43,20 +40,19 @@ enum class AudioInputSource(
         fun getByPreferenceValue(value: String?): AudioInputSource? =
             values().find { it.preferenceValue == value }
 
-        fun available(context: Context): List<AudioInputSource> =
-            values().filter { it.isAvailable(context) }
+        fun available(): List<AudioInputSource> = values().toList()
 
         fun default(context: Context): AudioInputSource =
-            if (Unprocessed.isAvailable(context)) {
+            if (isUnprocessedSupported(context)) {
                 Unprocessed
             } else {
                 VoiceRecognition
             }
 
         fun fromPreferences(context: Context, prefs: Preferences): AudioInputSource =
-            prefs.audioInputSource?.takeIf { it.isAvailable(context) } ?: default(context)
+            prefs.audioInputSource ?: default(context)
 
-        private fun isUnprocessedAvailable(context: Context): Boolean {
+        fun isUnprocessedSupported(context: Context): Boolean {
             val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             val property =
                 audioManager.getProperty(AudioManager.PROPERTY_SUPPORT_AUDIO_SOURCE_UNPROCESSED)

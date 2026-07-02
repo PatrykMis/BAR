@@ -42,6 +42,9 @@
     <string name="audio_source_unprocessed">Surowe (nieprzetworzone)</string>
     <string name="audio_source_voice_recognition">Rozpoznawanie mowy</string>
     <string name="audio_source_microphone">Mikrofon</string>
+    <string name="audio_source_unsupported_unprocessed_summary">%s, niedeklarowane przez to urządzenie</string>
+    <string name="audio_source_unsupported_unprocessed_title">Surowe wejście nie jest gwarantowane</string>
+    <string name="audio_source_unsupported_unprocessed_message">To urządzenie nie deklaruje obsługi surowego, nieprzetworzonego wejścia. Android nadal pozwala użyć tego źródła, ale nie gwarantuje, że sygnał faktycznie będzie nieprzetworzony. Jeśli chcesz wejście bez automatycznej regulacji wzmocnienia i redukcji szumu, spróbuj źródła Rozpoznawanie mowy.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stereo</string>
 

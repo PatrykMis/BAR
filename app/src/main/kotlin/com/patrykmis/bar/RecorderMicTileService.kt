@@ -84,7 +84,8 @@ class RecorderMicTileService : TileService() {
         // Clicking the tile in that state does not invoke the click handler, so it wouldn't be
         // possible to launch SettingsActivity to grant the permissions.
         if (Permissions.haveRequired(this)
-            && RecorderService.isRecording) {
+            && RecorderService.isRecording
+        ) {
             tile.state = Tile.STATE_ACTIVE
         } else {
             tile.state = Tile.STATE_INACTIVE

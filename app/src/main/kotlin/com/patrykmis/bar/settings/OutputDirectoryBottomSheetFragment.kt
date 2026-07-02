@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.Slider
 import com.patrykmis.bar.OpenPersistentDocumentTree
 import com.patrykmis.bar.Preferences
+import com.patrykmis.bar.R
 import com.patrykmis.bar.databinding.OutputDirectoryBottomSheetBinding
 import com.patrykmis.bar.extension.formattedString
 import com.patrykmis.bar.output.Retention
@@ -43,6 +45,8 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
         binding.retentionSlider.valueFrom = 0f
         binding.retentionSlider.valueTo = (Retention.all.size - 1).toFloat()
         binding.retentionSlider.stepSize = 1f
+        binding.retentionSlider.contentDescription =
+            getString(R.string.output_dir_bottom_sheet_file_retention)
         binding.retentionSlider.setLabelFormatter {
             Retention.all[it.toInt()].toFormattedString(context)
         }
@@ -67,16 +71,29 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
     }
 
     private fun refreshOutputRetention() {
-        val days = Retention.fromPreferences(prefs)
-        binding.retentionSlider.value = Retention.all.indexOf(days).toFloat()
+        val retention = Retention.fromPreferences(prefs)
+        binding.retentionSlider.value = Retention.all.indexOf(retention).toFloat()
+        updateRetentionStateDescription(retention)
     }
 
     override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
         when (slider) {
             binding.retentionSlider -> {
-                prefs.outputRetention = Retention.all[value.toInt()]
+                val retention = Retention.all[value.toInt()]
+                updateRetentionStateDescription(retention)
+
+                if (fromUser) {
+                    prefs.outputRetention = retention
+                }
             }
         }
+    }
+
+    private fun updateRetentionStateDescription(retention: Retention) {
+        ViewCompat.setStateDescription(
+            binding.retentionSlider,
+            retention.toFormattedString(requireContext())
+        )
     }
 
     companion object {

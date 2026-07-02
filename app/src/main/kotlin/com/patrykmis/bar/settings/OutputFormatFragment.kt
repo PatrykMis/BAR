@@ -99,6 +99,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
                 currentParam,
                 currentAudioChannels,
             )
+
             NoParamInfo -> {}
         }
 

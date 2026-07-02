@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/bottom_sheet_title_margin_bottom"
+            android:accessibilityHeading="true"
             android:text="@string/pref_output_dir_name"
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -22,6 +23,7 @@
             android:id="@+id/output_dir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:accessibilityLiveRegion="polite"
             android:layout_marginBottom="@dimen/bottom_sheet_title_margin_bottom" />
 
         <com.google.android.material.button.MaterialButton
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/bottom_sheet_section_separation"
             android:layout_marginBottom="@dimen/bottom_sheet_title_margin_bottom"
+            android:accessibilityHeading="true"
             android:text="@string/output_dir_bottom_sheet_file_retention"
             android:textAppearance="?attr/textAppearanceHeadline6" />
 

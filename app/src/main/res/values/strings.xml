@@ -44,6 +44,9 @@
     <string name="audio_source_unprocessed">Raw (unprocessed)</string>
     <string name="audio_source_voice_recognition">Voice recognition</string>
     <string name="audio_source_microphone">Microphone</string>
+    <string name="audio_source_unsupported_unprocessed_summary">%s, not advertised by this device</string>
+    <string name="audio_source_unsupported_unprocessed_title">Raw input is not guaranteed</string>
+    <string name="audio_source_unsupported_unprocessed_message">This device does not report support for raw unprocessed input. Android still allows this source to be used, but the signal is not guaranteed to be unprocessed. If you want input without automatic gain control or noise suppression, try Voice recognition.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stereo</string>
 

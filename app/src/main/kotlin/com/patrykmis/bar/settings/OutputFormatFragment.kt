@@ -5,6 +5,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
 import com.patrykmis.bar.audio.AudioChannels
@@ -31,7 +32,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         val currentAudioSource = AudioInputSource.fromPreferences(context, prefs)
         val currentAudioChannels = AudioChannels.fromPreferences(prefs, currentSampleRate)
 
-        val audioSources = AudioInputSource.available(context)
+        val audioSources = AudioInputSource.available()
         screen.addPreference(ListPreference(context).apply {
             isIconSpaceReserved = false
             isPersistent = false
@@ -40,11 +41,16 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             entries = audioSources.map { it.displayName(context) }.toTypedArray()
             entryValues = audioSources.map { it.preferenceValue }.toTypedArray()
             value = currentAudioSource.preferenceValue
-            summary = currentAudioSource.displayName(context)
+            summary = getAudioSourceSummary(currentAudioSource)
             setOnPreferenceChangeListener { _, newValue ->
-                prefs.audioInputSource =
-                    AudioInputSource.getByPreferenceValue(newValue as String)
+                val audioSource = AudioInputSource.getByPreferenceValue(newValue as String)!!
+                prefs.audioInputSource = audioSource
                 refreshScreen()
+
+                if (audioSource.needsUnsupportedWarning(context)) {
+                    showUnsupportedUnprocessedDialog()
+                }
+
                 false
             }
         })
@@ -158,5 +164,23 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
                 true
             }
         })
+    }
+
+    private fun getAudioSourceSummary(audioSource: AudioInputSource): String =
+        if (audioSource.needsUnsupportedWarning(requireContext())) {
+            getString(
+                R.string.audio_source_unsupported_unprocessed_summary,
+                audioSource.displayName(requireContext())
+            )
+        } else {
+            audioSource.displayName(requireContext())
+        }
+
+    private fun showUnsupportedUnprocessedDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.audio_source_unsupported_unprocessed_title)
+            .setMessage(R.string.audio_source_unsupported_unprocessed_message)
+            .setNeutralButton(android.R.string.ok, null)
+            .show()
     }
 }

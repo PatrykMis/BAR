@@ -1,46 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BAR</string>
-    <string name="app_name_full">Basic Audio Recorder</string>
+    <string name="app_name_full">Grabadora de audio básica</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">General</string>
+    <string name="pref_header_advanced">Opciones avanzadas</string>
     <string name="pref_header_about">Acerca de</string>
 
     <!-- General preferences -->
+    <string name="pref_permissions_name">Permisos</string>
+    <string name="pref_permissions_missing_desc">Se requieren permisos de micrófono y notificaciones. Toca para concederlos.</string>
+    <string name="pref_permissions_granted_desc">Listo para grabar desde el mosaico de ajustes rápidos.</string>
+
     <string name="pref_output_dir_name">Directorio de salida</string>
-    <string name="pref_output_dir_desc">Elija un directorio para almacenar grabaciones.</string>
+    <string name="pref_output_dir_desc">Elige un directorio para guardar las grabaciones.</string>
 
-    <string name="pref_output_format_name">Formato de salida</string>
-    <string name="pref_output_format_desc">Seleccione un formato de codificación para las grabaciones.</string>
+    <string name="pref_output_format_name">Ajustes de audio</string>
+    <string name="pref_output_format_desc">Elige la fuente, los canales y la codificación de las grabaciones.</string>
 
-    <string name="pref_inhibit_batt_opt_name">Deshabilitar la optimización de la batería</string>
-    <string name="pref_inhibit_batt_opt_desc">Reduce la posibilidad de que el sistema elimine la aplicación.</string>
+    <string name="pref_inhibit_batt_opt_name">Desactivar optimización de batería</string>
+    <string name="pref_inhibit_batt_opt_desc">Reduce la probabilidad de que el sistema detenga la app.</string>
+
+    <string name="pref_debug_mode_name">Registro de diagnóstico</string>
+    <string name="pref_debug_mode_desc">Guarda la salida de logcat con cada grabación, también en compilaciones release.</string>
+    <string name="pref_debug_mode_forced_desc">Siempre activado en compilaciones debug.</string>
 
     <!-- About "preference" -->
     <string name="pref_version_name">Versión</string>
 
     <!-- Output directory bottom sheet -->
     <string name="output_dir_bottom_sheet_change_dir">Cambiar directorio</string>
-    <string name="output_dir_bottom_sheet_file_retention">retención de archivo</string>
-    <string name="retention_keep_all">Mantener todo</string>
+    <string name="output_dir_bottom_sheet_file_retention">Retención de archivos</string>
+    <string name="retention_keep_all">Conservar todo</string>
     <plurals name="retention_days">
-        <item quantity="one">Mantener %d día</item>
-        <item quantity="many">Mantener %d días</item>
+        <item quantity="one">Conservar %d día</item>
+        <item quantity="many">Conservar %d días</item>
+        <item quantity="other">Conservar %d días</item>
     </plurals>
 
-    <!-- Output format bottom sheet -->
-    <string name="output_format_bottom_sheet_output_format">Formato de salida</string>
+    <!-- Audio settings screen -->
+    <string name="output_format_audio_source">Fuente</string>
+    <string name="output_format_channels">Canales</string>
+    <string name="output_format_format">Formato</string>
     <string name="output_format_bottom_sheet_compression_level">Nivel de compresión</string>
-    <string name="output_format_bottom_sheet_bitrate">Bitrate</string>
+    <string name="output_format_bottom_sheet_bitrate">Tasa de bits</string>
     <string name="output_format_bottom_sheet_sample_rate">Frecuencia de muestreo</string>
+    <string name="audio_source_unprocessed">Sin procesar (raw)</string>
+    <string name="audio_source_voice_recognition">Reconocimiento de voz</string>
+    <string name="audio_source_microphone">Micrófono</string>
+    <string name="audio_source_unsupported_unprocessed_summary">%s, no anunciado por este dispositivo</string>
+    <string name="audio_source_unsupported_unprocessed_title">La entrada sin procesar no está garantizada</string>
+    <string name="audio_source_unsupported_unprocessed_message">Este dispositivo no informa compatibilidad con entrada sin procesar. Android permite usar esta fuente, pero no garantiza que la señal esté realmente sin procesar. Si quieres una entrada sin control automático de ganancia ni reducción de ruido, prueba Reconocimiento de voz.</string>
+    <string name="audio_channels_mono">Mono</string>
+    <string name="audio_channels_stereo">Estéreo</string>
 
-    <string name="bottom_sheet_reset">Restablecer los valores predeterminados</string>
+    <string name="bottom_sheet_reset">Restablecer valores predeterminados</string>
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">Servicios en segundo plano</string>
-    <string name="notification_channel_failure_name">Alertas de fallas</string>
+    <string name="notification_channel_persistent_desc">Notificación persistente para la grabación de audio en segundo plano</string>
+    <string name="notification_channel_failure_name">Alertas de fallo</string>
+    <string name="notification_channel_failure_desc">Alertas de errores durante la grabación de audio</string>
     <string name="notification_channel_success_name">Alertas de éxito</string>
+    <string name="notification_channel_success_desc">Alertas de grabaciones completadas correctamente</string>
+    <string name="notification_recording_mic_in_progress">Grabación de micrófono en curso</string>
+    <string name="notification_recording_mic_paused">Grabación de micrófono pausada</string>
+    <string name="notification_recording_mic_failed">No se pudo grabar el micrófono</string>
+    <string name="notification_recording_mic_succeeded">Micrófono grabado correctamente</string>
+    <string name="notification_internal_android_error">La grabación falló en un componente interno de Android (%s). Es posible que este dispositivo o firmware no admita esta fuente de audio.</string>
+
     <string name="notification_action_open">Abrir</string>
     <string name="notification_action_share">Compartir</string>
     <string name="notification_action_delete">Eliminar</string>
@@ -48,4 +77,5 @@
     <string name="notification_action_resume">Reanudar</string>
 
     <!-- Quick settings tile -->
+    <string name="quick_settings_mic_label">Grabación de micrófono</string>
 </resources>

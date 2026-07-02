@@ -1,50 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingQuantity">
+<resources>
     <string name="app_name">BAR</string>
     <string name="app_name_full">מקליט שמע בסיסי</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">כללי</string>
+    <string name="pref_header_advanced">אפשרויות מתקדמות</string>
     <string name="pref_header_about">אודות</string>
 
     <!-- General preferences -->
-    <string name="pref_output_dir_name">מיקום האחסון</string>
-    <string name="pref_output_dir_desc">בחר תיקיה לאחסון הקלטות</string>
+    <string name="pref_permissions_name">הרשאות</string>
+    <string name="pref_permissions_missing_desc">נדרשות הרשאות למיקרופון ולהתראות. יש להקיש כדי להעניק אותן.</string>
+    <string name="pref_permissions_granted_desc">מוכן להקלטה מאריח ההגדרות המהירות.</string>
 
-    <string name="pref_output_format_name">פורמט הקובץ</string>
-    <string name="pref_output_format_desc">בחר סוג פורמט לקובץ ההקלטה</string>
+    <string name="pref_output_dir_name">תיקיית פלט</string>
+    <string name="pref_output_dir_desc">בחר תיקייה לשמירת ההקלטות.</string>
 
-    <string name="pref_inhibit_batt_opt_name">השבת את חיסכון בסוללה</string>
-    <string name="pref_inhibit_batt_opt_desc">מפחית את הסיכוי שהאפליקציה תיעצר על ידי המערכת</string>
+    <string name="pref_output_format_name">הגדרות שמע</string>
+    <string name="pref_output_format_desc">בחר את המקור, הערוצים והקידוד של ההקלטות.</string>
+
+    <string name="pref_inhibit_batt_opt_name">השבת מיטוב סוללה</string>
+    <string name="pref_inhibit_batt_opt_desc">מפחית את הסיכוי שהמערכת תעצור את האפליקציה.</string>
+
+    <string name="pref_debug_mode_name">רישום אבחוני</string>
+    <string name="pref_debug_mode_desc">שמירת פלט logcat עם כל הקלטה, גם בגרסאות release.</string>
+    <string name="pref_debug_mode_forced_desc">מופעל תמיד בגרסאות debug.</string>
 
     <!-- About "preference" -->
-    <string name="pref_version_name">מספר גרסה</string>
+    <string name="pref_version_name">גרסה</string>
 
     <!-- Output directory bottom sheet -->
-    <string name="output_dir_bottom_sheet_change_dir">שינוי תיקיה</string>
+    <string name="output_dir_bottom_sheet_change_dir">שנה תיקייה</string>
     <string name="output_dir_bottom_sheet_file_retention">שמירת קבצים</string>
-    <string name="retention_keep_all">שמור הכול</string>
+    <string name="retention_keep_all">שמור הכל</string>
     <plurals name="retention_days">
         <item quantity="one">שמור %d יום</item>
+        <item quantity="two">שמור %d ימים</item>
         <item quantity="other">שמור %d ימים</item>
     </plurals>
 
-    <!-- Output format bottom sheet -->
-    <string name="output_format_bottom_sheet_output_format">פורמט הקובץ</string>
+    <!-- Audio settings screen -->
+    <string name="output_format_audio_source">מקור</string>
+    <string name="output_format_channels">ערוצים</string>
+    <string name="output_format_format">פורמט</string>
     <string name="output_format_bottom_sheet_compression_level">רמת דחיסה</string>
     <string name="output_format_bottom_sheet_bitrate">קצב סיביות</string>
     <string name="output_format_bottom_sheet_sample_rate">קצב דגימה</string>
+    <string name="audio_source_unprocessed">גולמי (לא מעובד)</string>
+    <string name="audio_source_voice_recognition">זיהוי דיבור</string>
+    <string name="audio_source_microphone">מיקרופון</string>
+    <string name="audio_source_unsupported_unprocessed_summary">%s, לא מדווח על ידי מכשיר זה</string>
+    <string name="audio_source_unsupported_unprocessed_title">קלט גולמי אינו מובטח</string>
+    <string name="audio_source_unsupported_unprocessed_message">מכשיר זה אינו מדווח על תמיכה בקלט גולמי לא מעובד. Android עדיין מאפשר להשתמש במקור זה, אך אין הבטחה שהאות יהיה לא מעובד בפועל. אם דרוש קלט ללא בקרת הגבר אוטומטית או הפחתת רעש, נסה את זיהוי דיבור.</string>
+    <string name="audio_channels_mono">מונו</string>
+    <string name="audio_channels_stereo">סטריאו</string>
 
-    <string name="bottom_sheet_reset">איפוס ברירות מחדל</string>
+    <string name="bottom_sheet_reset">אפס לברירות מחדל</string>
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">שירותי רקע</string>
-    <string name="notification_channel_success_name">התראות סיום הקלטה בהצלחה</string>
-    <string name="notification_action_open">פתיחה</string>
-    <string name="notification_action_share">שיתוף</string>
-    <string name="notification_action_delete">מחיקה</string>
-    <string name="notification_action_pause">עצירה</string>
+    <string name="notification_channel_persistent_desc">התראה קבועה להקלטת שמע ברקע</string>
+    <string name="notification_channel_failure_name">התראות כשל</string>
+    <string name="notification_channel_failure_desc">התראות על שגיאות במהלך הקלטת שמע</string>
+    <string name="notification_channel_success_name">התראות הצלחה</string>
+    <string name="notification_channel_success_desc">התראות על הקלטות שהושלמו בהצלחה</string>
+    <string name="notification_recording_mic_in_progress">הקלטת מיקרופון מתבצעת</string>
+    <string name="notification_recording_mic_paused">הקלטת מיקרופון מושהית</string>
+    <string name="notification_recording_mic_failed">הקלטת המיקרופון נכשלה</string>
+    <string name="notification_recording_mic_succeeded">המיקרופון הוקלט בהצלחה</string>
+    <string name="notification_internal_android_error">ההקלטה נכשלה ברכיב פנימי של Android (%s). ייתכן שהמכשיר או הקושחה אינם תומכים במקור שמע זה.</string>
+
+    <string name="notification_action_open">פתח</string>
+    <string name="notification_action_share">שתף</string>
+    <string name="notification_action_delete">מחק</string>
+    <string name="notification_action_pause">השהה</string>
     <string name="notification_action_resume">המשך</string>
 
     <!-- Quick settings tile -->
+    <string name="quick_settings_mic_label">הקלטת מיקרופון</string>
 </resources>

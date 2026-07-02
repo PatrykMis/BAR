@@ -1,45 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BCR</string>
+    <string name="app_name">BAR</string>
+    <string name="app_name_full">基础录音机</string>
 
     <!-- Preference headers -->
-    <string name="pref_header_general">通用</string>
+    <string name="pref_header_general">常规</string>
+    <string name="pref_header_advanced">高级选项</string>
     <string name="pref_header_about">关于</string>
 
     <!-- General preferences -->
+    <string name="pref_permissions_name">权限</string>
+    <string name="pref_permissions_missing_desc">需要麦克风和通知权限。点按以授予权限。</string>
+    <string name="pref_permissions_granted_desc">已准备好从快速设置图块开始录音。</string>
 
-    <string name="pref_output_dir_name">保存目录</string>
+    <string name="pref_output_dir_name">输出目录</string>
+    <string name="pref_output_dir_desc">选择用于保存录音的目录。</string>
 
-    <string name="pref_output_dir_desc">选择一个目录用来保存录音文件。</string>
-    <string name="pref_output_format_name">保存格式</string>
+    <string name="pref_output_format_name">音频设置</string>
+    <string name="pref_output_format_desc">选择录音的来源、声道和编码。</string>
 
-    <string name="pref_output_format_desc">选择录音存储编码格式</string>
-    <string name="pref_inhibit_batt_opt_name">禁用电池优化</string>
+    <string name="pref_inhibit_batt_opt_name">关闭电池优化</string>
+    <string name="pref_inhibit_batt_opt_desc">降低应用被系统停止的概率。</string>
+
+    <string name="pref_debug_mode_name">诊断日志</string>
+    <string name="pref_debug_mode_desc">每次录音时保存 logcat 输出，包括 release 构建。</string>
+    <string name="pref_debug_mode_forced_desc">在 debug 构建中始终启用。</string>
 
     <!-- About "preference" -->
-    <string name="pref_inhibit_batt_opt_desc">禁用电池优化可以避免软件在后台被杀死</string>
-    <string name="pref_version_name">软件版本</string>
+    <string name="pref_version_name">版本</string>
 
     <!-- Output directory bottom sheet -->
-    <string name="output_dir_bottom_sheet_change_dir">修改目录</string>
-    <string name="output_dir_bottom_sheet_file_retention">保留时间</string>
+    <string name="output_dir_bottom_sheet_change_dir">更改目录</string>
+    <string name="output_dir_bottom_sheet_file_retention">文件保留</string>
+    <string name="retention_keep_all">全部保留</string>
     <plurals name="retention_days">
         <item quantity="other">保留 %d 天</item>
     </plurals>
 
-    <!-- Output format bottom sheet -->
-    <string name="retention_keep_all">永久保存</string>
-    <string name="output_format_bottom_sheet_output_format">输出格式</string>
+    <!-- Audio settings screen -->
+    <string name="output_format_audio_source">来源</string>
+    <string name="output_format_channels">声道</string>
+    <string name="output_format_format">格式</string>
     <string name="output_format_bottom_sheet_compression_level">压缩等级</string>
     <string name="output_format_bottom_sheet_bitrate">比特率</string>
-
     <string name="output_format_bottom_sheet_sample_rate">采样率</string>
+    <string name="audio_source_unprocessed">原始（未处理）</string>
+    <string name="audio_source_voice_recognition">语音识别</string>
+    <string name="audio_source_microphone">麦克风</string>
+    <string name="audio_source_unsupported_unprocessed_summary">%s，此设备未声明支持</string>
+    <string name="audio_source_unsupported_unprocessed_title">原始输入无法保证</string>
+    <string name="audio_source_unsupported_unprocessed_message">此设备未报告支持原始未处理输入。Android 仍允许使用此来源，但不保证信号确实未经处理。如果你需要没有自动增益控制或降噪的输入，请尝试语音识别。</string>
+    <string name="audio_channels_mono">单声道</string>
+    <string name="audio_channels_stereo">立体声</string>
+
+    <string name="bottom_sheet_reset">恢复默认设置</string>
 
     <!-- Notifications -->
-    <string name="bottom_sheet_reset">恢复默认</string>
     <string name="notification_channel_persistent_name">后台服务</string>
-    <string name="notification_channel_failure_name">失败警告</string>
-    <string name="notification_channel_failure_desc">录音发生错误通知</string>
-    <string name="notification_channel_success_name">成功警告</string>
+    <string name="notification_channel_persistent_desc">后台录音的常驻通知</string>
+    <string name="notification_channel_failure_name">失败提醒</string>
+    <string name="notification_channel_failure_desc">录音出错时的提醒</string>
+    <string name="notification_channel_success_name">成功提醒</string>
+    <string name="notification_channel_success_desc">录音成功完成时的提醒</string>
+    <string name="notification_recording_mic_in_progress">正在录制麦克风</string>
+    <string name="notification_recording_mic_paused">麦克风录音已暂停</string>
+    <string name="notification_recording_mic_failed">麦克风录制失败</string>
+    <string name="notification_recording_mic_succeeded">麦克风录制成功</string>
+    <string name="notification_internal_android_error">录音在 Android 内部组件中失败（%s）。此设备或固件可能不支持此音频来源。</string>
+
     <string name="notification_action_open">打开</string>
     <string name="notification_action_share">分享</string>
     <string name="notification_action_delete">删除</string>
@@ -47,4 +75,5 @@
     <string name="notification_action_resume">继续</string>
 
     <!-- Quick settings tile -->
+    <string name="quick_settings_mic_label">麦克风录音</string>
 </resources>

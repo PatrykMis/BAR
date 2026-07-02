@@ -9,6 +9,10 @@
     <string name="pref_header_about">O aplikacji</string>
 
     <!-- General preferences -->
+    <string name="pref_permissions_name">Uprawnienia</string>
+    <string name="pref_permissions_missing_desc">Wymagane są uprawnienia do mikrofonu i powiadomień. Dotknij, aby je przyznać.</string>
+    <string name="pref_permissions_granted_desc">Gotowe do nagrywania z kafelka szybkich ustawień.</string>
+
     <string name="pref_output_dir_name">Katalog wyjściowy</string>
     <string name="pref_output_dir_desc">Wybierz katalog do przechowywania nagrań.</string>
 
@@ -16,7 +20,7 @@
     <string name="pref_output_format_desc">Wybierz źródło, kanały i kodowanie nagrań.</string>
 
     <string name="pref_inhibit_batt_opt_name">Wyłącz optymalizację baterii</string>
-    <string name="pref_inhibit_batt_opt_desc">Zmniejsza szansę na zabicie aplikacji przez system.</string>
+    <string name="pref_inhibit_batt_opt_desc">Zmniejsza szansę na zatrzymanie aplikacji przez system.</string>
 
     <string name="pref_debug_mode_name">Logowanie diagnostyczne</string>
     <string name="pref_debug_mode_desc">Zapisuje logcat przy każdym nagraniu, także w buildach release.</string>
@@ -28,19 +32,18 @@
     <!-- Output directory bottom sheet -->
     <string name="output_dir_bottom_sheet_change_dir">Zmień katalog</string>
     <string name="output_dir_bottom_sheet_file_retention">Okres przechowywania plików</string>
-    <string name="retention_keep_all">Pozostaw wszystkie</string>
+    <string name="retention_keep_all">Przechowuj wszystkie</string>
     <plurals name="retention_days">
-        <item quantity="one">Pozostaw z %d dnia</item>
-        <item quantity="few">Pozostaw z %d dni</item>
-        <item quantity="many">Pozostaw z %d dni</item>
-        <item quantity="other">Pozostaw z %d dni</item>
+        <item quantity="one">Przechowuj %d dzień</item>
+        <item quantity="few">Przechowuj %d dni</item>
+        <item quantity="many">Przechowuj %d dni</item>
+        <item quantity="other">Przechowuj %d dni</item>
     </plurals>
 
-    <!-- Output format bottom sheet -->
+    <!-- Audio settings screen -->
     <string name="output_format_audio_source">Źródło</string>
     <string name="output_format_channels">Kanały</string>
     <string name="output_format_format">Format</string>
-    <string name="output_format_bottom_sheet_output_format">Format wyjściowy</string>
     <string name="output_format_bottom_sheet_compression_level">Poziom kompresji</string>
     <string name="output_format_bottom_sheet_bitrate">Szybkość transmisji</string>
     <string name="output_format_bottom_sheet_sample_rate">Częstotliwość próbkowania</string>
@@ -57,11 +60,17 @@
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">Usługi w tle</string>
+    <string name="notification_channel_persistent_desc">Stałe powiadomienie dla nagrywania audio w tle</string>
     <string name="notification_channel_failure_name">Błędy</string>
+    <string name="notification_channel_failure_desc">Alerty o błędach podczas nagrywania audio</string>
     <string name="notification_channel_success_name">Zakończone nagrywanie</string>
+    <string name="notification_channel_success_desc">Alerty o pomyślnie zakończonych nagraniach</string>
     <string name="notification_recording_mic_in_progress">Trwa nagrywanie dźwięku</string>
+    <string name="notification_recording_mic_paused">Nagrywanie dźwięku wstrzymane</string>
     <string name="notification_recording_mic_failed">Nie udało się nagrać dźwięku</string>
     <string name="notification_recording_mic_succeeded">Pomyślnie nagrano dźwięk</string>
+    <string name="notification_internal_android_error">Nagrywanie nie powiodło się w wewnętrznym komponencie Androida (%s). To urządzenie lub firmware może nie obsługiwać tego źródła audio.</string>
+
     <string name="notification_action_open">Otwórz</string>
     <string name="notification_action_share">Udostępnij</string>
     <string name="notification_action_delete">Usuń</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources>
     <string name="app_name">BAR</string>
     <string name="app_name_full">Basic Audio Recorder</string>
 
@@ -38,11 +38,10 @@
         <item quantity="other">Keep %d days</item>
     </plurals>
 
-    <!-- Output format bottom sheet -->
+    <!-- Audio settings screen -->
     <string name="output_format_audio_source">Source</string>
     <string name="output_format_channels">Channels</string>
     <string name="output_format_format">Format</string>
-    <string name="output_format_bottom_sheet_output_format">Output format</string>
     <string name="output_format_bottom_sheet_compression_level">Compression level</string>
     <string name="output_format_bottom_sheet_bitrate">Bitrate</string>
     <string name="output_format_bottom_sheet_sample_rate">Sample rate</string>

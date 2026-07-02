@@ -1,46 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BAR</string>
-    <string name="app_name_full">Basic Audio Recorder</string>
+    <string name="app_name_full">Enregistreur audio simple</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Général</string>
+    <string name="pref_header_advanced">Options avancées</string>
     <string name="pref_header_about">À propos</string>
 
     <!-- General preferences -->
-    <string name="pref_output_dir_name">Dossier des enregistrements</string>
-    <string name="pref_output_dir_desc">Choisir un dossier pour stocker les enregistrements.</string>
+    <string name="pref_permissions_name">Autorisations</string>
+    <string name="pref_permissions_missing_desc">Les autorisations du microphone et des notifications sont requises. Touchez pour les accorder.</string>
+    <string name="pref_permissions_granted_desc">Prêt à enregistrer depuis la tuile de réglages rapides.</string>
 
-    <string name="pref_output_format_name">Format des enregistrements</string>
-    <string name="pref_output_format_desc">Choisir un encodage pour stocker les enregistrements.</string>
+    <string name="pref_output_dir_name">Dossier de sortie</string>
+    <string name="pref_output_dir_desc">Choisissez un dossier pour stocker les enregistrements.</string>
+
+    <string name="pref_output_format_name">Réglages audio</string>
+    <string name="pref_output_format_desc">Choisissez la source, les canaux et le codage des enregistrements.</string>
 
     <string name="pref_inhibit_batt_opt_name">Désactiver l\'optimisation de la batterie</string>
-    <string name="pref_inhibit_batt_opt_desc">Réduit les chances que l\'application soit arrêtée par le système.</string>
+    <string name="pref_inhibit_batt_opt_desc">Réduit le risque que le système arrête l\'application.</string>
+
+    <string name="pref_debug_mode_name">Journalisation de diagnostic</string>
+    <string name="pref_debug_mode_desc">Enregistre la sortie logcat avec chaque enregistrement, y compris dans les builds release.</string>
+    <string name="pref_debug_mode_forced_desc">Toujours activée dans les builds debug.</string>
 
     <!-- About "preference" -->
     <string name="pref_version_name">Version</string>
 
     <!-- Output directory bottom sheet -->
-    <string name="output_dir_bottom_sheet_change_dir">Changer le dossier</string>
-    <string name="output_dir_bottom_sheet_file_retention">Conserver les fichiers</string>
-    <string name="retention_keep_all">Garder tout</string>
+    <string name="output_dir_bottom_sheet_change_dir">Changer de dossier</string>
+    <string name="output_dir_bottom_sheet_file_retention">Conservation des fichiers</string>
+    <string name="retention_keep_all">Tout conserver</string>
     <plurals name="retention_days">
-        <item quantity="one">Garder %d jour</item>
-        <item quantity="many">Garder %d jours</item>
+        <item quantity="one">Conserver %d jour</item>
+        <item quantity="many">Conserver %d jours</item>
+        <item quantity="other">Conserver %d jours</item>
     </plurals>
 
-    <!-- Output format bottom sheet -->
-    <string name="output_format_bottom_sheet_output_format">Format des enregistrements</string>
+    <!-- Audio settings screen -->
+    <string name="output_format_audio_source">Source</string>
+    <string name="output_format_channels">Canaux</string>
+    <string name="output_format_format">Format</string>
     <string name="output_format_bottom_sheet_compression_level">Niveau de compression</string>
     <string name="output_format_bottom_sheet_bitrate">Débit binaire</string>
     <string name="output_format_bottom_sheet_sample_rate">Fréquence d\'échantillonnage</string>
+    <string name="audio_source_unprocessed">Brut (non traité)</string>
+    <string name="audio_source_voice_recognition">Reconnaissance vocale</string>
+    <string name="audio_source_microphone">Microphone</string>
+    <string name="audio_source_unsupported_unprocessed_summary">%s, non signalé par cet appareil</string>
+    <string name="audio_source_unsupported_unprocessed_title">L\'entrée brute n\'est pas garantie</string>
+    <string name="audio_source_unsupported_unprocessed_message">Cet appareil ne déclare pas la prise en charge de l\'entrée brute non traitée. Android permet quand même d\'utiliser cette source, mais ne garantit pas que le signal sera réellement non traité. Si vous voulez une entrée sans contrôle automatique du gain ni réduction du bruit, essayez Reconnaissance vocale.</string>
+    <string name="audio_channels_mono">Mono</string>
+    <string name="audio_channels_stereo">Stéréo</string>
 
-    <string name="bottom_sheet_reset">Remettre par défaut</string>
+    <string name="bottom_sheet_reset">Rétablir les valeurs par défaut</string>
 
     <!-- Notifications -->
-    <string name="notification_channel_persistent_name">Service d\'arrière-plan</string>
-    <string name="notification_channel_persistent_desc">Notification persistante pour l\'enregistrement en arrière-plan</string>
-    <string name="notification_channel_failure_desc">Alertes d\'erreurs pendant l\'enregistrement</string>
+    <string name="notification_channel_persistent_name">Services en arrière-plan</string>
+    <string name="notification_channel_persistent_desc">Notification persistante pour l\'enregistrement audio en arrière-plan</string>
+    <string name="notification_channel_failure_name">Alertes d\'échec</string>
+    <string name="notification_channel_failure_desc">Alertes d\'erreurs pendant l\'enregistrement audio</string>
+    <string name="notification_channel_success_name">Alertes de réussite</string>
+    <string name="notification_channel_success_desc">Alertes pour les enregistrements audio réussis</string>
+    <string name="notification_recording_mic_in_progress">Enregistrement du micro en cours</string>
+    <string name="notification_recording_mic_paused">Enregistrement du micro en pause</string>
+    <string name="notification_recording_mic_failed">Échec de l\'enregistrement du micro</string>
+    <string name="notification_recording_mic_succeeded">Micro enregistré avec succès</string>
+    <string name="notification_internal_android_error">L\'enregistrement a échoué dans un composant Android interne (%s). Cet appareil ou micrologiciel peut ne pas prendre en charge cette source audio.</string>
+
+    <string name="notification_action_open">Ouvrir</string>
+    <string name="notification_action_share">Partager</string>
+    <string name="notification_action_delete">Supprimer</string>
+    <string name="notification_action_pause">Mettre en pause</string>
+    <string name="notification_action_resume">Reprendre</string>
 
     <!-- Quick settings tile -->
+    <string name="quick_settings_mic_label">Enregistrement du micro</string>
 </resources>

@@ -35,6 +35,9 @@ enum class AudioChannels(
         fun getByPreferenceValue(value: String?): AudioChannels? =
             values().find { it.preferenceValue == value }
 
+        fun getByCount(count: Int): AudioChannels? =
+            values().find { it.count == count }
+
         fun available(sampleRate: SampleRate): List<AudioChannels> =
             values().filter { it.isSupported(sampleRate) }.ifEmpty { listOf(fallback) }
 

@@ -86,7 +86,7 @@ class RecorderThread(
         sampleRate = savedSampleRate ?: format.defaultSampleRate
         audioInputSource = AudioInputSource.fromPreferences(context, prefs)
         audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
-        formatParam = savedFormatParam ?: format.defaultParam(audioChannels)
+        formatParam = savedFormatParam ?: format.defaultParam(sampleRate, audioChannels)
 
         Log.i(
             tag,

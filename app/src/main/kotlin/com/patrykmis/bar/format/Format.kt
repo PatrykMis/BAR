@@ -13,6 +13,10 @@ sealed class Format {
     /** Details about the format parameter range and default value. */
     abstract val paramInfo: FormatParamInfo
 
+    /** Details about the format parameter for a specific recording configuration. */
+    open fun paramInfo(sampleRate: SampleRate, audioChannels: AudioChannels): FormatParamInfo =
+        paramInfo
+
     /** Sample rates that should be offered for this format. */
     abstract val sampleRates: Array<SampleRate>
 
@@ -20,11 +24,15 @@ sealed class Format {
     val defaultSampleRate: SampleRate
         get() = sampleRates.last()
 
-    fun defaultParam(audioChannels: AudioChannels): UInt =
-        when (val info = paramInfo) {
+    fun defaultParam(sampleRate: SampleRate, audioChannels: AudioChannels): UInt =
+        when (val info = paramInfo(sampleRate, audioChannels)) {
             is RangedParamInfo -> when (info.type) {
                 RangedParamType.Bitrate -> {
-                    val scaled = info.default * audioChannels.count.toUInt()
+                    val scaled = if (info.scaleDefaultByChannels) {
+                        info.default * audioChannels.count.toUInt()
+                    } else {
+                        info.default
+                    }
                     info.toNearest(scaled.coerceAtMost(info.range.last))
                 }
 
@@ -33,6 +41,9 @@ sealed class Format {
 
             NoParamInfo -> info.default
         }
+
+    fun defaultParam(audioChannels: AudioChannels): UInt =
+        defaultParam(defaultSampleRate, audioChannels)
 
     /** The MIME type of the container storing the encoded audio stream. */
     abstract val mimeTypeContainer: String
@@ -61,8 +72,15 @@ sealed class Format {
      * @throws IllegalArgumentException if [FormatParamInfo.validate] fails
      */
     fun getMediaFormat(audioFormat: AudioFormat, param: UInt?): MediaFormat {
+        val sampleRate = SampleRate(audioFormat.sampleRate.toUInt())
+        val audioChannels = AudioChannels.getByCount(audioFormat.channelCount)
+            ?: throw IllegalArgumentException(
+                "Unsupported channel count: ${audioFormat.channelCount}"
+            )
+        val info = paramInfo(sampleRate, audioChannels)
+
         if (param != null) {
-            paramInfo.validate(param)
+            info.validate(param)
         }
 
         val format = MediaFormat().apply {
@@ -72,7 +90,7 @@ sealed class Format {
             setInteger(KEY_X_FRAME_SIZE_IN_BYTES, audioFormat.frameSizeInBytes)
         }
 
-        updateMediaFormat(format, param ?: paramInfo.default)
+        updateMediaFormat(format, param ?: info.default)
 
         return format
     }
@@ -135,15 +153,18 @@ sealed class Format {
                 }
                 ?: default
 
-            // Convert the saved value to the nearest valid value (eg. in case bitrate range or step
-            // size in changed in a future version)
-            val param = prefs.getFormatParam(format)?.let {
-                format.paramInfo.toNearest(it)
-            }
-
             val sampleRate = prefs.getFormatSampleRate(format)
                 ?.let { SampleRate(it) }
                 ?.takeIf { it in format.sampleRates }
+
+            val effectiveSampleRate = sampleRate ?: format.defaultSampleRate
+            val audioChannels = AudioChannels.fromPreferences(prefs, effectiveSampleRate)
+
+            // Convert the saved value to the nearest valid value (eg. in case bitrate range or step
+            // size in changed in a future version)
+            val param = prefs.getFormatParam(format)?.let {
+                format.paramInfo(effectiveSampleRate, audioChannels).toNearest(it)
+            }
 
             return Triple(format, param, sampleRate)
         }

@@ -20,6 +20,25 @@ I've decided to fork because BCR has a robust audio recording/encoding pipeline 
 * No network access permission
 * No third party dependencies
 
+### Audio format choices
+
+BAR tries to keep format settings practical instead of pretending that every encoder option is
+equally useful.
+
+For M4A/AAC, the bitrate range depends on the selected sample rate and channel count. The ranges,
+defaults, and AAC-LC/HE-AAC/HE-AAC v2 switch points are based on the Fraunhofer FDK AAC encoder
+documentation available in Android's source tree:
+[`aac/documentation/aacEncoder.pdf`](https://android.googlesource.com/platform/external/aac/+/refs/heads/main/documentation/aacEncoder.pdf).
+BAR therefore offers AAC at 44100 Hz and 48000 Hz, where those tables are defined.
+
+FLAC is handled differently because it is lossless. Its setting is a compression level, not an
+audio quality slider: level 0 is fastest and creates larger files, while higher levels spend more
+CPU to make smaller files without changing the decoded audio. BAR defaults to the highest level
+because modern devices can normally handle it during recording.
+
+OGG/Opus does not offer 44100 Hz in BAR because that sample rate is not available for the Opus path
+used here, so the app only shows the supported Opus sample rates.
+
 ### Non-features
 
 As the name alludes, BAR intends to be a basic as possible. The project will have succeeded at its goal if the only updates it ever needs are for compatibility with new Android versions. Thus, many potentially useful features will never be implemented, such as:

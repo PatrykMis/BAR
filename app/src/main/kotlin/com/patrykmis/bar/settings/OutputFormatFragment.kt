@@ -31,6 +31,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         val currentSampleRate = currentSampleRateSaved ?: currentFormat.defaultSampleRate
         val currentAudioSource = AudioInputSource.fromPreferences(context, prefs)
         val currentAudioChannels = AudioChannels.fromPreferences(prefs, currentSampleRate)
+        val currentParamInfo = currentFormat.paramInfo(currentSampleRate, currentAudioChannels)
 
         val audioSources = AudioInputSource.available()
         screen.addPreference(ListPreference(context).apply {
@@ -91,10 +92,11 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             }
         })
 
-        when (val info = currentFormat.paramInfo) {
+        when (val info = currentParamInfo) {
             is RangedParamInfo -> addParamPreference(
                 screen,
                 currentFormat,
+                currentSampleRate,
                 info,
                 currentParam,
                 currentAudioChannels,
@@ -135,12 +137,13 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
     private fun addParamPreference(
         screen: androidx.preference.PreferenceScreen,
         format: Format,
+        sampleRate: SampleRate,
         info: RangedParamInfo,
         currentParam: UInt?,
         audioChannels: AudioChannels,
     ) {
         val context = preferenceManager.context
-        val currentValue = currentParam ?: format.defaultParam(audioChannels)
+        val currentValue = currentParam ?: format.defaultParam(sampleRate, audioChannels)
 
         val title = when (info.type) {
             RangedParamType.CompressionLevel -> R.string.output_format_bottom_sheet_compression_level

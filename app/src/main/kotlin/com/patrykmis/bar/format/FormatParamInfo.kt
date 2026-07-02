@@ -29,6 +29,7 @@ class RangedParamInfo(
     val range: UIntRange,
     val stepSize: UInt,
     default: UInt,
+    val scaleDefaultByChannels: Boolean = true,
 ) : FormatParamInfo(default) {
     override fun validate(param: UInt) {
         if (param !in range) {
@@ -41,6 +42,10 @@ class RangedParamInfo(
 
     /** Clamp [param] to [range] and snap to nearest [stepSize]. */
     override fun toNearest(param: UInt): UInt {
+        if (param == default && param in range) {
+            return param
+        }
+
         val offset = param.coerceIn(range) - range.first
         val roundedDown = (offset / stepSize) * stepSize
 

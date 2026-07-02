@@ -107,9 +107,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         val sampleRate = sampleRateSaved ?: format.defaultSampleRate
         val audioSource = AudioInputSource.fromPreferences(context, prefs)
         val audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
-        val formatParam = formatParamSaved ?: format.defaultParam(audioChannels)
+        val formatParam = formatParamSaved ?: format.defaultParam(sampleRate, audioChannels)
         val summary = getString(R.string.pref_output_format_desc)
-        val prefix = when (val info = format.paramInfo) {
+        val prefix = when (val info = format.paramInfo(sampleRate, audioChannels)) {
             is RangedParamInfo -> "${info.format(formatParam)}, "
             NoParamInfo -> ""
         }

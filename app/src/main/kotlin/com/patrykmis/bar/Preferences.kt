@@ -4,17 +4,31 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import androidx.core.content.edit
 import androidx.core.net.toUri
-import androidx.preference.PreferenceManager
+import androidx.datastore.preferences.core.MutablePreferences
+import androidx.datastore.preferences.core.Preferences as DataStorePreferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.patrykmis.bar.audio.AudioChannels
 import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
 import com.patrykmis.bar.output.Retention
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.io.File
+import java.util.concurrent.CopyOnWriteArraySet
+
+private val Context.settingsDataStore by preferencesDataStore(name = "settings")
 
 class Preferences(private val context: Context) {
+    fun interface OnPreferenceChangeListener {
+        fun onPreferenceChanged(key: String)
+    }
+
     companion object {
         private val TAG = Preferences::class.java.simpleName
 
@@ -35,6 +49,8 @@ class Preferences(private val context: Context) {
         private const val PREF_FORMAT_SAMPLE_RATE_PREFIX = "codec_sample_rate_"
         const val PREF_OUTPUT_RETENTION = "output_retention"
 
+        private val listeners = CopyOnWriteArraySet<OnPreferenceChangeListener>()
+
         fun isFormatKey(key: String): Boolean =
             key == PREF_FORMAT_NAME ||
                     key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
@@ -44,7 +60,60 @@ class Preferences(private val context: Context) {
             isFormatKey(key) || key == PREF_AUDIO_SOURCE || key == PREF_AUDIO_CHANNELS
     }
 
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    private val dataStore = context.applicationContext.settingsDataStore
+
+    fun registerOnPreferenceChangeListener(listener: OnPreferenceChangeListener) {
+        listeners.add(listener)
+    }
+
+    fun unregisterOnPreferenceChangeListener(listener: OnPreferenceChangeListener) {
+        listeners.remove(listener)
+    }
+
+    private fun notifyPreferenceChanged(key: String) {
+        listeners.forEach { it.onPreferenceChanged(key) }
+    }
+
+    private fun currentPreferences(): DataStorePreferences =
+        runBlocking { dataStore.data.first() }
+
+    private fun updatePreference(key: String, block: MutablePreferences.() -> Unit) {
+        updatePreferences(listOf(key), block)
+    }
+
+    private fun updatePreferences(keys: Iterable<String>, block: MutablePreferences.() -> Unit) {
+        runBlocking {
+            dataStore.edit { preferences ->
+                preferences.block()
+            }
+        }
+
+        keys.forEach(::notifyPreferenceChanged)
+    }
+
+    private fun getString(key: String): String? =
+        currentPreferences()[stringPreferencesKey(key)]
+
+    private fun setString(key: String, value: String?) {
+        val prefKey = stringPreferencesKey(key)
+        updatePreference(key) {
+            if (value == null) {
+                remove(prefKey)
+            } else {
+                this[prefKey] = value
+            }
+        }
+    }
+
+    private fun getBoolean(key: String, default: Boolean): Boolean =
+        currentPreferences()[booleanPreferencesKey(key)] ?: default
+
+    private fun setBoolean(key: String, value: Boolean) {
+        val prefKey = booleanPreferencesKey(key)
+        updatePreference(key) {
+            this[prefKey] = value
+        }
+    }
 
     /**
      * Get a unsigned integer preference value.
@@ -52,8 +121,7 @@ class Preferences(private val context: Context) {
      * @return Will never be [UInt.MAX_VALUE]
      */
     private fun getOptionalUint(key: String): UInt? {
-        // Use a sentinel value because doing contains + getInt results in TOCTOU issues
-        val value = prefs.getInt(key, -1)
+        val value = currentPreferences()[intPreferencesKey(key)] ?: return null
 
         return if (value == -1) {
             null
@@ -75,18 +143,19 @@ class Preferences(private val context: Context) {
             throw IllegalArgumentException("$key value cannot be ${UInt.MAX_VALUE}")
         }
 
-        prefs.edit {
+        val prefKey = intPreferencesKey(key)
+        updatePreference(key) {
             if (value == null) {
-                remove(key)
+                remove(prefKey)
             } else {
-                putInt(key, value.toInt())
+                this[prefKey] = value.toInt()
             }
         }
     }
 
     var isDebugMode: Boolean
-        get() = BuildConfig.FORCE_DEBUG_MODE || prefs.getBoolean(PREF_DEBUG_MODE, false)
-        set(enabled) = prefs.edit { putBoolean(PREF_DEBUG_MODE, enabled) }
+        get() = BuildConfig.FORCE_DEBUG_MODE || getBoolean(PREF_DEBUG_MODE, false)
+        set(enabled) = setBoolean(PREF_DEBUG_MODE, enabled)
 
     /**
      * Get the default output directory. The directory should always be writable and is suitable for
@@ -103,7 +172,7 @@ class Preferences(private val context: Context) {
      * persisting permissions for the new URI fails, the saved output directory is not changed.
      */
     var outputDir: Uri?
-        get() = prefs.getString(PREF_OUTPUT_DIR, null)?.let { it.toUri() }
+        get() = getString(PREF_OUTPUT_DIR)?.let { it.toUri() }
         set(uri) {
             val oldUri = outputDir
             if (oldUri == uri) {
@@ -111,19 +180,15 @@ class Preferences(private val context: Context) {
                 return
             }
 
-            prefs.edit {
-                if (uri != null) {
-                    // Persist permissions for the new URI first
-                    context.contentResolver.takePersistableUriPermission(
-                        uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    )
-                    putString(PREF_OUTPUT_DIR, uri.toString())
-                } else {
-                    remove(PREF_OUTPUT_DIR)
-                }
+            if (uri != null) {
+                // Persist permissions for the new URI first
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
             }
+            setString(PREF_OUTPUT_DIR, uri?.toString())
 
             // Release persisted permissions on the old directory only after the new URI is set to
             // guarantee atomicity
@@ -166,36 +231,22 @@ class Preferences(private val context: Context) {
      * Whether the recording should initially start in the paused state.
      */
     var initiallyPaused: Boolean
-        get() = prefs.getBoolean(PREF_INITIALLY_PAUSED, false)
-        set(enabled) = prefs.edit { putBoolean(PREF_INITIALLY_PAUSED, enabled) }
+        get() = getBoolean(PREF_INITIALLY_PAUSED, false)
+        set(enabled) = setBoolean(PREF_INITIALLY_PAUSED, enabled)
 
     /**
      * The saved audio source for recording.
      */
     var audioInputSource: AudioInputSource?
-        get() = prefs.getString(PREF_AUDIO_SOURCE, null)
-            ?.let { AudioInputSource.getByPreferenceValue(it) }
-        set(source) = prefs.edit {
-            if (source == null) {
-                remove(PREF_AUDIO_SOURCE)
-            } else {
-                putString(PREF_AUDIO_SOURCE, source.preferenceValue)
-            }
-        }
+        get() = getString(PREF_AUDIO_SOURCE)?.let { AudioInputSource.getByPreferenceValue(it) }
+        set(source) = setString(PREF_AUDIO_SOURCE, source?.preferenceValue)
 
     /**
      * The saved channel mode for recording.
      */
     var audioChannels: AudioChannels?
-        get() = prefs.getString(PREF_AUDIO_CHANNELS, null)
-            ?.let { AudioChannels.getByPreferenceValue(it) }
-        set(channels) = prefs.edit {
-            if (channels == null) {
-                remove(PREF_AUDIO_CHANNELS)
-            } else {
-                putString(PREF_AUDIO_CHANNELS, channels.preferenceValue)
-            }
-        }
+        get() = getString(PREF_AUDIO_CHANNELS)?.let { AudioChannels.getByPreferenceValue(it) }
+        set(channels) = setString(PREF_AUDIO_CHANNELS, channels?.preferenceValue)
 
     /**
      * The saved output format.
@@ -204,14 +255,8 @@ class Preferences(private val context: Context) {
      * get/set format-specific values.
      */
     var format: Format?
-        get() = prefs.getString(PREF_FORMAT_NAME, null)?.let { Format.getByName(it) }
-        set(format) = prefs.edit {
-            if (format == null) {
-                remove(PREF_FORMAT_NAME)
-            } else {
-                putString(PREF_FORMAT_NAME, format.name)
-            }
-        }
+        get() = getString(PREF_FORMAT_NAME)?.let { Format.getByName(it) }
+        set(format) = setString(PREF_FORMAT_NAME, format?.name)
 
     /**
      * Get the format-specific parameter for [format].
@@ -249,10 +294,32 @@ class Preferences(private val context: Context) {
      * Remove the default recording settings and the parameters for all formats.
      */
     fun resetRecordingSettings() {
-        val keys = prefs.all.keys.filter(::isRecordingSettingsKey)
-        prefs.edit {
+        val keys = currentPreferences().asMap().keys
+            .map { it.name }
+            .filter(::isRecordingSettingsKey)
+
+        if (keys.isEmpty()) {
+            return
+        }
+
+        updatePreferences(keys) {
             for (key in keys) {
-                remove(key)
+                removeRecordingSettingKey(key)
+            }
+        }
+    }
+
+    private fun MutablePreferences.removeRecordingSettingKey(key: String) {
+        when {
+            key == PREF_AUDIO_SOURCE ||
+                    key == PREF_AUDIO_CHANNELS ||
+                    key == PREF_FORMAT_NAME -> {
+                remove(stringPreferencesKey(key))
+            }
+
+            key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
+                    key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX) -> {
+                remove(intPreferencesKey(key))
             }
         }
     }

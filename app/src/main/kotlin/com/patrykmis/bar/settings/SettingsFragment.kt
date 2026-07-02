@@ -1,7 +1,6 @@
 package com.patrykmis.bar.settings
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.Preference
@@ -20,7 +19,7 @@ import com.patrykmis.bar.format.RangedParamInfo
 import com.patrykmis.bar.output.Retention
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
-    Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+    Preference.OnPreferenceClickListener, Preferences.OnPreferenceChangeListener {
     private lateinit var prefs: Preferences
     private lateinit var prefPermissions: Preference
     private lateinit var prefOutputDir: Preference
@@ -79,7 +78,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     override fun onStart() {
         super.onStart()
 
-        preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
+        prefs.registerOnPreferenceChangeListener(this)
 
         // Changing permissions or battery state does not cause a reload of the activity.
         refreshPermissionsState()
@@ -92,7 +91,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     override fun onStop() {
         super.onStop()
 
-        preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
+        prefs.unregisterOnPreferenceChangeListener(this)
     }
 
     private fun refreshOutputDir() {
@@ -222,9 +221,18 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         return false
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+    override fun onPreferenceChanged(key: String) {
+        activity?.runOnUiThread {
+            if (!isAdded) {
+                return@runOnUiThread
+            }
+
+            refreshForPreferenceChange(key)
+        }
+    }
+
+    private fun refreshForPreferenceChange(key: String) {
         when {
-            key == null -> return
             // Update the output directory state when it's changed by the bottom sheet
             key == Preferences.PREF_OUTPUT_DIR || key == Preferences.PREF_OUTPUT_RETENTION -> {
                 refreshOutputDir()

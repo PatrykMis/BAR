@@ -23,19 +23,32 @@
             app:persistent="false"
             app:summary="@string/pref_output_format_desc"
             app:title="@string/pref_output_format_name" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_header_advanced">
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="inhibit_batt_opt"
+            app:persistent="false"
             app:summary="@string/pref_inhibit_batt_opt_desc"
             app:title="@string/pref_inhibit_batt_opt_name" />
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            app:key="debug_mode"
+            app:persistent="false"
+            app:summary="@string/pref_debug_mode_desc"
+            app:title="@string/pref_debug_mode_name" />
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/pref_header_about">
 
-        <com.patrykmis.bar.view.LongClickablePreference
+        <Preference
             app:iconSpaceReserved="false"
             app:key="version"
             app:persistent="false"

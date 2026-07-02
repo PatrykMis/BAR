@@ -18,17 +18,16 @@ import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.NoParamInfo
 import com.patrykmis.bar.format.RangedParamInfo
 import com.patrykmis.bar.output.Retention
-import com.patrykmis.bar.view.LongClickablePreference
 
 class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
-    Preference.OnPreferenceClickListener, LongClickablePreference.OnPreferenceLongClickListener,
-    SharedPreferences.OnSharedPreferenceChangeListener {
+    Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var prefs: Preferences
     private lateinit var prefPermissions: Preference
     private lateinit var prefOutputDir: Preference
     private lateinit var prefOutputFormat: Preference
     private lateinit var prefInhibitBatteryOpt: SwitchPreferenceCompat
-    private lateinit var prefVersion: LongClickablePreference
+    private lateinit var prefDebugMode: SwitchPreferenceCompat
+    private lateinit var prefVersion: Preference
 
     private val requestPermissionRequired =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
@@ -64,9 +63,12 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefInhibitBatteryOpt = findPreference(Preferences.PREF_INHIBIT_BATT_OPT)!!
         prefInhibitBatteryOpt.onPreferenceChangeListener = this
 
+        prefDebugMode = findPreference(Preferences.PREF_DEBUG_MODE)!!
+        prefDebugMode.onPreferenceChangeListener = this
+        refreshDebugMode()
+
         prefVersion = findPreference(Preferences.PREF_VERSION)!!
         prefVersion.onPreferenceClickListener = this
-        prefVersion.onPreferenceLongClickListener = this
         refreshVersion()
     }
 
@@ -80,6 +82,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         refreshOutputDir()
         refreshOutputFormat()
         refreshInhibitBatteryOptState()
+        refreshDebugMode()
     }
 
     override fun onStop() {
@@ -142,16 +145,38 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefInhibitBatteryOpt.isEnabled = !inhibiting
     }
 
-    override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
-        if (newValue == false) {
-            return true
-        }
+    private fun refreshDebugMode() {
+        prefDebugMode.isChecked = prefs.isDebugMode
+        prefDebugMode.isEnabled = !BuildConfig.FORCE_DEBUG_MODE
+        prefDebugMode.summary = getString(
+            if (BuildConfig.FORCE_DEBUG_MODE) {
+                R.string.pref_debug_mode_forced_desc
+            } else {
+                R.string.pref_debug_mode_desc
+            }
+        )
+    }
 
+    override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
         when (preference) {
             // This is only reachable if battery optimization is not already inhibited
-            prefInhibitBatteryOpt -> requestInhibitBatteryOpt.launch(
-                Permissions.getInhibitBatteryOptIntent(requireContext())
-            )
+            prefInhibitBatteryOpt -> {
+                if (newValue == true) {
+                    requestInhibitBatteryOpt.launch(
+                        Permissions.getInhibitBatteryOptIntent(requireContext())
+                    )
+                    return false
+                }
+
+                return true
+            }
+
+            prefDebugMode -> {
+                prefs.isDebugMode = newValue as Boolean
+                refreshDebugMode()
+                refreshVersion()
+                return false
+            }
         }
 
         return false
@@ -188,18 +213,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         return false
     }
 
-    override fun onPreferenceLongClick(preference: Preference): Boolean {
-        when (preference) {
-            prefVersion -> {
-                prefs.isDebugMode = !prefs.isDebugMode
-                refreshVersion()
-                return true
-            }
-        }
-
-        return false
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when {
             key == null -> return
@@ -210,6 +223,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             // Update the output format state when it's changed by the bottom sheet
             Preferences.isRecordingSettingsKey(key) -> {
                 refreshOutputFormat()
+            }
+
+            key == Preferences.PREF_DEBUG_MODE -> {
+                refreshDebugMode()
+                refreshVersion()
             }
         }
     }

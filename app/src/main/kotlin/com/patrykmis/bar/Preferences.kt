@@ -23,10 +23,10 @@ class Preferences(private val context: Context) {
         const val PREF_OUTPUT_DIR = "output_dir"
         const val PREF_OUTPUT_FORMAT = "output_format"
         const val PREF_INHIBIT_BATT_OPT = "inhibit_batt_opt"
+        const val PREF_DEBUG_MODE = "debug_mode"
         const val PREF_VERSION = "version"
 
         // Not associated with a UI preference
-        private const val PREF_DEBUG_MODE = "debug_mode"
         private const val PREF_AUDIO_SOURCE = "audio_source"
         private const val PREF_AUDIO_CHANNELS = "audio_channels"
         private const val PREF_FORMAT_NAME = "codec_name"

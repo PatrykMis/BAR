@@ -3,11 +3,12 @@
         app:iconSpaceReserved="false"
         app:title="@string/pref_header_general">
 
-        <SwitchPreferenceCompat
+        <Preference
             app:iconSpaceReserved="false"
-            app:key="recording_enabled"
-            app:summary="@string/pref_recording_enabled_desc"
-            app:title="@string/pref_recording_enabled_name" />
+            app:key="permissions"
+            app:persistent="false"
+            app:summary="@string/pref_permissions_missing_desc"
+            app:title="@string/pref_permissions_name" />
 
         <Preference
             app:iconSpaceReserved="false"

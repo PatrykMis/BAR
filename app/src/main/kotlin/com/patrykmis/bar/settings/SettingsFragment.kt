@@ -22,7 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     Preference.OnPreferenceClickListener, LongClickablePreference.OnPreferenceLongClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var prefs: Preferences
-    private lateinit var prefRecordingEnabled: SwitchPreferenceCompat
+    private lateinit var prefPermissions: Preference
     private lateinit var prefOutputDir: Preference
     private lateinit var prefOutputFormat: Preference
     private lateinit var prefInhibitBatteryOpt: SwitchPreferenceCompat
@@ -30,12 +30,10 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     private val requestPermissionRequired =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
-            // Recording can still be enabled if optional permissions were not granted.
-            if (granted.all { it.key !in Permissions.REQUIRED || it.value }) {
-                prefRecordingEnabled.isChecked = true
-            } else {
+            if (granted.any { it.key in Permissions.REQUIRED && !it.value }) {
                 startActivity(Permissions.getAppInfoIntent(requireContext()))
             }
+            refreshPermissionsState()
         }
     private val requestInhibitBatteryOpt =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -49,14 +47,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         prefs = Preferences(context)
 
-        // If the desired state is enabled, set to disabled if runtime permissions have been
-        // denied. The user will have to grant permissions again to re-enable the features.
-
-        prefRecordingEnabled = findPreference(Preferences.PREF_RECORDING_ENABLED)!!
-        if (prefRecordingEnabled.isChecked && !Permissions.haveRequired(context)) {
-            prefRecordingEnabled.isChecked = false
-        }
-        prefRecordingEnabled.onPreferenceChangeListener = this
+        prefPermissions = findPreference(Preferences.PREF_PERMISSIONS)!!
+        prefPermissions.onPreferenceClickListener = this
+        refreshPermissionsState()
 
         prefOutputDir = findPreference(Preferences.PREF_OUTPUT_DIR)!!
         prefOutputDir.onPreferenceClickListener = this
@@ -80,7 +73,8 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
 
-        // Changing the battery state does not cause a reload of the activity
+        // Changing permissions or battery state does not cause a reload of the activity.
+        refreshPermissionsState()
         refreshInhibitBatteryOptState()
     }
 
@@ -122,6 +116,16 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefVersion.summary = "${BuildConfig.VERSION_NAME} (${BuildConfig.BUILD_TYPE}${suffix})"
     }
 
+    private fun refreshPermissionsState() {
+        prefPermissions.summary = getString(
+            if (Permissions.haveRequired(requireContext())) {
+                R.string.pref_permissions_granted_desc
+            } else {
+                R.string.pref_permissions_missing_desc
+            }
+        )
+    }
+
     private fun refreshInhibitBatteryOptState() {
         val inhibiting = Permissions.isInhibitingBatteryOpt(requireContext())
         prefInhibitBatteryOpt.isChecked = inhibiting
@@ -129,20 +133,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
-        // No need to validate runtime permissions when disabling a feature
         if (newValue == false) {
             return true
         }
 
-        val context = requireContext()
-
         when (preference) {
-            prefRecordingEnabled -> if (Permissions.haveRequired(context)) {
-                return true
-            } else {
-                // Ask for optional permissions the first time only
-                requestPermissionRequired.launch(Permissions.REQUIRED)
-            }
             // This is only reachable if battery optimization is not already inhibited
             prefInhibitBatteryOpt -> requestInhibitBatteryOpt.launch(
                 Permissions.getInhibitBatteryOptIntent(requireContext())
@@ -154,6 +149,13 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     override fun onPreferenceClick(preference: Preference): Boolean {
         when (preference) {
+            prefPermissions -> {
+                if (!Permissions.haveRequired(requireContext())) {
+                    requestPermissionRequired.launch(Permissions.REQUIRED)
+                }
+                return true
+            }
+
             prefOutputDir -> {
                 OutputDirectoryBottomSheetFragment().show(
                     childFragmentManager, OutputDirectoryBottomSheetFragment.TAG
@@ -193,15 +195,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when {
             key == null -> return
-            // Update the switch state if it was toggled outside of the preference (eg. from the
-            // quick settings toggle)
-            key == prefRecordingEnabled.key -> {
-                val current = prefRecordingEnabled.isChecked
-                val expected = sharedPreferences.getBoolean(key, current)
-                if (current != expected) {
-                    prefRecordingEnabled.isChecked = expected
-                }
-            }
             // Update the output directory state when it's changed by the bottom sheet
             key == Preferences.PREF_OUTPUT_DIR || key == Preferences.PREF_OUTPUT_RETENTION -> {
                 refreshOutputDir()

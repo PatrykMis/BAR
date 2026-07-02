@@ -36,11 +36,11 @@ As the name alludes, BAR intends to be a basic as possible. The project will hav
 
 3. Open BAR.
 
-4. Enable audio recording to grant the required microphone and notification permissions.
+4. Grant the required microphone and notification permissions when prompted.
 
 5. Pick an output directory. If no output directory is selected or if the output directory is no longer accessible, then recordings will be saved to `/sdcard/Android/data/com.patrykmis.bar/files`.
 
-The first time you enable audio recording, BAR will prompt for microphone and notification (Android 13+) permissions. They are required for BAR to be able to record in the background.
+BAR will prompt for microphone and notification (Android 13+) permissions. They are required for BAR to be able to record in the background.
 
 ### Building from source
 

@@ -8,8 +8,9 @@
     <string name="pref_header_about">About</string>
 
     <!-- General preferences -->
-    <string name="pref_recording_enabled_name">Audio recording</string>
-    <string name="pref_recording_enabled_desc">Allow BAR to record audio in the background. Microphone and notification permissions are required.</string>
+    <string name="pref_permissions_name">Permissions</string>
+    <string name="pref_permissions_missing_desc">Microphone and notification permissions are required. Tap to grant them.</string>
+    <string name="pref_permissions_granted_desc">Ready to record from the quick settings tile.</string>
 
     <string name="pref_output_dir_name">Output directory</string>
     <string name="pref_output_dir_desc">Pick a directory to store recordings.</string>

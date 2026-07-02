@@ -22,7 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     Preference.OnPreferenceClickListener, LongClickablePreference.OnPreferenceLongClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var prefs: Preferences
-    private lateinit var prefCallRecording: SwitchPreferenceCompat
+    private lateinit var prefRecordingEnabled: SwitchPreferenceCompat
     private lateinit var prefOutputDir: Preference
     private lateinit var prefOutputFormat: Preference
     private lateinit var prefInhibitBatteryOpt: SwitchPreferenceCompat
@@ -30,9 +30,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     private val requestPermissionRequired =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
-            // Call recording can still be enabled if optional permissions were not granted
+            // Recording can still be enabled if optional permissions were not granted.
             if (granted.all { it.key !in Permissions.REQUIRED || it.value }) {
-                prefCallRecording.isChecked = true
+                prefRecordingEnabled.isChecked = true
             } else {
                 startActivity(Permissions.getAppInfoIntent(requireContext()))
             }
@@ -52,11 +52,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         // If the desired state is enabled, set to disabled if runtime permissions have been
         // denied. The user will have to grant permissions again to re-enable the features.
 
-        prefCallRecording = findPreference(Preferences.PREF_CALL_RECORDING)!!
-        if (prefCallRecording.isChecked && !Permissions.haveRequired(context)) {
-            prefCallRecording.isChecked = false
+        prefRecordingEnabled = findPreference(Preferences.PREF_RECORDING_ENABLED)!!
+        if (prefRecordingEnabled.isChecked && !Permissions.haveRequired(context)) {
+            prefRecordingEnabled.isChecked = false
         }
-        prefCallRecording.onPreferenceChangeListener = this
+        prefRecordingEnabled.onPreferenceChangeListener = this
 
         prefOutputDir = findPreference(Preferences.PREF_OUTPUT_DIR)!!
         prefOutputDir.onPreferenceClickListener = this
@@ -137,7 +137,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         val context = requireContext()
 
         when (preference) {
-            prefCallRecording -> if (Permissions.haveRequired(context)) {
+            prefRecordingEnabled -> if (Permissions.haveRequired(context)) {
                 return true
             } else {
                 // Ask for optional permissions the first time only
@@ -195,11 +195,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             key == null -> return
             // Update the switch state if it was toggled outside of the preference (eg. from the
             // quick settings toggle)
-            key == prefCallRecording.key -> {
-                val current = prefCallRecording.isChecked
+            key == prefRecordingEnabled.key -> {
+                val current = prefRecordingEnabled.isChecked
                 val expected = sharedPreferences.getBoolean(key, current)
                 if (current != expected) {
-                    prefCallRecording.isChecked = expected
+                    prefRecordingEnabled.isChecked = expected
                 }
             }
             // Update the output directory state when it's changed by the bottom sheet

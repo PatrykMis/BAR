@@ -8,9 +8,6 @@
     <string name="pref_header_about">Hakkında</string>
 
     <!-- General preferences -->
-    <string name="pref_call_recording_name">Çağrı kaydı</string>
-    <string name="pref_call_recording_desc">Gelen ve giden çağrıları kaydet. Arka planda kayıt için mikrofon ve bildirim izinleri gereklidir.</string>
-
     <string name="pref_output_dir_name">Kayıt konumu</string>
     <string name="pref_output_dir_desc">Kayıtlar için bir konum seçin.</string>
 
@@ -41,7 +38,6 @@
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">Arka plan servisleri</string>
-    <string name="notification_channel_persistent_desc">Arka plan çağrı kaydı için kalıcı bildirim</string>
     <string name="notification_channel_failure_desc">Kayıt esnasındaki hatalar için uyarılar</string>
     <string name="notification_action_open">Aç</string>
     <string name="notification_action_share">Paylaş</string>

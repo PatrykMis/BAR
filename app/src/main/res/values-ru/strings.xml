@@ -8,9 +8,6 @@
     <string name="pref_header_about">Информация</string>
 
     <!-- General preferences -->
-    <string name="pref_call_recording_name">Запись звонков</string>
-    <string name="pref_call_recording_desc">Запись входящих и исходящих телефонных звонков. Для записи в фоновом режиме требуются разрешения на использование микрофона и уведомлений.</string>
-
     <string name="pref_output_dir_name">Папка для сохранения</string>
     <string name="pref_output_dir_desc">Выберите папку, в которой будут храниться записи.</string>
 
@@ -43,15 +40,11 @@
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">Фоновые сервисы</string>
-    <string name="notification_channel_persistent_desc">Постоянное уведомление для записи вызовов в фоновом режиме</string>
-    <string name="notification_channel_failure_desc">Оповещение об ошибках во время записи разговора</string>
     <string name="notification_action_open">Открыть</string>
     <string name="notification_action_share">Поделиться</string>
     <string name="notification_action_delete">Удалить</string>
     <string name="notification_channel_failure_name">Предупреждение о сбое</string>
     <string name="notification_channel_success_name">Оповещение об успешном выполнении</string>
-    <string name="notification_channel_success_desc">Оповещение об успешной записи звонков</string>
-    <string name="notification_internal_android_error">Сбой записи во внутреннем компоненте Android (%s). Это устройство или прошивка может не поддерживает запись вызовов.</string>
     <string name="notification_action_pause">Пауза</string>
     <string name="notification_action_resume">Возобновить</string>
 

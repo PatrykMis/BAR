@@ -8,8 +8,8 @@
     <string name="pref_header_about">About</string>
 
     <!-- General preferences -->
-    <string name="pref_call_recording_name">Call recording</string>
-    <string name="pref_call_recording_desc">Record incoming and outgoing phone calls. Microphone and notification permissions are required for recording in the background.</string>
+    <string name="pref_recording_enabled_name">Audio recording</string>
+    <string name="pref_recording_enabled_desc">Allow BAR to record audio in the background. Microphone and notification permissions are required.</string>
 
     <string name="pref_output_dir_name">Output directory</string>
     <string name="pref_output_dir_desc">Pick a directory to store recordings.</string>
@@ -42,16 +42,16 @@
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">Background services</string>
-    <string name="notification_channel_persistent_desc">Persistent notification for background call recording</string>
+    <string name="notification_channel_persistent_desc">Persistent notification for background audio recording</string>
     <string name="notification_channel_failure_name">Failure alerts</string>
-    <string name="notification_channel_failure_desc">Alerts for errors during call recording</string>
+    <string name="notification_channel_failure_desc">Alerts for errors during audio recording</string>
     <string name="notification_channel_success_name">Success alerts</string>
-    <string name="notification_channel_success_desc">Alerts for successful call recordings</string>
+    <string name="notification_channel_success_desc">Alerts for successful audio recordings</string>
     <string name="notification_recording_mic_in_progress">Mic recording in progress</string>
     <string name="notification_recording_mic_paused">Mic recording paused</string>
     <string name="notification_recording_mic_failed">Failed to record mic</string>
     <string name="notification_recording_mic_succeeded">Successfully recorded mic</string>
-    <string name="notification_internal_android_error">The recording failed in an internal Android component (%s). This device or firmware might not support call recording.</string>
+    <string name="notification_internal_android_error">The recording failed in an internal Android component (%s). This device or firmware might not support this audio source.</string>
 
     <string name="notification_action_open">Open</string>
     <string name="notification_action_share">Share</string>

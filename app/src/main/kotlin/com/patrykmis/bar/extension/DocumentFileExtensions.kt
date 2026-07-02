@@ -76,31 +76,6 @@ fun DocumentFile.listFilesWithNames(): List<Pair<DocumentFile, String?>> {
 }
 
 /**
- * Like [DocumentFile.findFile], but faster for tree URIs.
- *
- * [DocumentFile.findFile] performs a query for the document ID list and then performs separate
- * queries for each document to get the name. This is extremely slow on some devices and is
- * unnecessary because [DocumentsContract.Document.COLUMN_DOCUMENT_ID] and
- * [DocumentsContract.Document.COLUMN_DISPLAY_NAME] can be queried at the same time.
- */
-fun DocumentFile.findFileFast(displayName: String): DocumentFile? {
-    if (!DocumentsContract.isTreeUri(uri)) {
-        return findFile(displayName)
-    }
-
-    try {
-        return iterChildrenWithColumns(arrayOf(DocumentsContract.Document.COLUMN_DISPLAY_NAME))
-            .asSequence()
-            .find { it.second.getString(1) == displayName }
-            ?.first
-    } catch (e: Exception) {
-        Log.w(TAG, "Failed to query tree URI", e)
-    }
-
-    return null
-}
-
-/**
  * Like [DocumentFile.renameTo], but preserves the extension for file URIs.
  *
  * This fixes [DocumentFile.renameTo]'s behavior so it is the same for both SAF and file URIs.

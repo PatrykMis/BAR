@@ -5,9 +5,9 @@
 
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
-            app:key="call_recording"
-            app:summary="@string/pref_call_recording_desc"
-            app:title="@string/pref_call_recording_name" />
+            app:key="recording_enabled"
+            app:summary="@string/pref_recording_enabled_desc"
+            app:title="@string/pref_recording_enabled_name" />
 
         <Preference
             app:iconSpaceReserved="false"

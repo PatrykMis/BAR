@@ -34,7 +34,7 @@ class RecorderMicTileService : TileService() {
     override fun onClick() {
         super.onClick()
 
-        if (!Permissions.haveRequired(this)) {
+        if (!Preferences(this).isRecordingEnabled || !Permissions.haveRequired(this)) {
             val intent = Intent(this, SettingsActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
@@ -83,7 +83,9 @@ class RecorderMicTileService : TileService() {
         // Tile.STATE_UNAVAILABLE is intentionally not used when permissions haven't been granted.
         // Clicking the tile in that state does not invoke the click handler, so it wouldn't be
         // possible to launch SettingsActivity to grant the permissions.
-        if (Permissions.haveRequired(this) && RecorderService.isRecording) {
+        if (Preferences(this).isRecordingEnabled
+            && Permissions.haveRequired(this)
+            && RecorderService.isRecording) {
             tile.state = Tile.STATE_ACTIVE
         } else {
             tile.state = Tile.STATE_INACTIVE

@@ -8,9 +8,6 @@
     <string name="pref_header_about">O aplikacji</string>
 
     <!-- General preferences -->
-    <string name="pref_call_recording_name">Nagrywanie rozmów</string>
-    <string name="pref_call_recording_desc">Nagrywaj przychodzące i wychodzące rozmowy telefoniczne. Do nagrywania w tle wymagane są uprawnienia do mikrofonu i powiadomień.</string>
-
     <string name="pref_output_dir_name">Katalog wyjściowy</string>
     <string name="pref_output_dir_desc">Wybierz katalog do przechowywania nagrań.</string>
 
@@ -44,15 +41,11 @@
 
     <!-- Notifications -->
     <string name="notification_channel_persistent_name">Usługi w tle</string>
-    <string name="notification_channel_persistent_desc">Stałe powiadomienie o nagrywaniu rozmów w tle</string>
     <string name="notification_channel_failure_name">Błędy</string>
-    <string name="notification_channel_failure_desc">Informacje o błędach podczas nagrywania rozmów</string>
     <string name="notification_channel_success_name">Zakończone nagrywanie</string>
-    <string name="notification_channel_success_desc">Informacje o pomyślnym nagraniu rozmowy</string>
     <string name="notification_recording_mic_in_progress">Trwa nagrywanie dźwięku</string>
     <string name="notification_recording_mic_failed">Nie udało się nagrać dźwięku</string>
     <string name="notification_recording_mic_succeeded">Pomyślnie nagrano dźwięk</string>
-    <string name="notification_internal_android_error">Podczas nagrywania wystąpił błąd w wewnętrznym komponencie Androida (%s). To urządzenie lub system może nie obsługiwać nagrywania rozmów.</string>
     <string name="notification_action_open">Otwórz</string>
     <string name="notification_action_share">Udostępnij</string>
     <string name="notification_action_delete">Usuń</string>

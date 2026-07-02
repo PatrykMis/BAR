@@ -3,6 +3,7 @@ package com.patrykmis.bar.audio
 import android.content.Context
 import android.media.AudioManager
 import android.media.MediaRecorder
+import android.util.Log
 import androidx.annotation.StringRes
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
@@ -37,6 +38,8 @@ enum class AudioInputSource(
         }
 
     companion object {
+        private val TAG = AudioInputSource::class.java.simpleName
+
         fun getByPreferenceValue(value: String?): AudioInputSource? =
             values().find { it.preferenceValue == value }
 
@@ -55,10 +58,15 @@ enum class AudioInputSource(
 
         private fun isUnprocessedAvailable(context: Context): Boolean {
             val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val property =
+                audioManager.getProperty(AudioManager.PROPERTY_SUPPORT_AUDIO_SOURCE_UNPROCESSED)
 
-            return audioManager
-                .getProperty(AudioManager.PROPERTY_SUPPORT_AUDIO_SOURCE_UNPROCESSED)
-                ?.equals("true", ignoreCase = true) == true
+            Log.i(
+                TAG,
+                "${AudioManager.PROPERTY_SUPPORT_AUDIO_SOURCE_UNPROCESSED}: $property"
+            )
+
+            return property?.equals("true", ignoreCase = true) == true
         }
     }
 }

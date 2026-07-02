@@ -59,6 +59,10 @@
         </activity>
 
         <activity
+            android:name=".settings.OutputFormatActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".RecorderGateActivity"
             android:exported="false"
             android:theme="@style/Theme.Transparent" />

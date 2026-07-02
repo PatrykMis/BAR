@@ -1,5 +1,6 @@
 package com.patrykmis.bar.settings
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,6 +76,8 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         // Changing permissions or battery state does not cause a reload of the activity.
         refreshPermissionsState()
+        refreshOutputDir()
+        refreshOutputFormat()
         refreshInhibitBatteryOptState()
     }
 
@@ -164,9 +167,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             }
 
             prefOutputFormat -> {
-                OutputFormatBottomSheetFragment().show(
-                    childFragmentManager, OutputFormatBottomSheetFragment.TAG
-                )
+                startActivity(Intent(requireContext(), OutputFormatActivity::class.java))
                 return true
             }
 

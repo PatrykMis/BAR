@@ -87,6 +87,16 @@ class RecorderThread(
         audioInputSource = AudioInputSource.fromPreferences(context, prefs)
         audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
         formatParam = savedFormatParam ?: format.defaultParam(audioChannels)
+
+        Log.i(
+            tag,
+            "Recording config: " +
+                    "source=${audioInputSource.preferenceValue}(${audioInputSource.source}), " +
+                    "channels=${audioChannels.preferenceValue}(${audioChannels.count}), " +
+                    "sampleRate=$sampleRate, " +
+                    "format=${format.name}, " +
+                    "formatParam=$formatParam"
+        )
     }
 
     override fun run() {

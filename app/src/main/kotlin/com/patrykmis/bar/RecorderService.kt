@@ -82,8 +82,8 @@ class RecorderService : Service(), RecorderThread.OnRecordingCompletedListener {
     private fun startRecording() {
         if (recorder != null) return
 
-        if (!Preferences(this).isRecordingEnabled || !Permissions.haveRequired(this)) {
-            Log.w(TAG, "Recording is disabled or required permissions are missing")
+        if (!Permissions.haveRequired(this)) {
+            Log.w(TAG, "Required permissions are missing")
             stopSelf()
             return
         }

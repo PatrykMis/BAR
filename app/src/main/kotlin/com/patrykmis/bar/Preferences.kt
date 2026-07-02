@@ -16,7 +16,7 @@ class Preferences(private val context: Context) {
     companion object {
         private val TAG = Preferences::class.java.simpleName
 
-        const val PREF_RECORDING_ENABLED = "recording_enabled"
+        const val PREF_PERMISSIONS = "permissions"
         const val PREF_INITIALLY_PAUSED = "initially_paused"
         const val PREF_OUTPUT_DIR = "output_dir"
         const val PREF_OUTPUT_FORMAT = "output_format"
@@ -151,13 +151,6 @@ class Preferences(private val context: Context) {
     var outputRetention: Retention?
         get() = getOptionalUint(PREF_OUTPUT_RETENTION)?.let { Retention.fromRawPreferenceValue(it) }
         set(retention) = setOptionalUint(PREF_OUTPUT_RETENTION, retention?.toRawPreferenceValue())
-
-    /**
-     * Whether background recording is enabled.
-     */
-    var isRecordingEnabled: Boolean
-        get() = prefs.getBoolean(PREF_RECORDING_ENABLED, false)
-        set(enabled) = prefs.edit { putBoolean(PREF_RECORDING_ENABLED, enabled) }
 
     /**
      * Whether the recording should initially start in the paused state.

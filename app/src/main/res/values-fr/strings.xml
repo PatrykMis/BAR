@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">Désactiver l\'optimisation de la batterie</string>
     <string name="pref_inhibit_batt_opt_desc">Réduit le risque que le système arrête l\'application.</string>
 
+    <string name="pref_native_sample_rate_name">Test de fréquence native</string>
+    <string name="pref_native_sample_rate_desc">Estime la fréquence d\'échantillonnage native du micro de l\'appareil à partir des tailles de tampon.</string>
+
     <string name="pref_debug_mode_name">Journalisation de diagnostic</string>
     <string name="pref_debug_mode_desc">Enregistre la sortie logcat avec chaque enregistrement, y compris dans les builds release.</string>
     <string name="pref_debug_mode_forced_desc">Toujours activée dans les builds debug.</string>
@@ -54,6 +57,16 @@
     <string name="audio_source_unsupported_unprocessed_message">Cet appareil ne déclare pas la prise en charge de l\'entrée brute non traitée. Android permet quand même d\'utiliser cette source, mais ne garantit pas que le signal sera réellement non traité. Si vous voulez une entrée sans contrôle automatique du gain ni réduction du bruit, essayez Reconnaissance vocale.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stéréo</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">À propos de ce test</string>
+    <string name="native_sample_rate_about_desc">Android n\'expose pas de fréquence d\'échantillonnage native fiable pour le micro. BAR compare les tailles minimales de tampon pour 48000 Hz et 44100 Hz. C\'est une heuristique ; utilisez les détails de logcat pour diagnostiquer un appareil.</string>
+    <string name="native_sample_rate_result_title">Résultat</string>
+    <string name="native_sample_rate_result_not_tested">Lancez le test pour estimer la fréquence d\'échantillonnage native.</string>
+    <string name="native_sample_rate_run_test">Lancer le test</string>
+    <string name="native_sample_rate_run_test_desc">Compare les tailles minimales de tampon et écrit les tentatives détaillées dans logcat.</string>
+    <string name="native_sample_rate_result_detected">Détectée par heuristique de tampon : %1$d Hz\nCanal sélectionné : %2$s\nDétails consignés avec le tag : %3$s</string>
+    <string name="native_sample_rate_result_fallback">Aucun résultat de tampon concluant ; valeur de secours utilisée : %1$d Hz\nDétails consignés avec le tag : %2$s</string>
 
     <string name="bottom_sheet_reset">Rétablir les valeurs par défaut</string>
 

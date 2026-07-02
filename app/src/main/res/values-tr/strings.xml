@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">Pil optimizasyonunu devre dışı bırak</string>
     <string name="pref_inhibit_batt_opt_desc">Sistemin uygulamayı durdurma olasılığını azaltır.</string>
 
+    <string name="pref_native_sample_rate_name">Yerel örnekleme hızı testi</string>
+    <string name="pref_native_sample_rate_desc">Cihaz mikrofonunun yerel örnekleme hızını tampon boyutlarına göre tahmin eder.</string>
+
     <string name="pref_debug_mode_name">Tanılama günlükleri</string>
     <string name="pref_debug_mode_desc">Her kayıtla birlikte logcat çıktısını kaydeder; release derlemeleri dahil.</string>
     <string name="pref_debug_mode_forced_desc">Debug derlemelerinde her zaman etkindir.</string>
@@ -53,6 +56,16 @@
     <string name="audio_source_unsupported_unprocessed_message">Bu cihaz ham işlenmemiş giriş desteği bildirmiyor. Android yine de bu kaynağın kullanılmasına izin verir, ancak sinyalin gerçekten işlenmemiş olacağını garanti etmez. Otomatik kazanç kontrolü veya gürültü bastırma olmadan giriş istiyorsanız Ses tanıma seçeneğini deneyin.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stereo</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">Bu test hakkında</string>
+    <string name="native_sample_rate_about_desc">Android, mikrofon için güvenilir bir yerel örnekleme hızı sunmaz. BAR, 48000 Hz ve 44100 Hz için minimum tampon boyutlarını karşılaştırır. Bu bir sezgiseldir; cihaz tanısı için logcat ayrıntılarını kullanın.</string>
+    <string name="native_sample_rate_result_title">Sonuç</string>
+    <string name="native_sample_rate_result_not_tested">Yerel örnekleme hızını tahmin etmek için testi çalıştırın.</string>
+    <string name="native_sample_rate_run_test">Testi çalıştır</string>
+    <string name="native_sample_rate_run_test_desc">Minimum tampon boyutlarını karşılaştırır ve ayrıntılı denemeleri logcat\'e yazar.</string>
+    <string name="native_sample_rate_result_detected">Tampon sezgisiyle algılandı: %1$d Hz\nSeçilen kanal: %2$s\nAyrıntılar şu etiketle günlüğe yazıldı: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Kesin bir tampon sonucu yok; yedek değer kullanılıyor: %1$d Hz\nAyrıntılar şu etiketle günlüğe yazıldı: %2$s</string>
 
     <string name="bottom_sheet_reset">Varsayılanlara sıfırla</string>
 

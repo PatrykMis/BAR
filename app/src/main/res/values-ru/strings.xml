@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">Отключить оптимизацию батареи</string>
     <string name="pref_inhibit_batt_opt_desc">Снижает вероятность того, что система остановит приложение.</string>
 
+    <string name="pref_native_sample_rate_name">Тест родной частоты дискретизации</string>
+    <string name="pref_native_sample_rate_desc">Оценивает родную частоту дискретизации микрофона устройства по размерам буфера.</string>
+
     <string name="pref_debug_mode_name">Диагностическое логирование</string>
     <string name="pref_debug_mode_desc">Сохраняет вывод logcat с каждой записью, включая release-сборки.</string>
     <string name="pref_debug_mode_forced_desc">В debug-сборках всегда включено.</string>
@@ -55,6 +58,16 @@
     <string name="audio_source_unsupported_unprocessed_message">Это устройство не сообщает о поддержке необработанного входа. Android всё равно позволяет использовать этот источник, но не гарантирует, что сигнал действительно будет необработанным. Если нужен вход без автоматической регулировки усиления и шумоподавления, попробуйте Распознавание речи.</string>
     <string name="audio_channels_mono">Моно</string>
     <string name="audio_channels_stereo">Стерео</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">Об этом тесте</string>
+    <string name="native_sample_rate_about_desc">Android не предоставляет надежную родную частоту дискретизации микрофона. BAR сравнивает минимальные размеры буфера для 48000 Hz и 44100 Hz. Это эвристика; для диагностики устройства используйте подробности из logcat.</string>
+    <string name="native_sample_rate_result_title">Результат</string>
+    <string name="native_sample_rate_result_not_tested">Запустите тест, чтобы оценить родную частоту дискретизации.</string>
+    <string name="native_sample_rate_run_test">Запустить тест</string>
+    <string name="native_sample_rate_run_test_desc">Сравнивает минимальные размеры буфера и записывает подробные попытки в logcat.</string>
+    <string name="native_sample_rate_result_detected">Обнаружено эвристикой буфера: %1$d Hz\nВыбранный канал: %2$s\nПодробности записаны с тегом: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Нет убедительного результата буфера; используется резервное значение: %1$d Hz\nПодробности записаны с тегом: %2$s</string>
 
     <string name="bottom_sheet_reset">Сбросить к значениям по умолчанию</string>
 

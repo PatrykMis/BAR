@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">Disable battery optimization</string>
     <string name="pref_inhibit_batt_opt_desc">Reduces the chance of the app being killed by the system.</string>
 
+    <string name="pref_native_sample_rate_name">Native sample rate test</string>
+    <string name="pref_native_sample_rate_desc">Estimate the device microphone native sample rate from buffer sizes.</string>
+
     <string name="pref_debug_mode_name">Diagnostic logging</string>
     <string name="pref_debug_mode_desc">Save logcat output with each recording, including release builds.</string>
     <string name="pref_debug_mode_forced_desc">Always enabled in debug builds.</string>
@@ -53,6 +56,16 @@
     <string name="audio_source_unsupported_unprocessed_message">This device does not report support for raw unprocessed input. Android still allows this source to be used, but the signal is not guaranteed to be unprocessed. If you want input without automatic gain control or noise suppression, try Voice recognition.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stereo</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">About this test</string>
+    <string name="native_sample_rate_about_desc">Android does not expose a reliable microphone native sample rate. BAR compares minimum buffer sizes for 48000 Hz and 44100 Hz. This is a heuristic; use the logcat details when diagnosing a device.</string>
+    <string name="native_sample_rate_result_title">Result</string>
+    <string name="native_sample_rate_result_not_tested">Run the test to estimate the native sample rate.</string>
+    <string name="native_sample_rate_run_test">Run test</string>
+    <string name="native_sample_rate_run_test_desc">Compares minimum buffer sizes and writes detailed attempts to logcat.</string>
+    <string name="native_sample_rate_result_detected">Detected by buffer heuristic: %1$d Hz\nSelected channel: %2$s\nDetails logged with tag: %3$s</string>
+    <string name="native_sample_rate_result_fallback">No conclusive buffer result; using fallback: %1$d Hz\nDetails logged with tag: %2$s</string>
 
     <string name="bottom_sheet_reset">Reset to defaults</string>
 

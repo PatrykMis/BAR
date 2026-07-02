@@ -26,6 +26,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     private lateinit var prefOutputDir: Preference
     private lateinit var prefOutputFormat: Preference
     private lateinit var prefInhibitBatteryOpt: SwitchPreferenceCompat
+    private lateinit var prefNativeSampleRate: Preference
     private lateinit var prefDebugMode: SwitchPreferenceCompat
     private lateinit var prefVersion: Preference
 
@@ -62,6 +63,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         prefInhibitBatteryOpt = findPreference(Preferences.PREF_INHIBIT_BATT_OPT)!!
         prefInhibitBatteryOpt.onPreferenceChangeListener = this
+
+        prefNativeSampleRate = findPreference(Preferences.PREF_NATIVE_SAMPLE_RATE)!!
+        prefNativeSampleRate.onPreferenceClickListener = this
 
         prefDebugMode = findPreference(Preferences.PREF_DEBUG_MODE)!!
         prefDebugMode.onPreferenceChangeListener = this
@@ -200,6 +204,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
             prefOutputFormat -> {
                 startActivity(Intent(requireContext(), OutputFormatActivity::class.java))
+                return true
+            }
+
+            prefNativeSampleRate -> {
+                startActivity(Intent(requireContext(), NativeSampleRateActivity::class.java))
                 return true
             }
 

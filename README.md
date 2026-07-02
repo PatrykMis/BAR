@@ -39,6 +39,13 @@ because modern devices can normally handle it during recording.
 OGG/Opus does not offer 44100 Hz in BAR because that sample rate is not available for the Opus path
 used here, so the app only shows the supported Opus sample rates.
 
+BAR also includes an advanced diagnostic screen for estimating a device's native microphone sample
+rate. Android does not expose a direct, reliable API for this, so BAR uses a buffer-size heuristic:
+it compares `AudioRecord.getMinBufferSize()` results for 48000 Hz and 44100 Hz across common input
+channel configurations. This is not a native Android sample-rate query and should not be treated as
+absolute proof. So far, however, testing has matched known and observed device behavior: a Pixel 9
+Pro reports like a 48000 Hz device, while a Pixel 4 reports like a 44100 Hz device.
+
 ### Non-features
 
 As the name alludes, BAR intends to be a basic as possible. The project will have succeeded at its goal if the only updates it ever needs are for compatibility with new Android versions. Thus, many potentially useful features will never be implemented, such as:

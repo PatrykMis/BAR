@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">השבת מיטוב סוללה</string>
     <string name="pref_inhibit_batt_opt_desc">מפחית את הסיכוי שהמערכת תעצור את האפליקציה.</string>
 
+    <string name="pref_native_sample_rate_name">בדיקת קצב דגימה טבעי</string>
+    <string name="pref_native_sample_rate_desc">הערכת קצב הדגימה הטבעי של מיקרופון המכשיר לפי גדלי מאגר.</string>
+
     <string name="pref_debug_mode_name">רישום אבחוני</string>
     <string name="pref_debug_mode_desc">שמירת פלט logcat עם כל הקלטה, גם בגרסאות release.</string>
     <string name="pref_debug_mode_forced_desc">מופעל תמיד בגרסאות debug.</string>
@@ -54,6 +57,16 @@
     <string name="audio_source_unsupported_unprocessed_message">מכשיר זה אינו מדווח על תמיכה בקלט גולמי לא מעובד. Android עדיין מאפשר להשתמש במקור זה, אך אין הבטחה שהאות יהיה לא מעובד בפועל. אם דרוש קלט ללא בקרת הגבר אוטומטית או הפחתת רעש, נסה את זיהוי דיבור.</string>
     <string name="audio_channels_mono">מונו</string>
     <string name="audio_channels_stereo">סטריאו</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">על הבדיקה הזו</string>
+    <string name="native_sample_rate_about_desc">Android אינו חושף קצב דגימה טבעי אמין למיקרופון. BAR משווה גדלי מאגר מינימליים עבור 48000 Hz ו-44100 Hz. זוהי היוריסטיקה; השתמש בפרטי logcat בעת אבחון מכשיר.</string>
+    <string name="native_sample_rate_result_title">תוצאה</string>
+    <string name="native_sample_rate_result_not_tested">הרץ את הבדיקה כדי להעריך את קצב הדגימה הטבעי.</string>
+    <string name="native_sample_rate_run_test">הרץ בדיקה</string>
+    <string name="native_sample_rate_run_test_desc">משווה גדלי מאגר מינימליים וכותב ניסיונות מפורטים ל-logcat.</string>
+    <string name="native_sample_rate_result_detected">זוהה בעזרת היוריסטיקת מאגר: %1$d Hz\nערוץ נבחר: %2$s\nפרטים נרשמו עם התגית: %3$s</string>
+    <string name="native_sample_rate_result_fallback">אין תוצאת מאגר חד-משמעית; נעשה שימוש בערך חלופי: %1$d Hz\nפרטים נרשמו עם התגית: %2$s</string>
 
     <string name="bottom_sheet_reset">אפס לברירות מחדל</string>
 

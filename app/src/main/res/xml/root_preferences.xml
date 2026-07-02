@@ -36,6 +36,13 @@
             app:summary="@string/pref_inhibit_batt_opt_desc"
             app:title="@string/pref_inhibit_batt_opt_name" />
 
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="native_sample_rate"
+            app:persistent="false"
+            app:summary="@string/pref_native_sample_rate_desc"
+            app:title="@string/pref_native_sample_rate_name" />
+
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"
             app:key="debug_mode"

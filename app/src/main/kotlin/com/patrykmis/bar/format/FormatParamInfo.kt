@@ -31,6 +31,46 @@ class RangedParamInfo(
     default: UInt,
     val scaleDefaultByChannels: Boolean = true,
 ) : FormatParamInfo(default) {
+    init {
+        require(stepSize > 0u) { "stepSize must be greater than 0" }
+    }
+
+    val values: List<UInt> = when (type) {
+        RangedParamType.Bitrate -> buildPresetBitrates()
+        RangedParamType.CompressionLevel -> buildSteppedValues()
+    }
+
+    private fun buildPresetBitrates(): List<UInt> {
+        val values = COMMON_BITRATES.filter { it in range } + listOfNotNull(
+            default.takeIf { it in range },
+            range.last.takeIf { it !in COMMON_BITRATES },
+        )
+
+        return values.distinct().sorted()
+    }
+
+    private fun buildSteppedValues(): List<UInt> = buildList {
+        var value = range.first
+
+        while (value <= range.last) {
+            add(value)
+
+            if (range.last - value < stepSize) {
+                break
+            }
+
+            value += stepSize
+        }
+
+        if (lastOrNull() != range.last) {
+            add(range.last)
+        }
+
+        if (default in range) {
+            add(default)
+        }
+    }.distinct().sorted()
+
     override fun validate(param: UInt) {
         if (param !in range) {
             throw IllegalArgumentException(
@@ -40,30 +80,30 @@ class RangedParamInfo(
         }
     }
 
-    /** Clamp [param] to [range] and snap to nearest [stepSize]. */
-    override fun toNearest(param: UInt): UInt {
-        if (param == default && param in range) {
-            return param
-        }
+    /** Clamp [param] to [range] and snap to the nearest selectable value. */
+    override fun toNearest(param: UInt): UInt = values[indexOfNearest(param)]
 
-        val offset = param.coerceIn(range) - range.first
-        val roundedDown = (offset / stepSize) * stepSize
+    fun indexOfNearest(param: UInt): Int {
+        var nearestIndex = 0
+        var nearestDistance = UInt.MAX_VALUE
 
-        return range.first + if (roundedDown == offset) {
-            // Already on step size boundary
-            offset
-        } else if (roundedDown >= UInt.MAX_VALUE - stepSize) {
-            // Rounded up would overflow
-            roundedDown
-        } else {
-            // Round to closer boundary, preferring the upper boundary if it's in the middle
-            val roundedUp = roundedDown + stepSize
-            if (roundedUp - offset <= offset - roundedDown) {
-                roundedUp
+        for ((index, value) in values.withIndex()) {
+            val distance = if (value > param) {
+                value - param
             } else {
-                roundedDown
+                param - value
+            }
+
+            if (
+                distance < nearestDistance ||
+                distance == nearestDistance && value > values[nearestIndex]
+            ) {
+                nearestIndex = index
+                nearestDistance = distance
             }
         }
+
+        return nearestIndex
     }
 
     override fun format(param: UInt): String =
@@ -71,6 +111,28 @@ class RangedParamInfo(
             RangedParamType.CompressionLevel -> param.toString()
             RangedParamType.Bitrate -> "${param / 1_000u} kbps"
         }
+
+    companion object {
+        private val COMMON_BITRATES = listOf(
+            8_000u,
+            16_000u,
+            24_000u,
+            32_000u,
+            48_000u,
+            64_000u,
+            80_000u,
+            96_000u,
+            112_000u,
+            128_000u,
+            160_000u,
+            192_000u,
+            224_000u,
+            256_000u,
+            320_000u,
+            384_000u,
+            510_000u,
+        )
+    }
 }
 
 object NoParamInfo : FormatParamInfo(0u) {

@@ -23,6 +23,7 @@ class Preferences(private val context: Context) {
         const val PREF_OUTPUT_DIR = "output_dir"
         const val PREF_OUTPUT_FORMAT = "output_format"
         const val PREF_INHIBIT_BATT_OPT = "inhibit_batt_opt"
+        const val PREF_NATIVE_SAMPLE_RATE = "native_sample_rate"
         const val PREF_DEBUG_MODE = "debug_mode"
         const val PREF_VERSION = "version"
 

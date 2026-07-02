@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">Wyłącz optymalizację baterii</string>
     <string name="pref_inhibit_batt_opt_desc">Zmniejsza szansę na zatrzymanie aplikacji przez system.</string>
 
+    <string name="pref_native_sample_rate_name">Test natywnej częstotliwości próbkowania</string>
+    <string name="pref_native_sample_rate_desc">Oszacuj natywną częstotliwość próbkowania mikrofonu urządzenia na podstawie rozmiarów bufora.</string>
+
     <string name="pref_debug_mode_name">Logowanie diagnostyczne</string>
     <string name="pref_debug_mode_desc">Zapisuje logcat przy każdym nagraniu, także w buildach release.</string>
     <string name="pref_debug_mode_forced_desc">Zawsze włączone w buildach debug.</string>
@@ -55,6 +58,16 @@
     <string name="audio_source_unsupported_unprocessed_message">To urządzenie nie deklaruje obsługi surowego, nieprzetworzonego wejścia. Android nadal pozwala użyć tego źródła, ale nie gwarantuje, że sygnał faktycznie będzie nieprzetworzony. Jeśli chcesz wejście bez automatycznej regulacji wzmocnienia i redukcji szumu, spróbuj źródła Rozpoznawanie mowy.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stereo</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">O tym teście</string>
+    <string name="native_sample_rate_about_desc">Android nie udostępnia pewnej natywnej częstotliwości próbkowania mikrofonu. BAR porównuje minimalne rozmiary bufora dla 48000 Hz i 44100 Hz. To heurystyka; przy diagnozowaniu urządzenia użyj szczegółów z logcata.</string>
+    <string name="native_sample_rate_result_title">Wynik</string>
+    <string name="native_sample_rate_result_not_tested">Uruchom test, aby oszacować natywną częstotliwość próbkowania.</string>
+    <string name="native_sample_rate_run_test">Uruchom test</string>
+    <string name="native_sample_rate_run_test_desc">Porównuje minimalne rozmiary bufora i zapisuje szczegółowe próby do logcata.</string>
+    <string name="native_sample_rate_result_detected">Wykryto heurystyką bufora: %1$d Hz\nWybrany kanał: %2$s\nSzczegóły zapisano z tagiem: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Brak rozstrzygającego wyniku bufora; użyto wartości awaryjnej: %1$d Hz\nSzczegóły zapisano z tagiem: %2$s</string>
 
     <string name="bottom_sheet_reset">Przywróć domyślne ustawienia</string>
 

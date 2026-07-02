@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SeekBarPreference
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
@@ -143,26 +142,28 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         audioChannels: AudioChannels,
     ) {
         val context = preferenceManager.context
-        val currentValue = currentParam ?: format.defaultParam(sampleRate, audioChannels)
+        val currentValue = info.toNearest(
+            currentParam ?: format.defaultParam(sampleRate, audioChannels)
+        )
+        val values = info.values
 
         val title = when (info.type) {
             RangedParamType.CompressionLevel -> R.string.output_format_bottom_sheet_compression_level
             RangedParamType.Bitrate -> R.string.output_format_bottom_sheet_bitrate
         }
 
-        screen.addPreference(SeekBarPreference(context).apply {
+        screen.addPreference(ListPreference(context).apply {
             isIconSpaceReserved = false
             isPersistent = false
             key = "format_param_${format.name}"
             setTitle(title)
-            min = info.range.first.toInt()
-            max = info.range.last.toInt()
-            seekBarIncrement = info.stepSize.toInt()
-            value = currentValue.toInt()
+            entries = values.map { info.format(it) }.toTypedArray()
+            entryValues = values.map { it.toString() }.toTypedArray()
+            value = currentValue.toString()
             summary = info.format(currentValue)
 
             setOnPreferenceChangeListener { preference, newValue ->
-                val param = (newValue as Int).toUInt()
+                val param = (newValue as String).toUInt()
                 prefs.setFormatParam(format, param)
                 preference.summary = info.format(param)
                 true

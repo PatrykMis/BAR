@@ -22,6 +22,9 @@
     <string name="pref_inhibit_batt_opt_name">Vypnúť optimalizáciu batérie</string>
     <string name="pref_inhibit_batt_opt_desc">Znižuje pravdepodobnosť, že systém aplikáciu ukončí.</string>
 
+    <string name="pref_native_sample_rate_name">Test natívnej vzorkovacej frekvencie</string>
+    <string name="pref_native_sample_rate_desc">Odhadne natívnu vzorkovaciu frekvenciu mikrofónu zariadenia podľa veľkostí vyrovnávacej pamäte.</string>
+
     <string name="pref_debug_mode_name">Diagnostické logovanie</string>
     <string name="pref_debug_mode_desc">Ukladá výstup logcat pri každej nahrávke vrátane release buildov.</string>
     <string name="pref_debug_mode_forced_desc">V debug buildoch je vždy zapnuté.</string>
@@ -55,6 +58,16 @@
     <string name="audio_source_unsupported_unprocessed_message">Toto zariadenie neuvádza podporu surového nespracovaného vstupu. Android stále umožňuje použiť tento zdroj, ale nezaručuje, že signál bude skutočne nespracovaný. Ak chcete vstup bez automatického riadenia zosilnenia alebo potlačenia šumu, skúste Rozpoznávanie reči.</string>
     <string name="audio_channels_mono">Mono</string>
     <string name="audio_channels_stereo">Stereo</string>
+
+    <!-- Native sample rate screen -->
+    <string name="native_sample_rate_about_title">O tomto teste</string>
+    <string name="native_sample_rate_about_desc">Android nesprístupňuje spoľahlivú natívnu vzorkovaciu frekvenciu mikrofónu. BAR porovnáva minimálne veľkosti vyrovnávacej pamäte pre 48000 Hz a 44100 Hz. Je to heuristika; pri diagnostike zariadenia použite podrobnosti z logcatu.</string>
+    <string name="native_sample_rate_result_title">Výsledok</string>
+    <string name="native_sample_rate_result_not_tested">Spustite test na odhad natívnej vzorkovacej frekvencie.</string>
+    <string name="native_sample_rate_run_test">Spustiť test</string>
+    <string name="native_sample_rate_run_test_desc">Porovnáva minimálne veľkosti vyrovnávacej pamäte a zapisuje podrobné pokusy do logcatu.</string>
+    <string name="native_sample_rate_result_detected">Zistené heuristikou vyrovnávacej pamäte: %1$d Hz\nVybraný kanál: %2$s\nPodrobnosti zapísané so značkou: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Žiadny rozhodujúci výsledok vyrovnávacej pamäte; používa sa záložná hodnota: %1$d Hz\nPodrobnosti zapísané so značkou: %2$s</string>
 
     <string name="bottom_sheet_reset">Obnoviť predvolené</string>
 

@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
+import com.patrykmis.bar.audio.AudioChannels
+import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
 import com.patrykmis.bar.output.Retention
@@ -25,6 +27,8 @@ class Preferences(private val context: Context) {
 
         // Not associated with a UI preference
         private const val PREF_DEBUG_MODE = "debug_mode"
+        private const val PREF_AUDIO_SOURCE = "audio_source"
+        private const val PREF_AUDIO_CHANNELS = "audio_channels"
         private const val PREF_FORMAT_NAME = "codec_name"
         private const val PREF_FORMAT_PARAM_PREFIX = "codec_param_"
         private const val PREF_FORMAT_SAMPLE_RATE_PREFIX = "codec_sample_rate_"
@@ -36,6 +40,9 @@ class Preferences(private val context: Context) {
                     key == PREF_SAMPLE_RATE ||
                     key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
                     key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX)
+
+        fun isRecordingSettingsKey(key: String): Boolean =
+            isFormatKey(key) || key == PREF_AUDIO_SOURCE || key == PREF_AUDIO_CHANNELS
     }
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -164,6 +171,34 @@ class Preferences(private val context: Context) {
         set(enabled) = prefs.edit { putBoolean(PREF_INITIALLY_PAUSED, enabled) }
 
     /**
+     * The saved audio source for recording.
+     */
+    var audioInputSource: AudioInputSource?
+        get() = prefs.getString(PREF_AUDIO_SOURCE, null)
+            ?.let { AudioInputSource.getByPreferenceValue(it) }
+        set(source) = prefs.edit {
+            if (source == null) {
+                remove(PREF_AUDIO_SOURCE)
+            } else {
+                putString(PREF_AUDIO_SOURCE, source.preferenceValue)
+            }
+        }
+
+    /**
+     * The saved channel mode for recording.
+     */
+    var audioChannels: AudioChannels?
+        get() = prefs.getString(PREF_AUDIO_CHANNELS, null)
+            ?.let { AudioChannels.getByPreferenceValue(it) }
+        set(channels) = prefs.edit {
+            if (channels == null) {
+                remove(PREF_AUDIO_CHANNELS)
+            } else {
+                putString(PREF_AUDIO_CHANNELS, channels.preferenceValue)
+            }
+        }
+
+    /**
      * The saved output format.
      *
      * Use [getFormatParam]/[setFormatParam] and [getFormatSampleRate]/[setFormatSampleRate] to
@@ -212,10 +247,10 @@ class Preferences(private val context: Context) {
         setOptionalUint(PREF_FORMAT_SAMPLE_RATE_PREFIX + format.name, sampleRate?.value)
 
     /**
-     * Remove the default format preference and the parameters for all formats.
+     * Remove the default recording settings and the parameters for all formats.
      */
-    fun resetAllFormats() {
-        val keys = prefs.all.keys.filter(::isFormatKey)
+    fun resetRecordingSettings() {
+        val keys = prefs.all.keys.filter(::isRecordingSettingsKey)
         prefs.edit {
             for (key in keys) {
                 remove(key)

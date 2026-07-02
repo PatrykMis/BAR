@@ -2,15 +2,15 @@ package com.patrykmis.bar
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.media.AudioFormat
 import android.media.AudioRecord
-import android.media.MediaRecorder
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.system.Os
 import android.util.Log
 import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
+import com.patrykmis.bar.audio.AudioChannels
+import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.extension.listFilesWithNames
 import com.patrykmis.bar.extension.renameToPreserveExt
 import com.patrykmis.bar.extension.threadIdCompat
@@ -67,6 +67,8 @@ class RecorderThread(
     private val dirUtils = OutputDirUtils(context, outputFilenameGenerator.redactor)
 
     // Format
+    private val audioInputSource: AudioInputSource
+    private val audioChannels: AudioChannels
     private val format: Format
     private val formatParam: UInt?
     private val sampleRate: SampleRate
@@ -81,8 +83,10 @@ class RecorderThread(
 
         val (savedFormat, savedFormatParam, savedSampleRate) = Format.fromPreferences(prefs)
         format = savedFormat
-        formatParam = savedFormatParam
         sampleRate = savedSampleRate ?: format.defaultSampleRate
+        audioInputSource = AudioInputSource.fromPreferences(context, prefs)
+        audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
+        formatParam = savedFormatParam ?: format.defaultParam(audioChannels)
     }
 
     override fun run() {
@@ -324,7 +328,7 @@ class RecorderThread(
         AndroidProcess.setThreadPriority(AndroidProcess.THREAD_PRIORITY_URGENT_AUDIO)
 
         val minBufSize = AudioRecord.getMinBufferSize(
-            sampleRate.value.toInt(), CHANNEL_CONFIG, ENCODING
+            sampleRate.value.toInt(), audioChannels.channelConfig, ENCODING
         )
         if (minBufSize < 0) {
             throw Exception("Failure when querying minimum buffer size: $minBufSize")
@@ -332,9 +336,9 @@ class RecorderThread(
         Log.d(tag, "AudioRecord minimum buffer size: $minBufSize")
 
         val audioRecord = AudioRecord(
-            MediaRecorder.AudioSource.UNPROCESSED,
+            audioInputSource.source,
             sampleRate.value.toInt(),
-            CHANNEL_CONFIG,
+            audioChannels.channelConfig,
             ENCODING,
             // On some devices, MediaCodec occasionally has sudden spikes in processing time, so use
             // a larger internal buffer to reduce the chance of overrun on the recording side.
@@ -472,8 +476,7 @@ class RecorderThread(
     }
 
     companion object {
-        private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO
-        private const val ENCODING = AudioFormat.ENCODING_PCM_16BIT
+        private const val ENCODING = AudioChannels.ENCODING
     }
 
     interface OnRecordingCompletedListener {

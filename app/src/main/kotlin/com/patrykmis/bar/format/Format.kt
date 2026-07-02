@@ -3,6 +3,7 @@ package com.patrykmis.bar.format
 import android.media.AudioFormat
 import android.media.MediaFormat
 import com.patrykmis.bar.Preferences
+import com.patrykmis.bar.audio.AudioChannels
 import java.io.FileDescriptor
 
 sealed class Format {
@@ -18,6 +19,20 @@ sealed class Format {
     /** The default sample rate for new selections of this format. */
     val defaultSampleRate: SampleRate
         get() = sampleRates.last()
+
+    fun defaultParam(audioChannels: AudioChannels): UInt =
+        when (val info = paramInfo) {
+            is RangedParamInfo -> when (info.type) {
+                RangedParamType.Bitrate -> {
+                    val scaled = info.default * audioChannels.count.toUInt()
+                    info.toNearest(scaled.coerceAtMost(info.range.last))
+                }
+
+                RangedParamType.CompressionLevel -> info.default
+            }
+
+            NoParamInfo -> info.default
+        }
 
     /** The MIME type of the container storing the encoded audio stream. */
     abstract val mimeTypeContainer: String

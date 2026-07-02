@@ -15,8 +15,8 @@
     <string name="pref_output_dir_name">Output directory</string>
     <string name="pref_output_dir_desc">Pick a directory to store recordings.</string>
 
-    <string name="pref_output_format_name">Output format</string>
-    <string name="pref_output_format_desc">Select an encoding format for the recordings.</string>
+    <string name="pref_output_format_name">Audio settings</string>
+    <string name="pref_output_format_desc">Choose the source, channels, and encoding for recordings.</string>
 
     <string name="pref_inhibit_batt_opt_name">Disable battery optimization</string>
     <string name="pref_inhibit_batt_opt_desc">Reduces the chance of the app being killed by the system.</string>
@@ -34,11 +34,18 @@
     </plurals>
 
     <!-- Output format bottom sheet -->
+    <string name="output_format_audio_source">Source</string>
+    <string name="output_format_channels">Channels</string>
     <string name="output_format_format">Format</string>
     <string name="output_format_bottom_sheet_output_format">Output format</string>
     <string name="output_format_bottom_sheet_compression_level">Compression level</string>
     <string name="output_format_bottom_sheet_bitrate">Bitrate</string>
     <string name="output_format_bottom_sheet_sample_rate">Sample rate</string>
+    <string name="audio_source_unprocessed">Raw (unprocessed)</string>
+    <string name="audio_source_voice_recognition">Voice recognition</string>
+    <string name="audio_source_microphone">Microphone</string>
+    <string name="audio_channels_mono">Mono</string>
+    <string name="audio_channels_stereo">Stereo</string>
 
     <string name="bottom_sheet_reset">Reset to defaults</string>
 

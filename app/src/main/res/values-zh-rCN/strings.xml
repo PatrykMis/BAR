@@ -2,14 +2,10 @@
     <string name="app_name">BCR</string>
 
     <!-- Preference headers -->
-    <string name="app_name_full">通话录音配置</string>
     <string name="pref_header_general">通用</string>
     <string name="pref_header_about">关于</string>
 
     <!-- General preferences -->
-    <string name="pref_call_recording_name">通话录音</string>
-
-    <string name="pref_call_recording_desc">对来电和去电进行通话录音，录音时候需要麦克风和通知权限。</string>
 
     <string name="pref_output_dir_name">保存目录</string>
 
@@ -41,12 +37,9 @@
     <!-- Notifications -->
     <string name="bottom_sheet_reset">恢复默认</string>
     <string name="notification_channel_persistent_name">后台服务</string>
-    <string name="notification_channel_persistent_desc">通话录音期间通知</string>
     <string name="notification_channel_failure_name">失败警告</string>
     <string name="notification_channel_failure_desc">录音发生错误通知</string>
     <string name="notification_channel_success_name">成功警告</string>
-    <string name="notification_channel_success_desc">通话录音完成通知</string>
-    <string name="notification_internal_android_error">通话录音在 Android 内部组件（%s）中失败。此设备或固件可能不支持通话录音。 </string>
     <string name="notification_action_open">打开</string>
     <string name="notification_action_share">分享</string>
     <string name="notification_action_delete">删除</string>

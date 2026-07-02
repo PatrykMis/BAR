@@ -275,8 +275,7 @@ class Notifications(
      * Send a success alert notification.
      *
      * This will explicitly vibrate the device if the user enabled vibration for
-     * [CHANNEL_ID_SUCCESS]. This is necessary because Android itself will not vibrate for a
-     * notification during a phone call.
+     * [CHANNEL_ID_SUCCESS].
      */
     fun notifySuccess(
         @StringRes title: Int,
@@ -291,8 +290,7 @@ class Notifications(
      * Send a failure alert notification.
      *
      * This will explicitly vibrate the device if the user enabled vibration for
-     * [CHANNEL_ID_FAILURE]. This is necessary because Android itself will not vibrate for a
-     * notification during a phone call.
+     * [CHANNEL_ID_FAILURE].
      */
     fun notifyFailure(
         @StringRes title: Int,

@@ -23,16 +23,7 @@ import com.patrykmis.bar.output.OutputDirUtils
 import com.patrykmis.bar.output.OutputFile
 import com.patrykmis.bar.output.Retention
 import java.nio.ByteBuffer
-import java.text.ParsePosition
-import java.time.DateTimeException
 import java.time.Duration
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatterBuilder
-import java.time.format.DateTimeParseException
-import java.time.format.SignStyle
-import java.time.temporal.ChronoField
-import java.time.temporal.Temporal
 import android.os.Process as AndroidProcess
 
 /**
@@ -71,31 +62,9 @@ class RecorderThread(
         }
     private var wasEverResumed = !isPaused
 
-    // Timestamp
-    private lateinit var callTimestamp: ZonedDateTime
-    private var formatter = FORMATTER
-
     // Filename
-    private val filenameLock = Any()
-    private lateinit var filenameTemplate: FilenameTemplate
-    private lateinit var filename: String
-    private val redactions = HashMap<String, String>()
-    private val redactor = object : OutputDirUtils.Redactor {
-        override fun redact(msg: String): String {
-            synchronized(filenameLock) {
-                var result = msg
-
-                for ((source, target) in redactions) {
-                    result = result.replace(source, target)
-                }
-
-                return result
-            }
-        }
-
-        override fun redact(uri: Uri): String = redact(Uri.decode(uri.toString()))
-    }
-    private val dirUtils = OutputDirUtils(context, redactor)
+    private val outputFilenameGenerator = OutputFilenameGenerator()
+    private val dirUtils = OutputDirUtils(context, outputFilenameGenerator.redactor)
 
     // Format
     private val format: Format
@@ -103,7 +72,7 @@ class RecorderThread(
     private val sampleRate = SampleRate.fromPreferences(prefs)
 
     // Logging
-    private lateinit var logcatFilename: String
+    private lateinit var logcatFilename: OutputFilename
     private lateinit var logcatFile: DocumentFile
     private lateinit var logcatProcess: Process
 
@@ -115,80 +84,12 @@ class RecorderThread(
         formatParam = savedFormat.second
     }
 
-    /**
-     * Format [callTimestamp] based on the date variable [varName].
-     *
-     * This has a side effect of updating [formatter] with the new custom formatter if one is
-     * specified via [varName].
-     */
-    private fun handleDateFormat(varName: String): String {
-        require(varName == "date" || varName.startsWith("date:")) {
-            "Not a date variable: $varName"
-        }
-
-        val colon = varName.indexOf(":")
-        if (colon >= 0) {
-            val pattern = varName.substring(colon + 1)
-            Log.d(tag, "Using custom datetime pattern: $pattern")
-
-            try {
-                formatter = DateTimeFormatterBuilder()
-                    .appendPattern(pattern)
-                    .toFormatter()
-            } catch (e: Exception) {
-                Log.w(tag, "Invalid custom datetime pattern: $pattern; using default", e)
-            }
-        }
-
-        return formatter.format(callTimestamp)
-    }
-
-    /**
-     * Update [filename] for mic recording.
-     *
-     * This function holds a lock on [filenameLock] until it returns.
-     */
-    private fun setFilenameForMic() {
-        synchronized(filenameLock) {
-            filename = filenameTemplate.evaluate {
-                when {
-                    it == "date" || it.startsWith("date:") -> {
-                        if (!this::callTimestamp.isInitialized) {
-                            callTimestamp = ZonedDateTime.now()
-                        }
-
-                        return@evaluate handleDateFormat(it)
-                    }
-
-                    else -> {
-                        Log.w(tag, "Unknown filename template variable: $it")
-                    }
-                }
-
-                null
-            }
-                // AOSP's SAF automatically replaces invalid characters with underscores, but just in
-                // case an OEM fork breaks that, do the replacement ourselves to prevent directory
-                // traversal attacks.
-                .replace('/', '_').trim()
-        }
-    }
-
     override fun run() {
         var success = false
         var errorMsg: String? = null
         var resultUri: Uri? = null
 
-        val templateKey = "filename_mic"
-
-        synchronized(filenameLock) {
-            // We initially do not allow custom filename templates because SAF is extraordinarily
-            // slow on some devices. Even with the our custom findFileFast() implementation, simply
-            // checking for the existence of the template may take >500ms.
-            filenameTemplate = FilenameTemplate.load(context, templateKey, false)
-
-            setFilenameForMic()
-        }
+        outputFilenameGenerator.update()
 
         startLogcat()
 
@@ -198,9 +99,9 @@ class RecorderThread(
             if (isCancelled) {
                 Log.i(tag, "Recording cancelled before it began")
             } else {
-                val initialFilename = synchronized(filenameLock) { filename }
+                val initialFilename = outputFilenameGenerator.filename
                 val outputFile =
-                    dirUtils.createFileInDefaultDir(initialFilename, format.mimeTypeContainer)
+                    dirUtils.createFileInDefaultDir(initialFilename.value, format.mimeTypeContainer)
                 resultUri = outputFile.uri
 
                 try {
@@ -209,27 +110,19 @@ class RecorderThread(
                         Os.fsync(it.fileDescriptor)
                     }
                 } finally {
-                    val finalFilename = synchronized(filenameLock) {
-                        filenameTemplate = FilenameTemplate.load(context, templateKey, true)
-
-                        setFilenameForMic()
-
-                        filename
-                    }
+                    val finalFilename = outputFilenameGenerator.filename
                     if (finalFilename != initialFilename) {
                         Log.i(
                             tag,
-                            "Renaming ${redactor.redact(initialFilename)} to ${
-                                redactor.redact(finalFilename)
-                            }"
+                            "Renaming $initialFilename to $finalFilename"
                         )
 
-                        if (outputFile.renameToPreserveExt(finalFilename)) {
+                        if (outputFile.renameToPreserveExt(finalFilename.value)) {
                             resultUri = outputFile.uri
                         } else {
                             Log.w(
                                 tag,
-                                "Failed to rename to final filename: ${redactor.redact(finalFilename)}"
+                                "Failed to rename to final filename: $finalFilename"
                             )
                         }
                     }
@@ -241,9 +134,7 @@ class RecorderThread(
                     } else {
                         Log.i(
                             tag,
-                            "Deleting because recording was never resumed: ${
-                                redactor.redact(finalFilename)
-                            }"
+                            "Deleting because recording was never resumed: $finalFilename"
                         )
                         outputFile.delete()
                         resultUri = null
@@ -281,7 +172,11 @@ class RecorderThread(
             }
 
             val outputFile = resultUri?.let {
-                OutputFile(it, redactor.redact(it), format.mimeTypeContainer)
+                OutputFile(
+                    it,
+                    outputFilenameGenerator.redactor.redact(it),
+                    format.mimeTypeContainer,
+                )
             }
 
             if (success) {
@@ -306,6 +201,12 @@ class RecorderThread(
         isCancelled = true
     }
 
+    private fun getLogcatFilename(): OutputFilename {
+        return outputFilenameGenerator.filename.let {
+            it.copy(value = it.value + ".log", redacted = it.redacted + ".log")
+        }
+    }
+
     private fun startLogcat() {
         if (!isDebug) {
             return
@@ -315,8 +216,8 @@ class RecorderThread(
 
         Log.d(tag, "Starting log file (${BuildConfig.VERSION_NAME})")
 
-        logcatFilename = synchronized(filenameLock) { "${filename}.log" }
-        logcatFile = dirUtils.createFileInDefaultDir(logcatFilename, "text/plain")
+        logcatFilename = getLogcatFilename()
+        logcatFile = dirUtils.createFileInDefaultDir(logcatFilename.value, "text/plain")
         logcatProcess = ProcessBuilder("logcat", "*:V")
             // This is better than -f because the logcat implementation calls fflush() when the
             // output stream is stdout. logcatFile is guaranteed to have file:// scheme because it's
@@ -346,20 +247,18 @@ class RecorderThread(
                 logcatProcess.waitFor()
             }
         } finally {
-            val finalLogcatFilename = synchronized(filenameLock) { "${filename}.log" }
+            val finalLogcatFilename = getLogcatFilename()
 
             if (finalLogcatFilename != logcatFilename) {
                 Log.i(
                     tag,
-                    "Renaming ${redactor.redact(logcatFilename)} to ${
-                        redactor.redact(finalLogcatFilename)
-                    }"
+                    "Renaming $logcatFilename to $finalLogcatFilename"
                 )
 
-                if (!logcatFile.renameToPreserveExt(finalLogcatFilename)) {
+                if (!logcatFile.renameToPreserveExt(finalLogcatFilename.value)) {
                     Log.w(
                         tag,
-                        "Failed to rename to final filename: ${redactor.redact(finalLogcatFilename)}"
+                        "Failed to rename to final filename: $finalLogcatFilename"
                     )
                 }
             }
@@ -368,41 +267,12 @@ class RecorderThread(
         }
     }
 
-    private fun timestampFromFilename(name: String): Temporal? {
-        try {
-            val redacted = redactTruncate(name)
-
-            // The date is guaranteed to be at the beginning of the filename. Try to parse it,
-            // ignoring unparsed text at the end.
-            val pos = ParsePosition(0)
-            val parsed = formatter.parse(name, pos)
-
-            val timestamp = try {
-                parsed.query(ZonedDateTime::from)
-            } catch (e: DateTimeException) {
-                // A custom pattern might not specify the time zone
-                parsed.query(LocalDateTime::from)
-            }
-
-            Log.d(
-                tag,
-                "Parsed $timestamp from $redacted; length=${name.length}; parsed=${pos.index}"
-            )
-
-            return timestamp
-        } catch (e: DateTimeParseException) {
-            // Ignore
-        }
-
-        return null
-    }
-
     /**
      * Delete files older than the specified retention period.
      *
-     * The "current time" is [callTimestamp], not the actual current time and the timestamp of past
-     * recordings is based on the filename, not the file modification time. Incorrectly-named files
-     * are ignored.
+     * The "current time" is [OutputFilenameGenerator.recordingTimestamp], not the actual current
+     * time and the timestamp of past recordings is based on the filename, not the file modification
+     * time. Incorrectly-named files are ignored.
      */
     private fun processRetention() {
         val directory = prefs.outputDir?.let {
@@ -424,15 +294,15 @@ class RecorderThread(
             if (name == null) {
                 continue
             }
-            val redacted = redactTruncate(name)
+            val redacted = OutputFilenameGenerator.redactTruncate(name)
 
-            val timestamp = timestampFromFilename(name)
+            val timestamp = outputFilenameGenerator.parseTimestampFromFilename(name)
             if (timestamp == null) {
                 Log.w(tag, "Ignoring unrecognized filename: $redacted")
                 continue
             }
 
-            val diff = Duration.between(timestamp, callTimestamp)
+            val diff = Duration.between(timestamp, outputFilenameGenerator.recordingTimestamp)
 
             if (diff > retention) {
                 Log.i(tag, "Deleting $redacted ($timestamp)")
@@ -603,31 +473,6 @@ class RecorderThread(
     companion object {
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO
         private const val ENCODING = AudioFormat.ENCODING_PCM_16BIT
-
-        // Eg. 20220429_180249.123-0400
-        private val FORMATTER = DateTimeFormatterBuilder()
-            .appendValue(ChronoField.YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
-            .appendValue(ChronoField.MONTH_OF_YEAR, 2)
-            .appendValue(ChronoField.DAY_OF_MONTH, 2)
-            .appendLiteral('_')
-            .appendValue(ChronoField.HOUR_OF_DAY, 2)
-            .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
-            .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
-            .appendOffset("+HHMMss", "+0000")
-            .toFormatter()
-
-        private fun redactTruncate(msg: String): String = buildString {
-            val n = 2
-
-            if (msg.length > 2 * n) {
-                append(msg.substring(0, n))
-            }
-            append("<...>")
-            if (msg.length > 2 * n) {
-                append(msg.substring(msg.length - n))
-            }
-        }
     }
 
     interface OnRecordingCompletedListener {

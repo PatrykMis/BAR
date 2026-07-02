@@ -33,12 +33,10 @@ class Preferences(private val context: Context) {
         private const val PREF_FORMAT_NAME = "codec_name"
         private const val PREF_FORMAT_PARAM_PREFIX = "codec_param_"
         private const val PREF_FORMAT_SAMPLE_RATE_PREFIX = "codec_sample_rate_"
-        private const val PREF_SAMPLE_RATE = "sample_rate"
         const val PREF_OUTPUT_RETENTION = "output_retention"
 
         fun isFormatKey(key: String): Boolean =
             key == PREF_FORMAT_NAME ||
-                    key == PREF_SAMPLE_RATE ||
                     key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
                     key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX)
 
@@ -257,19 +255,5 @@ class Preferences(private val context: Context) {
                 remove(key)
             }
         }
-    }
-
-    /**
-     * Move the old app-wide sample rate preference to the currently selected format.
-     */
-    fun migrateLegacySampleRate() {
-        val legacySampleRate = getOptionalUint(PREF_SAMPLE_RATE)?.let { SampleRate(it) } ?: return
-        val (format, _, _) = Format.fromPreferences(this)
-
-        if (getFormatSampleRate(format) == null && legacySampleRate in format.sampleRates) {
-            setFormatSampleRate(format, legacySampleRate)
-        }
-
-        setOptionalUint(PREF_SAMPLE_RATE, null)
     }
 }

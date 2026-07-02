@@ -29,8 +29,6 @@ class Notifications(
         const val CHANNEL_ID_FAILURE = "failure"
         const val CHANNEL_ID_SUCCESS = "success"
 
-        private val LEGACY_CHANNEL_IDS = arrayOf<String>()
-
         /** Incremented for each new alert (non-persistent) notification. */
         private var notificationId = 2
 
@@ -112,8 +110,6 @@ class Notifications(
 
     /**
      * Ensure notification channels are up-to-date.
-     *
-     * Legacy notification channels are deleted without migrating settings.
      */
     fun updateChannels() {
         notificationManager.createNotificationChannels(
@@ -123,7 +119,6 @@ class Notifications(
                 createSuccessAlertsChannel(),
             )
         )
-        LEGACY_CHANNEL_IDS.forEach { notificationManager.deleteNotificationChannel(it) }
     }
 
     /**

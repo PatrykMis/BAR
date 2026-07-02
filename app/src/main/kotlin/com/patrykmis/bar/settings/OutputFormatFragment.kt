@@ -7,6 +7,8 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
+import com.patrykmis.bar.audio.AudioChannels
+import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.NoParamInfo
 import com.patrykmis.bar.format.RangedParamInfo
@@ -26,6 +28,44 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         val screen = preferenceManager.createPreferenceScreen(context)
         val (currentFormat, currentParam, currentSampleRateSaved) = Format.fromPreferences(prefs)
         val currentSampleRate = currentSampleRateSaved ?: currentFormat.defaultSampleRate
+        val currentAudioSource = AudioInputSource.fromPreferences(context, prefs)
+        val currentAudioChannels = AudioChannels.fromPreferences(prefs, currentSampleRate)
+
+        val audioSources = AudioInputSource.available(context)
+        screen.addPreference(ListPreference(context).apply {
+            isIconSpaceReserved = false
+            isPersistent = false
+            key = "audio_source"
+            setTitle(R.string.output_format_audio_source)
+            entries = audioSources.map { it.displayName(context) }.toTypedArray()
+            entryValues = audioSources.map { it.preferenceValue }.toTypedArray()
+            value = currentAudioSource.preferenceValue
+            summary = currentAudioSource.displayName(context)
+            setOnPreferenceChangeListener { _, newValue ->
+                prefs.audioInputSource =
+                    AudioInputSource.getByPreferenceValue(newValue as String)
+                refreshScreen()
+                false
+            }
+        })
+
+        val audioChannels = AudioChannels.available(currentSampleRate)
+        screen.addPreference(ListPreference(context).apply {
+            isIconSpaceReserved = false
+            isPersistent = false
+            key = "audio_channels"
+            setTitle(R.string.output_format_channels)
+            entries = audioChannels.map { it.displayName(context) }.toTypedArray()
+            entryValues = audioChannels.map { it.preferenceValue }.toTypedArray()
+            value = currentAudioChannels.preferenceValue
+            summary = currentAudioChannels.displayName(context)
+            setOnPreferenceChangeListener { _, newValue ->
+                prefs.audioChannels =
+                    AudioChannels.getByPreferenceValue(newValue as String)
+                refreshScreen()
+                false
+            }
+        })
 
         screen.addPreference(ListPreference(context).apply {
             isIconSpaceReserved = false
@@ -46,7 +86,13 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         })
 
         when (val info = currentFormat.paramInfo) {
-            is RangedParamInfo -> addParamPreference(screen, currentFormat, info, currentParam)
+            is RangedParamInfo -> addParamPreference(
+                screen,
+                currentFormat,
+                info,
+                currentParam,
+                currentAudioChannels,
+            )
             NoParamInfo -> {}
         }
 
@@ -70,7 +116,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             isIconSpaceReserved = false
             setTitle(R.string.bottom_sheet_reset)
             setOnPreferenceClickListener {
-                prefs.resetAllFormats()
+                prefs.resetRecordingSettings()
                 refreshScreen()
                 true
             }
@@ -84,9 +130,10 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         format: Format,
         info: RangedParamInfo,
         currentParam: UInt?,
+        audioChannels: AudioChannels,
     ) {
         val context = preferenceManager.context
-        val currentValue = currentParam ?: info.default
+        val currentValue = currentParam ?: format.defaultParam(audioChannels)
 
         val title = when (info.type) {
             RangedParamType.CompressionLevel -> R.string.output_format_bottom_sheet_compression_level

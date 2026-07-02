@@ -11,6 +11,8 @@ import com.patrykmis.bar.BuildConfig
 import com.patrykmis.bar.Permissions
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
+import com.patrykmis.bar.audio.AudioChannels
+import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.extension.formattedString
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.NoParamInfo
@@ -97,16 +99,22 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     }
 
     private fun refreshOutputFormat() {
+        val context = requireContext()
         val (format, formatParamSaved, sampleRateSaved) = Format.fromPreferences(prefs)
-        val formatParam = formatParamSaved ?: format.paramInfo.default
+        val sampleRate = sampleRateSaved ?: format.defaultSampleRate
+        val audioSource = AudioInputSource.fromPreferences(context, prefs)
+        val audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
+        val formatParam = formatParamSaved ?: format.defaultParam(audioChannels)
         val summary = getString(R.string.pref_output_format_desc)
         val prefix = when (val info = format.paramInfo) {
             is RangedParamInfo -> "${info.format(formatParam)}, "
             NoParamInfo -> ""
         }
-        val sampleRate = sampleRateSaved ?: format.defaultSampleRate
 
-        prefOutputFormat.summary = "${summary}\n\n${format.name} (${prefix}${sampleRate})"
+        prefOutputFormat.summary =
+            "${summary}\n\n" +
+                    "${audioSource.displayName(context)}, ${audioChannels.displayName(context)}\n" +
+                    "${format.name} (${prefix}${sampleRate})"
     }
 
     private fun refreshVersion() {
@@ -200,7 +208,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 refreshOutputDir()
             }
             // Update the output format state when it's changed by the bottom sheet
-            Preferences.isFormatKey(key) -> {
+            Preferences.isRecordingSettingsKey(key) -> {
                 refreshOutputFormat()
             }
         }

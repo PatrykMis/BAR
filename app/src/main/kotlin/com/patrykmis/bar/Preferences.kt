@@ -27,11 +27,15 @@ class Preferences(private val context: Context) {
         private const val PREF_DEBUG_MODE = "debug_mode"
         private const val PREF_FORMAT_NAME = "codec_name"
         private const val PREF_FORMAT_PARAM_PREFIX = "codec_param_"
+        private const val PREF_FORMAT_SAMPLE_RATE_PREFIX = "codec_sample_rate_"
+        private const val PREF_SAMPLE_RATE = "sample_rate"
         const val PREF_OUTPUT_RETENTION = "output_retention"
-        const val PREF_SAMPLE_RATE = "sample_rate"
 
         fun isFormatKey(key: String): Boolean =
-            key == PREF_FORMAT_NAME || key.startsWith(PREF_FORMAT_PARAM_PREFIX)
+            key == PREF_FORMAT_NAME ||
+                    key == PREF_SAMPLE_RATE ||
+                    key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
+                    key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX)
     }
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -162,7 +166,8 @@ class Preferences(private val context: Context) {
     /**
      * The saved output format.
      *
-     * Use [getFormatParam]/[setFormatParam] to get/set the format-specific parameter.
+     * Use [getFormatParam]/[setFormatParam] and [getFormatSampleRate]/[setFormatSampleRate] to
+     * get/set format-specific values.
      */
     var format: Format?
         get() = prefs.getString(PREF_FORMAT_NAME, null)?.let { Format.getByName(it) }
@@ -191,6 +196,22 @@ class Preferences(private val context: Context) {
         setOptionalUint(PREF_FORMAT_PARAM_PREFIX + format.name, param)
 
     /**
+     * Get the format-specific sample rate for [format].
+     */
+    fun getFormatSampleRate(format: Format): UInt? =
+        getOptionalUint(PREF_FORMAT_SAMPLE_RATE_PREFIX + format.name)
+
+    /**
+     * Set the format-specific sample rate for [format].
+     *
+     * @param sampleRate Must not contain [UInt.MAX_VALUE]
+     *
+     * @throws IllegalArgumentException if [sampleRate] contains [UInt.MAX_VALUE]
+     */
+    fun setFormatSampleRate(format: Format, sampleRate: SampleRate?) =
+        setOptionalUint(PREF_FORMAT_SAMPLE_RATE_PREFIX + format.name, sampleRate?.value)
+
+    /**
      * Remove the default format preference and the parameters for all formats.
      */
     fun resetAllFormats() {
@@ -203,11 +224,16 @@ class Preferences(private val context: Context) {
     }
 
     /**
-     * The recording and output sample rate.
-     *
-     * Must not be [UInt.MAX_VALUE].
+     * Move the old app-wide sample rate preference to the currently selected format.
      */
-    var sampleRate: SampleRate?
-        get() = getOptionalUint(PREF_SAMPLE_RATE)?.let { SampleRate(it) }
-        set(sampleRate) = setOptionalUint(PREF_SAMPLE_RATE, sampleRate?.value)
+    fun migrateLegacySampleRate() {
+        val legacySampleRate = getOptionalUint(PREF_SAMPLE_RATE)?.let { SampleRate(it) } ?: return
+        val (format, _, _) = Format.fromPreferences(this)
+
+        if (getFormatSampleRate(format) == null && legacySampleRate in format.sampleRates) {
+            setFormatSampleRate(format, legacySampleRate)
+        }
+
+        setOptionalUint(PREF_SAMPLE_RATE, null)
+    }
 }

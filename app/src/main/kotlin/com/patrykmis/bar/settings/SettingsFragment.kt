@@ -15,7 +15,6 @@ import com.patrykmis.bar.extension.formattedString
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.NoParamInfo
 import com.patrykmis.bar.format.RangedParamInfo
-import com.patrykmis.bar.format.SampleRate
 import com.patrykmis.bar.output.Retention
 import com.patrykmis.bar.view.LongClickablePreference
 
@@ -98,14 +97,14 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     }
 
     private fun refreshOutputFormat() {
-        val (format, formatParamSaved) = Format.fromPreferences(prefs)
+        val (format, formatParamSaved, sampleRateSaved) = Format.fromPreferences(prefs)
         val formatParam = formatParamSaved ?: format.paramInfo.default
         val summary = getString(R.string.pref_output_format_desc)
         val prefix = when (val info = format.paramInfo) {
             is RangedParamInfo -> "${info.format(formatParam)}, "
             NoParamInfo -> ""
         }
-        val sampleRate = SampleRate.fromPreferences(prefs)
+        val sampleRate = sampleRateSaved ?: format.defaultSampleRate
 
         prefOutputFormat.summary = "${summary}\n\n${format.name} (${prefix}${sampleRate})"
     }
@@ -201,7 +200,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 refreshOutputDir()
             }
             // Update the output format state when it's changed by the bottom sheet
-            Preferences.isFormatKey(key) || key == Preferences.PREF_SAMPLE_RATE -> {
+            Preferences.isFormatKey(key) -> {
                 refreshOutputFormat()
             }
         }

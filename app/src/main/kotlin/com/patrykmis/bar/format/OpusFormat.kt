@@ -14,6 +14,8 @@ object OpusFormat : Format() {
         // https://wiki.hydrogenaud.io/index.php?title=Opus
         48_000u,
     )
+    override val sampleRates: Array<SampleRate> =
+        SampleRate.all.filter { it.value != 44_100u }.toTypedArray()
 
     // https://datatracker.ietf.org/doc/html/rfc7845#section-9
     override val mimeTypeContainer: String = "audio/ogg"

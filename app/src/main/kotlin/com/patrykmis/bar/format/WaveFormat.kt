@@ -6,6 +6,7 @@ import java.io.FileDescriptor
 object WaveFormat : Format() {
     override val name: String = "WAV/PCM"
     override val paramInfo: FormatParamInfo = NoParamInfo
+    override val sampleRates: Array<SampleRate> = SampleRate.all
 
     // Should be "audio/vnd.wave" [1], but Android only recognizes "audio/x-wav" [2] for the
     // purpose of picking an appropriate file extension when creating a file via SAF.

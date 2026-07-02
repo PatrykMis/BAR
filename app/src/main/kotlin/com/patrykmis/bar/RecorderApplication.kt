@@ -13,6 +13,8 @@ class RecorderApplication : Application() {
         // Enable Material You colors
         DynamicColors.applyToActivitiesIfAvailable(this)
 
+        Preferences(this).migrateLegacySampleRate()
+
         Notifications(this).updateChannels()
 
         val oldCrashHandler = Thread.getDefaultUncaughtExceptionHandler()

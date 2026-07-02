@@ -12,6 +12,8 @@ object FlacFormat : Format() {
         // Devices are fast enough nowadays to use the highest compression for realtime recording
         8u,
     )
+    override val sampleRates: Array<SampleRate> = SampleRate.all
+
     override val mimeTypeContainer: String = MediaFormat.MIMETYPE_AUDIO_FLAC
     override val mimeTypeAudio: String = MediaFormat.MIMETYPE_AUDIO_FLAC
     override val passthrough: Boolean = false

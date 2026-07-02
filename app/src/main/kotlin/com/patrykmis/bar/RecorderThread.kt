@@ -69,7 +69,7 @@ class RecorderThread(
     // Format
     private val format: Format
     private val formatParam: UInt?
-    private val sampleRate = SampleRate.fromPreferences(prefs)
+    private val sampleRate: SampleRate
 
     // Logging
     private lateinit var logcatFilename: OutputFilename
@@ -79,9 +79,10 @@ class RecorderThread(
     init {
         Log.i(tag, "Initially paused: $isPaused")
 
-        val savedFormat = Format.fromPreferences(prefs)
-        format = savedFormat.first
-        formatParam = savedFormat.second
+        val (savedFormat, savedFormatParam, savedSampleRate) = Format.fromPreferences(prefs)
+        format = savedFormat
+        formatParam = savedFormatParam
+        sampleRate = savedSampleRate ?: format.defaultSampleRate
     }
 
     override fun run() {

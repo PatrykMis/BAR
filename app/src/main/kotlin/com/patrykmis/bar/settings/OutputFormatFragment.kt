@@ -1,11 +1,10 @@
 package com.patrykmis.bar.settings
 
 import android.os.Bundle
+import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
 import com.patrykmis.bar.format.Format
@@ -25,71 +24,53 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
     private fun refreshScreen() {
         val context = preferenceManager.context
         val screen = preferenceManager.createPreferenceScreen(context)
-        val (currentFormat, currentParam) = Format.fromPreferences(prefs)
-        val currentSampleRate = SampleRate.fromPreferences(prefs)
+        val (currentFormat, currentParam, currentSampleRateSaved) = Format.fromPreferences(prefs)
+        val currentSampleRate = currentSampleRateSaved ?: currentFormat.defaultSampleRate
 
-        val formatCategory = PreferenceCategory(context).apply {
+        screen.addPreference(ListPreference(context).apply {
             isIconSpaceReserved = false
-            setTitle(R.string.output_format_bottom_sheet_output_format)
-        }
-        screen.addPreference(formatCategory)
-
-        for (format in Format.all) {
-            if (!format.supported) {
-                continue
+            isPersistent = false
+            key = "output_format_format"
+            setTitle(R.string.output_format_format)
+            entries = Format.all.filter { it.supported }
+                .map { it.name }
+                .toTypedArray()
+            entryValues = entries
+            value = currentFormat.name
+            summary = currentFormat.name
+            setOnPreferenceChangeListener { _, newValue ->
+                prefs.format = Format.getByName(newValue as String)!!
+                refreshScreen()
+                false
             }
-
-            formatCategory.addPreference(Preference(context).apply {
-                isIconSpaceReserved = false
-                title = format.name
-                summary = if (format == currentFormat) {
-                    getString(R.string.output_format_selected)
-                } else {
-                    null
-                }
-                setOnPreferenceClickListener {
-                    prefs.format = format
-                    checkSampleRateAndShowDialogIfNeeded(prefs.sampleRate)
-                    refreshScreen()
-                    true
-                }
-            })
-        }
+        })
 
         when (val info = currentFormat.paramInfo) {
             is RangedParamInfo -> addParamPreference(screen, currentFormat, info, currentParam)
             NoParamInfo -> {}
         }
 
-        val sampleRateCategory = PreferenceCategory(context).apply {
+        screen.addPreference(ListPreference(context).apply {
             isIconSpaceReserved = false
+            isPersistent = false
+            key = "output_format_sample_rate"
             setTitle(R.string.output_format_bottom_sheet_sample_rate)
-        }
-        screen.addPreference(sampleRateCategory)
-
-        for (sampleRate in SampleRate.all) {
-            sampleRateCategory.addPreference(Preference(context).apply {
-                isIconSpaceReserved = false
-                title = sampleRate.toString()
-                summary = if (sampleRate == currentSampleRate) {
-                    getString(R.string.output_format_selected)
-                } else {
-                    null
-                }
-                setOnPreferenceClickListener {
-                    checkSampleRateAndShowDialogIfNeeded(sampleRate)
-                    refreshScreen()
-                    true
-                }
-            })
-        }
+            entries = currentFormat.sampleRates.map { it.toString() }.toTypedArray()
+            entryValues = currentFormat.sampleRates.map { it.value.toString() }.toTypedArray()
+            value = currentSampleRate.value.toString()
+            summary = currentSampleRate.toString()
+            setOnPreferenceChangeListener { _, newValue ->
+                prefs.setFormatSampleRate(currentFormat, SampleRate((newValue as String).toUInt()))
+                refreshScreen()
+                false
+            }
+        })
 
         screen.addPreference(Preference(context).apply {
             isIconSpaceReserved = false
             setTitle(R.string.bottom_sheet_reset)
             setOnPreferenceClickListener {
                 prefs.resetAllFormats()
-                prefs.sampleRate = null
                 refreshScreen()
                 true
             }
@@ -130,25 +111,5 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
                 true
             }
         })
-    }
-
-    private fun checkSampleRateAndShowDialogIfNeeded(sampleRate: SampleRate?) {
-        val format = Format.fromPreferences(prefs).first
-
-        if (format.name == "OGG/Opus" && sampleRate?.value == 44_100u) {
-            prefs.sampleRate = SampleRate(48_000u)
-            showUnsupportedSampleRateDialog()
-        } else {
-            prefs.sampleRate = sampleRate
-        }
-    }
-
-    private fun showUnsupportedSampleRateDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setMessage(getString(R.string.unsupported_sample_rate))
-            .setNeutralButton(getString(android.R.string.ok)) { _, _ ->
-                refreshScreen()
-            }
-            .show()
     }
 }

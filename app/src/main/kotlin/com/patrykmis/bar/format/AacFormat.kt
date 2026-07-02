@@ -17,6 +17,7 @@ object AacFormat : Format() {
         4_000u,
         64_000u,
     )
+    override val sampleRates: Array<SampleRate> = SampleRate.all
 
     // https://datatracker.ietf.org/doc/html/rfc6381#section-3.1
     override val mimeTypeContainer: String = "audio/mp4"

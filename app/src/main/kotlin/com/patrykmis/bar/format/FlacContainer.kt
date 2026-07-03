@@ -26,7 +26,6 @@ import java.security.MessageDigest
  */
 class FlacContainer(private val fd: FileDescriptor) : Container, InputSampleConsumer {
     private var isStarted = false
-    private var lastPresentationTimeUs = -1L
     private var numFrames = 0uL
     private var receivedEof = false
     private var track = -1
@@ -89,10 +88,9 @@ class FlacContainer(private val fd: FileDescriptor) : Container, InputSampleCons
 
         if ((bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
             receivedEof = true
-            lastPresentationTimeUs = bufferInfo.presentationTimeUs
             Log.d(
                 TAG,
-                "Received EOF; final presentation timestamp: $lastPresentationTimeUs; " +
+                "Received EOF; final presentation timestamp: ${bufferInfo.presentationTimeUs}; " +
                         "input frames: $numFrames"
             )
         }

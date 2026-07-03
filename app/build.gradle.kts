@@ -67,6 +67,7 @@ android {
     buildTypes {
         getByName("debug") {
             buildConfigField("boolean", "FORCE_DEBUG_MODE", "true")
+            applicationIdSuffix = ".debug"
         }
 
         getByName("release") {

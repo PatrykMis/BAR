@@ -1,5 +1,7 @@
 package com.patrykmis.bar
 
+import android.icu.lang.UCharacter
+import android.icu.lang.UProperty
 import android.net.Uri
 import android.util.Log
 import com.patrykmis.bar.output.OutputDirUtils
@@ -53,11 +55,7 @@ class OutputFilenameGenerator {
 
     fun update(): OutputFilename {
         synchronized(this) {
-            val newFilename = "${formatRecordingTimestamp()}_mic"
-                // AOSP's SAF automatically replaces invalid characters with underscores, but just in
-                // case an OEM fork breaks that, do the replacement ourselves to prevent directory
-                // traversal attacks.
-                .replace('/', '_').trim()
+            val newFilename = sanitizeFilename("${formatRecordingTimestamp()}_mic".trim())
 
             _filename = OutputFilename(newFilename, redactor.redact(newFilename))
 
@@ -107,6 +105,51 @@ class OutputFilenameGenerator {
             .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
             .appendOffset("+HHMMss", "+0000")
             .toFormatter()
+
+        private fun isValidFilenameCodePoint(codePoint: Int): Boolean {
+            if (codePoint in 0x00..0x1f) {
+                return false
+            }
+
+            return when (codePoint) {
+                '"'.code,
+                '*'.code,
+                '/'.code,
+                ':'.code,
+                '<'.code,
+                '>'.code,
+                '?'.code,
+                '\\'.code,
+                '|'.code,
+                0x7F -> false
+                else -> !UCharacter.hasBinaryProperty(
+                    codePoint,
+                    UProperty.DEFAULT_IGNORABLE_CODE_POINT,
+                )
+            }
+        }
+
+        /**
+         * Sanitize filenames to avoid code points that Android's MediaProvider does not permit.
+         *
+         * AOSP blocks code points that are invalid in FAT32 only. GrapheneOS additionally blocks
+         * ignorable code points. We'll block both to be safe.
+         */
+        private fun sanitizeFilename(name: String) = buildString {
+            var i = 0
+
+            while (i < name.length) {
+                val codePoint = name.codePointAt(i)
+
+                if (isValidFilenameCodePoint(codePoint)) {
+                    append(Character.toChars(codePoint))
+                } else {
+                    append('_')
+                }
+
+                i += Character.charCount(codePoint)
+            }
+        }
 
         fun redactTruncate(msg: String): String = buildString {
             val n = 2

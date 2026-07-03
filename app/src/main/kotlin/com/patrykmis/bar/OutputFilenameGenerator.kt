@@ -122,6 +122,7 @@ class OutputFilenameGenerator {
                 '\\'.code,
                 '|'.code,
                 0x7F -> false
+
                 else -> !UCharacter.hasBinaryProperty(
                     codePoint,
                     UProperty.DEFAULT_IGNORABLE_CODE_POINT,

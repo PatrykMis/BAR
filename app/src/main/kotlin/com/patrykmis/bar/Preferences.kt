@@ -6,7 +6,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import androidx.datastore.preferences.core.MutablePreferences
-import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -21,6 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.util.concurrent.CopyOnWriteArraySet
+import androidx.datastore.preferences.core.Preferences as DataStorePreferences
 
 private val Context.settingsDataStore by preferencesDataStore(name = "settings")
 

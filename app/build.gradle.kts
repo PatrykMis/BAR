@@ -56,6 +56,7 @@ android {
         targetSdk = 37
         versionCode = 1
         versionName = versionCode.toString()
+        testInstrumentationRunner = "com.patrykmis.bar.AccessibilityChecksTestRunner"
 
         buildConfigField(
             "String", "PROVIDER_AUTHORITY",
@@ -116,4 +117,10 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.preference.ktx)
     implementation(libs.material)
+
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.espresso.accessibility)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.runner)
 }

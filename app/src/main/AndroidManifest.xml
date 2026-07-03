@@ -45,7 +45,7 @@
 
         <provider
             android:name=".RecorderProvider"
-            android:authorities="@string/provider_authority"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true"></provider>
 

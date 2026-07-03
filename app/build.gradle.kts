@@ -62,7 +62,6 @@ android {
             "String", "PROVIDER_AUTHORITY",
             "APPLICATION_ID + \".provider\""
         )
-        resValue("string", "provider_authority", "$applicationId.provider")
     }
 
     buildTypes {

@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">תיקיית פלט</string>
     <string name="pref_output_dir_desc">בחר תיקייה לשמירת ההקלטות.</string>
+    <string name="pref_output_dir_recording_disabled_desc">יש לעצור את ההקלטה כדי לשנות היכן יישמרו הקלטות חדשות.</string>
 
     <string name="pref_output_format_name">הגדרות שמע</string>
     <string name="pref_output_format_desc">בחר את המקור, הערוצים והקידוד של ההקלטות.</string>
+    <string name="pref_output_format_recording_disabled_desc">יש לעצור את ההקלטה כדי לשנות מקור, ערוצים, פורמט, קצב סיביות או קצב דגימה.</string>
 
     <string name="pref_inhibit_batt_opt_name">השבת מיטוב סוללה</string>
     <string name="pref_inhibit_batt_opt_desc">מפחית את הסיכוי שהמערכת תעצור את האפליקציה.</string>
 
     <string name="pref_native_sample_rate_name">בדיקת קצב דגימה טבעי</string>
     <string name="pref_native_sample_rate_desc">הערכת קצב הדגימה הטבעי של מיקרופון המכשיר לפי גדלי מאגר.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">יש לעצור את ההקלטה לפני בדיקת קצב הדגימה של המיקרופון.</string>
 
     <string name="pref_debug_mode_name">רישום אבחוני</string>
     <string name="pref_debug_mode_desc">שמירת פלט logcat עם כל הקלטה, גם בגרסאות release.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">יש לעצור את ההקלטה כדי לשנות רישום עבור הקלטות עתידיות.</string>
     <string name="pref_debug_mode_forced_desc">מופעל תמיד בגרסאות debug.</string>
 
     <!-- About "preference" -->

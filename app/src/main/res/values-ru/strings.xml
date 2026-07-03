@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">Папка вывода</string>
     <string name="pref_output_dir_desc">Выберите папку для хранения записей.</string>
+    <string name="pref_output_dir_recording_disabled_desc">Остановите запись, чтобы изменить место сохранения новых записей.</string>
 
     <string name="pref_output_format_name">Настройки аудио</string>
     <string name="pref_output_format_desc">Выберите источник, каналы и кодирование записей.</string>
+    <string name="pref_output_format_recording_disabled_desc">Остановите запись, чтобы изменить источник, каналы, формат, битрейт или частоту дискретизации.</string>
 
     <string name="pref_inhibit_batt_opt_name">Отключить оптимизацию батареи</string>
     <string name="pref_inhibit_batt_opt_desc">Снижает вероятность того, что система остановит приложение.</string>
 
     <string name="pref_native_sample_rate_name">Тест родной частоты дискретизации</string>
     <string name="pref_native_sample_rate_desc">Оценивает родную частоту дискретизации микрофона устройства по размерам буфера.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">Остановите запись перед тестированием частоты дискретизации микрофона.</string>
 
     <string name="pref_debug_mode_name">Диагностическое логирование</string>
     <string name="pref_debug_mode_desc">Сохраняет вывод logcat с каждой записью, включая release-сборки.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">Остановите запись, чтобы изменить логирование для будущих записей.</string>
     <string name="pref_debug_mode_forced_desc">В debug-сборках всегда включено.</string>
 
     <!-- About "preference" -->

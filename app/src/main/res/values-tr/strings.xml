@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">Çıkış dizini</string>
     <string name="pref_output_dir_desc">Kayıtları saklamak için bir dizin seçin.</string>
+    <string name="pref_output_dir_recording_disabled_desc">Yeni kayıtların nereye kaydedileceğini değiştirmek için kaydı durdurun.</string>
 
     <string name="pref_output_format_name">Ses ayarları</string>
     <string name="pref_output_format_desc">Kayıtlar için kaynağı, kanalları ve kodlamayı seçin.</string>
+    <string name="pref_output_format_recording_disabled_desc">Kaynak, kanallar, biçim, bit hızı veya örnekleme hızını değiştirmek için kaydı durdurun.</string>
 
     <string name="pref_inhibit_batt_opt_name">Pil optimizasyonunu devre dışı bırak</string>
     <string name="pref_inhibit_batt_opt_desc">Sistemin uygulamayı durdurma olasılığını azaltır.</string>
 
     <string name="pref_native_sample_rate_name">Yerel örnekleme hızı testi</string>
     <string name="pref_native_sample_rate_desc">Cihaz mikrofonunun yerel örnekleme hızını tampon boyutlarına göre tahmin eder.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">Mikrofon örnekleme hızını test etmeden önce kaydı durdurun.</string>
 
     <string name="pref_debug_mode_name">Tanılama günlükleri</string>
     <string name="pref_debug_mode_desc">Her kayıtla birlikte logcat çıktısını kaydeder; release derlemeleri dahil.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">Gelecek kayıtlar için günlüklemeyi değiştirmek üzere kaydı durdurun.</string>
     <string name="pref_debug_mode_forced_desc">Debug derlemelerinde her zaman etkindir.</string>
 
     <!-- About "preference" -->

@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">Výstupný priečinok</string>
     <string name="pref_output_dir_desc">Vyberte priečinok na ukladanie nahrávok.</string>
+    <string name="pref_output_dir_recording_disabled_desc">Zastavte nahrávanie, aby ste zmenili, kam sa ukladajú nové nahrávky.</string>
 
     <string name="pref_output_format_name">Nastavenia zvuku</string>
     <string name="pref_output_format_desc">Vyberte zdroj, kanály a kódovanie nahrávok.</string>
+    <string name="pref_output_format_recording_disabled_desc">Zastavte nahrávanie, aby ste zmenili zdroj, kanály, formát, dátový tok alebo vzorkovaciu frekvenciu.</string>
 
     <string name="pref_inhibit_batt_opt_name">Vypnúť optimalizáciu batérie</string>
     <string name="pref_inhibit_batt_opt_desc">Znižuje pravdepodobnosť, že systém aplikáciu ukončí.</string>
 
     <string name="pref_native_sample_rate_name">Test natívnej vzorkovacej frekvencie</string>
     <string name="pref_native_sample_rate_desc">Odhadne natívnu vzorkovaciu frekvenciu mikrofónu zariadenia podľa veľkostí vyrovnávacej pamäte.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">Zastavte nahrávanie pred testovaním vzorkovacej frekvencie mikrofónu.</string>
 
     <string name="pref_debug_mode_name">Diagnostické logovanie</string>
     <string name="pref_debug_mode_desc">Ukladá výstup logcat pri každej nahrávke vrátane release buildov.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">Zastavte nahrávanie, aby ste zmenili logovanie pre budúce nahrávky.</string>
     <string name="pref_debug_mode_forced_desc">V debug buildoch je vždy zapnuté.</string>
 
     <!-- About "preference" -->

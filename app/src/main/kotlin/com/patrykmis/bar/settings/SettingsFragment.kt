@@ -10,6 +10,7 @@ import com.patrykmis.bar.BuildConfig
 import com.patrykmis.bar.Permissions
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
+import com.patrykmis.bar.RecorderService
 import com.patrykmis.bar.audio.AudioChannels
 import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.extension.formattedString
@@ -65,6 +66,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
         prefNativeSampleRate = findPreference(Preferences.PREF_NATIVE_SAMPLE_RATE)!!
         prefNativeSampleRate.onPreferenceClickListener = this
+        refreshNativeSampleRate()
 
         prefDebugMode = findPreference(Preferences.PREF_DEBUG_MODE)!!
         prefDebugMode.onPreferenceChangeListener = this
@@ -88,18 +90,40 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         refreshDebugMode()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        refreshRecordingSensitivePreferences()
+    }
+
     override fun onStop() {
         super.onStop()
 
         prefs.unregisterOnPreferenceChangeListener(this)
     }
 
+    private fun refreshRecordingSensitivePreferences() {
+        refreshOutputDir()
+        refreshOutputFormat()
+        refreshNativeSampleRate()
+        refreshDebugMode()
+    }
+
     private fun refreshOutputDir() {
         val context = requireContext()
         val outputDirUri = prefs.outputDirOrDefault
         val outputRetention = Retention.fromPreferences(prefs).toFormattedString(context)
+        val isRecording = RecorderService.isRecording
 
-        val summary = getString(R.string.pref_output_dir_desc)
+        prefOutputDir.isEnabled = !isRecording
+
+        val summary = getString(
+            if (isRecording) {
+                R.string.pref_output_dir_recording_disabled_desc
+            } else {
+                R.string.pref_output_dir_desc
+            }
+        )
         prefOutputDir.summary =
             "${summary}\n\n${outputDirUri.formattedString} (${outputRetention})"
     }
@@ -111,12 +135,20 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         val audioSource = AudioInputSource.fromPreferences(context, prefs)
         val audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
         val formatParam = formatParamSaved ?: format.defaultParam(sampleRate, audioChannels)
-        val summary = getString(R.string.pref_output_format_desc)
+        val isRecording = RecorderService.isRecording
+        val summary = getString(
+            if (isRecording) {
+                R.string.pref_output_format_recording_disabled_desc
+            } else {
+                R.string.pref_output_format_desc
+            }
+        )
         val prefix = when (val info = format.paramInfo(sampleRate, audioChannels)) {
             is RangedParamInfo -> "${info.format(formatParam)}, "
             NoParamInfo -> ""
         }
 
+        prefOutputFormat.isEnabled = !isRecording
         prefOutputFormat.summary =
             "${summary}\n\n" +
                     "${audioSource.displayName(context)}, ${audioChannels.displayName(context)}\n" +
@@ -148,14 +180,29 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefInhibitBatteryOpt.isEnabled = !inhibiting
     }
 
-    private fun refreshDebugMode() {
-        prefDebugMode.isChecked = prefs.isDebugMode
-        prefDebugMode.isEnabled = !BuildConfig.FORCE_DEBUG_MODE
-        prefDebugMode.summary = getString(
-            if (BuildConfig.FORCE_DEBUG_MODE) {
-                R.string.pref_debug_mode_forced_desc
+    private fun refreshNativeSampleRate() {
+        val isRecording = RecorderService.isRecording
+
+        prefNativeSampleRate.isEnabled = !isRecording
+        prefNativeSampleRate.summary = getString(
+            if (isRecording) {
+                R.string.pref_native_sample_rate_recording_disabled_desc
             } else {
-                R.string.pref_debug_mode_desc
+                R.string.pref_native_sample_rate_desc
+            }
+        )
+    }
+
+    private fun refreshDebugMode() {
+        val isRecording = RecorderService.isRecording
+
+        prefDebugMode.isChecked = prefs.isDebugMode
+        prefDebugMode.isEnabled = !BuildConfig.FORCE_DEBUG_MODE && !isRecording
+        prefDebugMode.summary = getString(
+            when {
+                BuildConfig.FORCE_DEBUG_MODE -> R.string.pref_debug_mode_forced_desc
+                isRecording -> R.string.pref_debug_mode_recording_disabled_desc
+                else -> R.string.pref_debug_mode_desc
             }
         )
     }

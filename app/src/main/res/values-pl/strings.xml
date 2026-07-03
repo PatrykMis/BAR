@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">Katalog wyjściowy</string>
     <string name="pref_output_dir_desc">Wybierz katalog do przechowywania nagrań.</string>
+    <string name="pref_output_dir_recording_disabled_desc">Zatrzymaj nagrywanie, aby zmienić miejsce zapisywania nowych nagrań.</string>
 
     <string name="pref_output_format_name">Ustawienia audio</string>
     <string name="pref_output_format_desc">Wybierz źródło, kanały i kodowanie nagrań.</string>
+    <string name="pref_output_format_recording_disabled_desc">Zatrzymaj nagrywanie, aby zmienić źródło, kanały, format, szybkość transmisji lub częstotliwość próbkowania.</string>
 
     <string name="pref_inhibit_batt_opt_name">Wyłącz optymalizację baterii</string>
     <string name="pref_inhibit_batt_opt_desc">Zmniejsza szansę na zatrzymanie aplikacji przez system.</string>
 
     <string name="pref_native_sample_rate_name">Test natywnej częstotliwości próbkowania</string>
     <string name="pref_native_sample_rate_desc">Oszacuj natywną częstotliwość próbkowania mikrofonu urządzenia na podstawie rozmiarów bufora.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">Zatrzymaj nagrywanie przed testowaniem częstotliwości próbkowania mikrofonu.</string>
 
     <string name="pref_debug_mode_name">Logowanie diagnostyczne</string>
     <string name="pref_debug_mode_desc">Zapisuje logcat przy każdym nagraniu, także w buildach release.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">Zatrzymaj nagrywanie, aby zmienić logowanie dla przyszłych nagrań.</string>
     <string name="pref_debug_mode_forced_desc">Zawsze włączone w buildach debug.</string>
 
     <!-- About "preference" -->

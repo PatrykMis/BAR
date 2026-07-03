@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">输出目录</string>
     <string name="pref_output_dir_desc">选择用于保存录音的目录。</string>
+    <string name="pref_output_dir_recording_disabled_desc">停止录音后才能更改新录音的保存位置。</string>
 
     <string name="pref_output_format_name">音频设置</string>
     <string name="pref_output_format_desc">选择录音的来源、声道和编码。</string>
+    <string name="pref_output_format_recording_disabled_desc">停止录音后才能更改来源、声道、格式、比特率或采样率。</string>
 
     <string name="pref_inhibit_batt_opt_name">关闭电池优化</string>
     <string name="pref_inhibit_batt_opt_desc">降低应用被系统停止的概率。</string>
 
     <string name="pref_native_sample_rate_name">原生采样率测试</string>
     <string name="pref_native_sample_rate_desc">根据缓冲区大小估算此设备麦克风的原生采样率。</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">停止录音后才能测试麦克风采样率。</string>
 
     <string name="pref_debug_mode_name">诊断日志</string>
     <string name="pref_debug_mode_desc">每次录音时保存 logcat 输出，包括 release 构建。</string>
+    <string name="pref_debug_mode_recording_disabled_desc">停止录音后才能更改未来录音的日志记录设置。</string>
     <string name="pref_debug_mode_forced_desc">在 debug 构建中始终启用。</string>
 
     <!-- About "preference" -->

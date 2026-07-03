@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">Dossier de sortie</string>
     <string name="pref_output_dir_desc">Choisissez un dossier pour stocker les enregistrements.</string>
+    <string name="pref_output_dir_recording_disabled_desc">Arrêtez l\'enregistrement pour changer l\'emplacement des nouveaux enregistrements.</string>
 
     <string name="pref_output_format_name">Réglages audio</string>
     <string name="pref_output_format_desc">Choisissez la source, les canaux et le codage des enregistrements.</string>
+    <string name="pref_output_format_recording_disabled_desc">Arrêtez l\'enregistrement pour changer la source, les canaux, le format, le débit binaire ou la fréquence d\'échantillonnage.</string>
 
     <string name="pref_inhibit_batt_opt_name">Désactiver l\'optimisation de la batterie</string>
     <string name="pref_inhibit_batt_opt_desc">Réduit le risque que le système arrête l\'application.</string>
 
     <string name="pref_native_sample_rate_name">Test de fréquence native</string>
     <string name="pref_native_sample_rate_desc">Estime la fréquence d\'échantillonnage native du micro de l\'appareil à partir des tailles de tampon.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">Arrêtez l\'enregistrement avant de tester la fréquence d\'échantillonnage du microphone.</string>
 
     <string name="pref_debug_mode_name">Journalisation de diagnostic</string>
     <string name="pref_debug_mode_desc">Enregistre la sortie logcat avec chaque enregistrement, y compris dans les builds release.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">Arrêtez l\'enregistrement pour changer la journalisation des futurs enregistrements.</string>
     <string name="pref_debug_mode_forced_desc">Toujours activée dans les builds debug.</string>
 
     <!-- About "preference" -->

@@ -15,18 +15,22 @@
 
     <string name="pref_output_dir_name">Directorio de salida</string>
     <string name="pref_output_dir_desc">Elige un directorio para guardar las grabaciones.</string>
+    <string name="pref_output_dir_recording_disabled_desc">Detén la grabación para cambiar dónde se guardan las nuevas grabaciones.</string>
 
     <string name="pref_output_format_name">Ajustes de audio</string>
     <string name="pref_output_format_desc">Elige la fuente, los canales y la codificación de las grabaciones.</string>
+    <string name="pref_output_format_recording_disabled_desc">Detén la grabación para cambiar la fuente, los canales, el formato, la tasa de bits o la frecuencia de muestreo.</string>
 
     <string name="pref_inhibit_batt_opt_name">Desactivar optimización de batería</string>
     <string name="pref_inhibit_batt_opt_desc">Reduce la probabilidad de que el sistema detenga la app.</string>
 
     <string name="pref_native_sample_rate_name">Prueba de frecuencia nativa</string>
     <string name="pref_native_sample_rate_desc">Estima la frecuencia de muestreo nativa del micrófono del dispositivo a partir de tamaños de búfer.</string>
+    <string name="pref_native_sample_rate_recording_disabled_desc">Detén la grabación antes de probar la frecuencia de muestreo del micrófono.</string>
 
     <string name="pref_debug_mode_name">Registro de diagnóstico</string>
     <string name="pref_debug_mode_desc">Guarda la salida de logcat con cada grabación, también en compilaciones release.</string>
+    <string name="pref_debug_mode_recording_disabled_desc">Detén la grabación para cambiar el registro de futuras grabaciones.</string>
     <string name="pref_debug_mode_forced_desc">Siempre activado en compilaciones debug.</string>
 
     <!-- About "preference" -->

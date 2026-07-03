@@ -33,11 +33,7 @@ android {
 
     namespace = "com.patrykmis.bar"
 
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = 0
-        }
-    }
+    compileSdk = 37
     buildToolsVersion = "37.0.0"
 
     androidResources {

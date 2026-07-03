@@ -63,8 +63,8 @@
     <string name="native_sample_rate_result_not_tested">运行测试以估算原生采样率。</string>
     <string name="native_sample_rate_run_test">运行测试</string>
     <string name="native_sample_rate_run_test_desc">比较最小缓冲区大小，并将每次尝试的详细信息写入 logcat。</string>
-    <string name="native_sample_rate_result_detected">缓冲区启发式检测结果：%1$d Hz\n所选声道：%2$s\n详细信息已使用此标签记录：%3$s</string>
-    <string name="native_sample_rate_result_fallback">没有明确的缓冲区结果；使用后备值：%1$d Hz\n详细信息已使用此标签记录：%2$s</string>
+    <string name="native_sample_rate_result_detected">缓冲区启发式检测结果：%1$d Hz\n所选声道：%2$s\n完成用时：%4$d ms\n详细信息已使用此标签记录：%3$s</string>
+    <string name="native_sample_rate_result_fallback">没有明确的缓冲区结果；使用后备值：%1$d Hz\n完成用时：%3$d ms\n详细信息已使用此标签记录：%2$s</string>
 
     <string name="bottom_sheet_reset">恢复默认设置</string>
 

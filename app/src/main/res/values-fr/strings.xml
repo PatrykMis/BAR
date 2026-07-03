@@ -65,8 +65,8 @@
     <string name="native_sample_rate_result_not_tested">Lancez le test pour estimer la fréquence d\'échantillonnage native.</string>
     <string name="native_sample_rate_run_test">Lancer le test</string>
     <string name="native_sample_rate_run_test_desc">Compare les tailles minimales de tampon et écrit les tentatives détaillées dans logcat.</string>
-    <string name="native_sample_rate_result_detected">Détectée par heuristique de tampon : %1$d Hz\nCanal sélectionné : %2$s\nDétails consignés avec le tag : %3$s</string>
-    <string name="native_sample_rate_result_fallback">Aucun résultat de tampon concluant ; valeur de secours utilisée : %1$d Hz\nDétails consignés avec le tag : %2$s</string>
+    <string name="native_sample_rate_result_detected">Détectée par heuristique de tampon : %1$d Hz\nCanal sélectionné : %2$s\nTerminé en : %4$d ms\nDétails consignés avec le tag : %3$s</string>
+    <string name="native_sample_rate_result_fallback">Aucun résultat de tampon concluant ; valeur de secours utilisée : %1$d Hz\nTerminé en : %3$d ms\nDétails consignés avec le tag : %2$s</string>
 
     <string name="bottom_sheet_reset">Rétablir les valeurs par défaut</string>
 

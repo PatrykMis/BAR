@@ -66,8 +66,8 @@
     <string name="native_sample_rate_result_not_tested">Spustite test na odhad natívnej vzorkovacej frekvencie.</string>
     <string name="native_sample_rate_run_test">Spustiť test</string>
     <string name="native_sample_rate_run_test_desc">Porovnáva minimálne veľkosti vyrovnávacej pamäte a zapisuje podrobné pokusy do logcatu.</string>
-    <string name="native_sample_rate_result_detected">Zistené heuristikou vyrovnávacej pamäte: %1$d Hz\nVybraný kanál: %2$s\nPodrobnosti zapísané so značkou: %3$s</string>
-    <string name="native_sample_rate_result_fallback">Žiadny rozhodujúci výsledok vyrovnávacej pamäte; používa sa záložná hodnota: %1$d Hz\nPodrobnosti zapísané so značkou: %2$s</string>
+    <string name="native_sample_rate_result_detected">Zistené heuristikou vyrovnávacej pamäte: %1$d Hz\nVybraný kanál: %2$s\nDokončené za: %4$d ms\nPodrobnosti zapísané so značkou: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Žiadny rozhodujúci výsledok vyrovnávacej pamäte; používa sa záložná hodnota: %1$d Hz\nDokončené za: %3$d ms\nPodrobnosti zapísané so značkou: %2$s</string>
 
     <string name="bottom_sheet_reset">Obnoviť predvolené</string>
 

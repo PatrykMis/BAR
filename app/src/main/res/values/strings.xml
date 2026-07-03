@@ -64,8 +64,8 @@
     <string name="native_sample_rate_result_not_tested">Run the test to estimate the native sample rate.</string>
     <string name="native_sample_rate_run_test">Run test</string>
     <string name="native_sample_rate_run_test_desc">Compares minimum buffer sizes and writes detailed attempts to logcat.</string>
-    <string name="native_sample_rate_result_detected">Detected by buffer heuristic: %1$d Hz\nSelected channel: %2$s\nDetails logged with tag: %3$s</string>
-    <string name="native_sample_rate_result_fallback">No conclusive buffer result; using fallback: %1$d Hz\nDetails logged with tag: %2$s</string>
+    <string name="native_sample_rate_result_detected">Detected by buffer heuristic: %1$d Hz\nSelected channel: %2$s\nFinished in: %4$d ms\nDetails logged with tag: %3$s</string>
+    <string name="native_sample_rate_result_fallback">No conclusive buffer result; using fallback: %1$d Hz\nFinished in: %3$d ms\nDetails logged with tag: %2$s</string>
 
     <string name="bottom_sheet_reset">Reset to defaults</string>
 

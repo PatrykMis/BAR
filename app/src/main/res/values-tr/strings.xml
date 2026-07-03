@@ -64,8 +64,8 @@
     <string name="native_sample_rate_result_not_tested">Yerel örnekleme hızını tahmin etmek için testi çalıştırın.</string>
     <string name="native_sample_rate_run_test">Testi çalıştır</string>
     <string name="native_sample_rate_run_test_desc">Minimum tampon boyutlarını karşılaştırır ve ayrıntılı denemeleri logcat\'e yazar.</string>
-    <string name="native_sample_rate_result_detected">Tampon sezgisiyle algılandı: %1$d Hz\nSeçilen kanal: %2$s\nAyrıntılar şu etiketle günlüğe yazıldı: %3$s</string>
-    <string name="native_sample_rate_result_fallback">Kesin bir tampon sonucu yok; yedek değer kullanılıyor: %1$d Hz\nAyrıntılar şu etiketle günlüğe yazıldı: %2$s</string>
+    <string name="native_sample_rate_result_detected">Tampon sezgisiyle algılandı: %1$d Hz\nSeçilen kanal: %2$s\nTamamlanma süresi: %4$d ms\nAyrıntılar şu etiketle günlüğe yazıldı: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Kesin bir tampon sonucu yok; yedek değer kullanılıyor: %1$d Hz\nTamamlanma süresi: %3$d ms\nAyrıntılar şu etiketle günlüğe yazıldı: %2$s</string>
 
     <string name="bottom_sheet_reset">Varsayılanlara sıfırla</string>
 

@@ -65,8 +65,8 @@
     <string name="native_sample_rate_result_not_tested">Ejecuta la prueba para estimar la frecuencia de muestreo nativa.</string>
     <string name="native_sample_rate_run_test">Ejecutar prueba</string>
     <string name="native_sample_rate_run_test_desc">Compara los tamaños mínimos de búfer y escribe los intentos detallados en logcat.</string>
-    <string name="native_sample_rate_result_detected">Detectado por heurística de búfer: %1$d Hz\nCanal seleccionado: %2$s\nDetalles registrados con la etiqueta: %3$s</string>
-    <string name="native_sample_rate_result_fallback">Sin resultado concluyente de búfer; se usa el valor de reserva: %1$d Hz\nDetalles registrados con la etiqueta: %2$s</string>
+    <string name="native_sample_rate_result_detected">Detectado por heurística de búfer: %1$d Hz\nCanal seleccionado: %2$s\nCompletado en: %4$d ms\nDetalles registrados con la etiqueta: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Sin resultado concluyente de búfer; se usa el valor de reserva: %1$d Hz\nCompletado en: %3$d ms\nDetalles registrados con la etiqueta: %2$s</string>
 
     <string name="bottom_sheet_reset">Restablecer valores predeterminados</string>
 

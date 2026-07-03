@@ -66,8 +66,8 @@
     <string name="native_sample_rate_result_not_tested">Запустите тест, чтобы оценить родную частоту дискретизации.</string>
     <string name="native_sample_rate_run_test">Запустить тест</string>
     <string name="native_sample_rate_run_test_desc">Сравнивает минимальные размеры буфера и записывает подробные попытки в logcat.</string>
-    <string name="native_sample_rate_result_detected">Обнаружено эвристикой буфера: %1$d Hz\nВыбранный канал: %2$s\nПодробности записаны с тегом: %3$s</string>
-    <string name="native_sample_rate_result_fallback">Нет убедительного результата буфера; используется резервное значение: %1$d Hz\nПодробности записаны с тегом: %2$s</string>
+    <string name="native_sample_rate_result_detected">Обнаружено эвристикой буфера: %1$d Hz\nВыбранный канал: %2$s\nЗавершено за: %4$d ms\nПодробности записаны с тегом: %3$s</string>
+    <string name="native_sample_rate_result_fallback">Нет убедительного результата буфера; используется резервное значение: %1$d Hz\nЗавершено за: %3$d ms\nПодробности записаны с тегом: %2$s</string>
 
     <string name="bottom_sheet_reset">Сбросить к значениям по умолчанию</string>
 

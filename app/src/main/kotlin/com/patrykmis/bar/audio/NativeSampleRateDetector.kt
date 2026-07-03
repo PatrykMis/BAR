@@ -2,6 +2,7 @@ package com.patrykmis.bar.audio
 
 import android.media.AudioFormat
 import android.media.AudioRecord
+import android.os.SystemClock
 import android.util.Log
 
 object NativeSampleRateDetector {
@@ -16,6 +17,8 @@ object NativeSampleRateDetector {
     )
 
     fun detect(): Result {
+        val startMs = SystemClock.elapsedRealtime()
+
         Log.i(
             TAG,
             "Starting native sample rate buffer heuristic: " +
@@ -33,6 +36,7 @@ object NativeSampleRateDetector {
         val selectedAttempt = selectBestAttempt(attempts)
         val detectedSampleRate = selectedAttempt?.sampleRate ?: FALLBACK_SAMPLE_RATE
         val fallbackUsed = selectedAttempt == null
+        val durationMs = SystemClock.elapsedRealtime() - startMs
 
         Log.i(
             TAG,
@@ -40,13 +44,15 @@ object NativeSampleRateDetector {
                     "sampleRate=$detectedSampleRate, " +
                     "fallbackUsed=$fallbackUsed, " +
                     "selectedChannel=${selectedAttempt?.channelName ?: "none"}, " +
-                    "selectedMinBuffer=${selectedAttempt?.minBufferSize ?: "none"}"
+                    "selectedMinBuffer=${selectedAttempt?.minBufferSize ?: "none"}, " +
+                    "durationMs=$durationMs"
         )
 
         return Result(
             detectedSampleRate,
             fallbackUsed,
             selectedAttempt?.channelName,
+            durationMs,
             attempts,
         )
     }
@@ -108,6 +114,7 @@ object NativeSampleRateDetector {
         val detectedSampleRate: Int,
         val fallbackUsed: Boolean,
         val selectedChannelName: String?,
+        val durationMs: Long,
         val attempts: List<Attempt>,
     )
 

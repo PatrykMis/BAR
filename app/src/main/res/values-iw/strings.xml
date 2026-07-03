@@ -65,8 +65,8 @@
     <string name="native_sample_rate_result_not_tested">הרץ את הבדיקה כדי להעריך את קצב הדגימה הטבעי.</string>
     <string name="native_sample_rate_run_test">הרץ בדיקה</string>
     <string name="native_sample_rate_run_test_desc">משווה גדלי מאגר מינימליים וכותב ניסיונות מפורטים ל-logcat.</string>
-    <string name="native_sample_rate_result_detected">זוהה בעזרת היוריסטיקת מאגר: %1$d Hz\nערוץ נבחר: %2$s\nפרטים נרשמו עם התגית: %3$s</string>
-    <string name="native_sample_rate_result_fallback">אין תוצאת מאגר חד-משמעית; נעשה שימוש בערך חלופי: %1$d Hz\nפרטים נרשמו עם התגית: %2$s</string>
+    <string name="native_sample_rate_result_detected">זוהה בעזרת היוריסטיקת מאגר: %1$d Hz\nערוץ נבחר: %2$s\nהסתיים בתוך: %4$d ms\nפרטים נרשמו עם התגית: %3$s</string>
+    <string name="native_sample_rate_result_fallback">אין תוצאת מאגר חד-משמעית; נעשה שימוש בערך חלופי: %1$d Hz\nהסתיים בתוך: %3$d ms\nפרטים נרשמו עם התגית: %2$s</string>
 
     <string name="bottom_sheet_reset">אפס לברירות מחדל</string>
 

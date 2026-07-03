@@ -1,5 +1,7 @@
 # Basic Audio Recorder
 
+<img src="app/images/icon.svg" alt="app icon" width="72" />
+
 ![license badge](https://img.shields.io/github/license/PatrykMis/BAR)
 
 BAR is a simple Android audio recording app forked from [BCR](https://github.com/chenxiaolong/BCR), with the microphone quick settings tile concept based on [on this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).

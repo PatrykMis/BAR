@@ -68,7 +68,11 @@
 
         <activity
             android:name=".RecorderGateActivity"
+            android:excludeFromRecents="true"
             android:exported="false"
+            android:finishOnTaskLaunch="true"
+            android:noHistory="true"
+            android:taskAffinity="com.patrykmis.bar.recorder_gate"
             android:theme="@style/Theme.Transparent" />
     </application>
 </manifest>

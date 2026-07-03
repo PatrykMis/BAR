@@ -22,7 +22,7 @@ class RecorderGateActivity : ComponentActivity() {
             Intent(this, RecorderService::class.java).setAction(RecorderService.ACTION_TOGGLE)
         )
 
-        // Immediately finish - no UI needed
-        finish()
+        // Immediately remove this temporary task so the regular app UI is not resumed underneath.
+        finishAndRemoveTask()
     }
 }

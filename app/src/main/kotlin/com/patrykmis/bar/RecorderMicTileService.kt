@@ -49,12 +49,17 @@ class RecorderMicTileService : TileService() {
     @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun startRecorderGate() {
         val intent = Intent(this, RecorderGateActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or
+                    Intent.FLAG_ACTIVITY_NO_ANIMATION or
+                    Intent.FLAG_ACTIVITY_NO_HISTORY
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startActivityAndCollapse(
                 PendingIntent.getActivity(
-                    this, 0, intent, PendingIntent.FLAG_IMMUTABLE
+                    this, 0, intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
         } else {

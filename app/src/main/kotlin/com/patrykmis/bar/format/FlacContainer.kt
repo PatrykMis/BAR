@@ -8,6 +8,7 @@ import android.media.MediaFormat
 import android.system.Os
 import android.system.OsConstants
 import android.util.Log
+import com.patrykmis.bar.writeFully
 import java.io.FileDescriptor
 import java.io.IOException
 import java.nio.ByteBuffer
@@ -84,7 +85,7 @@ class FlacContainer(private val fd: FileDescriptor) : Container, InputSampleCons
             throw IllegalStateException("Invalid track: $trackIndex")
         }
 
-        Os.write(fd, byteBuffer)
+        writeFully(fd, byteBuffer)
 
         if ((bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
             receivedEof = true
@@ -161,15 +162,7 @@ class FlacContainer(private val fd: FileDescriptor) : Container, InputSampleCons
 
         Os.lseek(fd, STREAMINFO_SAMPLE_COUNT_OFFSET.toLong(), OsConstants.SEEK_SET)
         val patchSize = STREAMINFO_END_OFFSET - STREAMINFO_SAMPLE_COUNT_OFFSET
-        if (Os.write(
-                fd,
-                buf.asByteArray(),
-                STREAMINFO_SAMPLE_COUNT_OFFSET,
-                patchSize
-            ) != patchSize
-        ) {
-            throw IOException("EOF reached when writing STREAMINFO fields")
-        }
+        writeFully(fd, buf.asByteArray(), STREAMINFO_SAMPLE_COUNT_OFFSET, patchSize)
     }
 
     companion object {

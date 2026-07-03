@@ -71,7 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         refreshDebugMode()
 
         prefVersion = findPreference(Preferences.PREF_VERSION)!!
-        prefVersion.onPreferenceClickListener = this
+        prefVersion.isSelectable = false
         refreshVersion()
     }
 
@@ -211,11 +211,6 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
                 return true
             }
 
-            prefVersion -> {
-                // val uri = Uri.parse(BuildConfig.PROJECT_URL_AT_COMMIT)
-                // startActivity(Intent(Intent.ACTION_VIEW, uri))
-                return true
-            }
         }
 
         return false

@@ -14,20 +14,10 @@ class RecorderMicTileService : TileService() {
         private val TAG = RecorderMicTileService::class.java.simpleName
     }
 
-    private var tileIsListening = false
-
     override fun onStartListening() {
         super.onStartListening()
 
-        tileIsListening = true
-
         refreshTileState()
-    }
-
-    override fun onStopListening() {
-        super.onStopListening()
-
-        tileIsListening = false
     }
 
     @SuppressLint("StartActivityAndCollapseDeprecated")

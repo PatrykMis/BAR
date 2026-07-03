@@ -31,8 +31,8 @@ import android.os.Process as AndroidProcess
  * fallback/default directory.
  *
  * @constructor Create a thread for recording the mic.
- * @param context Used for querying shared preferences and accessing files via SAF. A reference is
- * kept in the object.
+ * @param context Used for querying settings and accessing files via SAF. A reference is kept in
+ * the object.
  * @param listener Used for sending completion notifications. The listener is called from this
  * thread, not the main thread.
  */
@@ -51,16 +51,12 @@ class RecorderThread(
 
     // Pause state
     @Volatile
-    var isPaused = prefs.initiallyPaused
+    var isPaused = false
         set(value) {
             field = value
-            if (!value) {
-                wasEverResumed = true
-            }
 
             Log.d(tag, "Pause state updated: $value")
         }
-    private var wasEverResumed = !isPaused
 
     // Filename
     private val outputFilenameGenerator = OutputFilenameGenerator()
@@ -79,8 +75,6 @@ class RecorderThread(
     private lateinit var logcatProcess: Process
 
     init {
-        Log.i(tag, "Initially paused: $isPaused")
-
         val (savedFormat, savedFormatParam, savedSampleRate) = Format.fromPreferences(prefs)
         format = savedFormat
         sampleRate = savedSampleRate ?: format.defaultSampleRate
@@ -142,17 +136,8 @@ class RecorderThread(
                         }
                     }
 
-                    if (wasEverResumed) {
-                        dirUtils.tryMoveToUserDir(outputFile)?.let {
-                            resultUri = it.uri
-                        }
-                    } else {
-                        Log.i(
-                            tag,
-                            "Deleting because recording was never resumed: $finalFilename"
-                        )
-                        outputFile.delete()
-                        resultUri = null
+                    dirUtils.tryMoveToUserDir(outputFile)?.let {
+                        resultUri = it.uri
                     }
 
                     processRetention()
@@ -195,7 +180,7 @@ class RecorderThread(
             }
 
             if (success) {
-                listener.onRecordingCompleted(this, outputFile)
+                listener.onRecordingCompleted(this, checkNotNull(outputFile))
             } else {
                 listener.onRecordingFailed(this, errorMsg, outputFile)
             }
@@ -491,11 +476,9 @@ class RecorderThread(
 
     interface OnRecordingCompletedListener {
         /**
-         * Called when the recording completes successfully. [file] is the output file. If [file] is
-         * null, then the recording was started in the paused state and the output file was deleted
-         * because the user never resumed it.
+         * Called when the recording completes successfully. [file] is the output file.
          */
-        fun onRecordingCompleted(thread: RecorderThread, file: OutputFile?)
+        fun onRecordingCompleted(thread: RecorderThread, file: OutputFile)
 
         /**
          * Called when an error occurs during recording. If [file] is not null, it points to the

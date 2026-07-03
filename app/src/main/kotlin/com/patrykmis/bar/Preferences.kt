@@ -33,7 +33,6 @@ class Preferences(private val context: Context) {
         private val TAG = Preferences::class.java.simpleName
 
         const val PREF_PERMISSIONS = "permissions"
-        const val PREF_INITIALLY_PAUSED = "initially_paused"
         const val PREF_OUTPUT_DIR = "output_dir"
         const val PREF_OUTPUT_FORMAT = "output_format"
         const val PREF_INHIBIT_BATT_OPT = "inhibit_batt_opt"
@@ -226,13 +225,6 @@ class Preferences(private val context: Context) {
     var outputRetention: Retention?
         get() = getOptionalUint(PREF_OUTPUT_RETENTION)?.let { Retention.fromRawPreferenceValue(it) }
         set(retention) = setOptionalUint(PREF_OUTPUT_RETENTION, retention?.toRawPreferenceValue())
-
-    /**
-     * Whether the recording should initially start in the paused state.
-     */
-    var initiallyPaused: Boolean
-        get() = getBoolean(PREF_INITIALLY_PAUSED, false)
-        set(enabled) = setBoolean(PREF_INITIALLY_PAUSED, enabled)
 
     /**
      * The saved audio source for recording.

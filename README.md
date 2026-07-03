@@ -2,9 +2,9 @@
 
 ![license badge](https://img.shields.io/github/license/PatrykMis/BAR)
 
-BAR is a simple Android audio recording app forked from [BCR](https://github.com/chenxiaolong/BCR) with an addition of [this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).
+BAR is a simple Android audio recording app forked from [BCR](https://github.com/chenxiaolong/BCR), with the microphone quick settings tile concept based on [on this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).
 
-I've decided to fork because BCR has a robust audio recording/encoding pipeline that supports multiple output formats and accounts for many edge cases and failure conditions that other apps may ignore. BAR records from Android's MIC audio source (todo: source selector). The output files are saved with a _mic suffix in the output directory.
+I've decided to fork because BCR has a robust audio recording/encoding pipeline that supports multiple output formats and accounts for many edge cases and failure conditions that other apps may ignore. BAR records from a selectable Android microphone input source. The output files are saved with a _mic suffix in the output directory.
 
 ### Features
 
@@ -56,7 +56,8 @@ As the name alludes, BAR intends to be a basic as possible. The project will hav
 
 ### Usage
 
-1. Download the latest version from the [todo: releases page](https://github.com/PatrykMis/BAR/releases). To verify the digital signature, see the [verifying digital signatures](#verifying-digital-signatures) section.
+1. Releases are not published yet. Once v1.0 is available, download it from the[releases page](https://github.com/PatrykMis/BAR/releases).
+<!-- TODO(v1.0): Replace this with the normal releases-page sentence after publishing - "Download the latest version from the …" -->
 
 2. Install BAR.
 

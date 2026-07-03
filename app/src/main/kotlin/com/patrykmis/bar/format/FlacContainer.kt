@@ -11,9 +11,11 @@ import android.util.Log
 import java.io.FileDescriptor
 import java.io.IOException
 import java.nio.ByteBuffer
+import java.security.MessageDigest
 
 /**
- * Dummy FLAC container wrapper that updates the STREAMINFO duration field when complete.
+ * Dummy FLAC container wrapper that updates the STREAMINFO sample count and MD5 fields when
+ * complete.
  *
  * [MediaCodec] already produces a well-formed FLAC file, thus this class writes those samples
  * directly to the output file.
@@ -21,10 +23,13 @@ import java.nio.ByteBuffer
  * @param fd Output file descriptor. This class does not take ownership of it and it should not
  * be touched outside of this class until [stop] is called and returns.
  */
-class FlacContainer(private val fd: FileDescriptor) : Container {
+class FlacContainer(private val fd: FileDescriptor) : Container, InputSampleConsumer {
     private var isStarted = false
     private var lastPresentationTimeUs = -1L
+    private var numFrames = 0uL
+    private var receivedEof = false
     private var track = -1
+    private val md5 = MessageDigest.getInstance("MD5")
 
     override fun start() {
         if (isStarted) {
@@ -44,9 +49,9 @@ class FlacContainer(private val fd: FileDescriptor) : Container {
 
         isStarted = false
 
-        if (lastPresentationTimeUs >= 0) {
-            Log.d(TAG, "Setting duration field in header")
-            setHeaderDuration()
+        if (receivedEof) {
+            Log.d(TAG, "Setting sample count and MD5 fields in header")
+            setStreamInfoFields(md5.digest())
         }
     }
 
@@ -82,24 +87,35 @@ class FlacContainer(private val fd: FileDescriptor) : Container {
         Os.write(fd, byteBuffer)
 
         if ((bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+            receivedEof = true
             lastPresentationTimeUs = bufferInfo.presentationTimeUs
-            Log.d(TAG, "Received EOF; final presentation timestamp: $lastPresentationTimeUs")
+            Log.d(
+                TAG,
+                "Received EOF; final presentation timestamp: $lastPresentationTimeUs; " +
+                        "input frames: $numFrames"
+            )
         }
     }
 
+    override fun consumeInputSamples(byteBuffer: ByteBuffer, frameSize: Int) {
+        // FLAC STREAMINFO stores an MD5 checksum of the unencoded interleaved PCM samples.
+        numFrames += (byteBuffer.remaining() / frameSize).toULong()
+        md5.update(byteBuffer)
+    }
+
     /**
-     * Write the frame count to the STREAMINFO metadata block of a flac file.
+     * Write the sample count and PCM MD5 checksum to the STREAMINFO metadata block of a FLAC file.
      *
-     * @throws IOException If FLAC metadata does not appear to be valid or if the number of frames
-     * computed from [lastPresentationTimeUs] exceeds the bounds of a 36-bit integer
+     * @throws IOException If FLAC metadata does not appear to be valid or if [numFrames] exceeds
+     * the bounds of a 36-bit integer
      */
-    private fun setHeaderDuration() {
+    private fun setStreamInfoFields(md5: ByteArray) {
         Os.lseek(fd, 0, OsConstants.SEEK_SET)
 
         // Magic (4 bytes)
         // + metadata block header (4 bytes)
         // + streaminfo block (34 bytes)
-        val buf = UByteArray(42)
+        val buf = UByteArray(STREAMINFO_END_OFFSET)
 
         if (Os.read(fd, buf.asByteArray(), 0, buf.size) != buf.size) {
             throw IOException("EOF reached when reading FLAC headers")
@@ -123,34 +139,45 @@ class FlacContainer(private val fd: FileDescriptor) : Container {
             throw IOException("STREAMINFO block is too small")
         }
 
-        // Sample rate field is a 20-bit integer at the 18th byte
-        val sampleRate = buf[18].toUInt().shl(12) or
-                buf[19].toUInt().shl(4) or
-                buf[20].toUInt().shr(4)
-
-        // This underestimates the duration by a miniscule amount because it doesn't account for the
-        // duration of the final write
-        val frames = lastPresentationTimeUs.toULong() * sampleRate / 1_000_000uL
-
-        if (frames >= 2uL.shl(36)) {
-            throw IOException("Frame count cannot be represented in FLAC: $frames")
+        if (numFrames >= 2uL.shl(36)) {
+            throw IOException("Frame count cannot be represented in FLAC: $numFrames")
         }
 
         // Total samples field is a 36-bit integer that begins 4 bits into the 21st byte
-        buf[21] = (buf[21] and 0xf0u) or (frames.shr(32) and 0xfu).toUByte()
-        buf[22] = (frames.shr(24) and 0xffu).toUByte()
-        buf[23] = (frames.shr(16) and 0xffu).toUByte()
-        buf[24] = (frames.shr(8) and 0xffu).toUByte()
-        buf[25] = (frames and 0xffu).toUByte()
+        buf[STREAMINFO_SAMPLE_COUNT_OFFSET] =
+            (buf[STREAMINFO_SAMPLE_COUNT_OFFSET] and 0xf0u) or
+                    (numFrames.shr(32) and 0xfu).toUByte()
+        buf[STREAMINFO_SAMPLE_COUNT_OFFSET + 1] = (numFrames.shr(24) and 0xffu).toUByte()
+        buf[STREAMINFO_SAMPLE_COUNT_OFFSET + 2] = (numFrames.shr(16) and 0xffu).toUByte()
+        buf[STREAMINFO_SAMPLE_COUNT_OFFSET + 3] = (numFrames.shr(8) and 0xffu).toUByte()
+        buf[STREAMINFO_SAMPLE_COUNT_OFFSET + 4] = (numFrames and 0xffu).toUByte()
 
-        Os.lseek(fd, 21, OsConstants.SEEK_SET)
-        if (Os.write(fd, buf.asByteArray(), 21, 5) != 5) {
-            throw IOException("EOF reached when writing frame count")
+        if (md5.size != STREAMINFO_MD5_SIZE) {
+            throw IOException("Invalid MD5 digest size: ${md5.size}")
+        }
+        for (i in md5.indices) {
+            buf[STREAMINFO_MD5_OFFSET + i] = md5[i].toUByte()
+        }
+
+        Os.lseek(fd, STREAMINFO_SAMPLE_COUNT_OFFSET.toLong(), OsConstants.SEEK_SET)
+        val patchSize = STREAMINFO_END_OFFSET - STREAMINFO_SAMPLE_COUNT_OFFSET
+        if (Os.write(
+                fd,
+                buf.asByteArray(),
+                STREAMINFO_SAMPLE_COUNT_OFFSET,
+                patchSize
+            ) != patchSize
+        ) {
+            throw IOException("EOF reached when writing STREAMINFO fields")
         }
     }
 
     companion object {
         private val TAG = FlacContainer::class.java.simpleName
         private val FLAC_MAGIC = ubyteArrayOf(0x66u, 0x4cu, 0x61u, 0x43u) // fLaC
+        private const val STREAMINFO_SAMPLE_COUNT_OFFSET = 21
+        private const val STREAMINFO_MD5_OFFSET = 26
+        private const val STREAMINFO_MD5_SIZE = 16
+        private const val STREAMINFO_END_OFFSET = STREAMINFO_MD5_OFFSET + STREAMINFO_MD5_SIZE
     }
 }

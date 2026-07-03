@@ -47,3 +47,16 @@ interface Container {
      */
     fun writeSamples(trackIndex: Int, byteBuffer: ByteBuffer, bufferInfo: MediaCodec.BufferInfo)
 }
+
+/**
+ * Optional hook for containers that need metadata derived from the raw PCM input.
+ */
+interface InputSampleConsumer {
+    /**
+     * Consume the same PCM bytes that are submitted to the encoder.
+     *
+     * The buffer's position and limit bound the bytes to consume. Implementations may change this
+     * buffer's position.
+     */
+    fun consumeInputSamples(byteBuffer: ByteBuffer, frameSize: Int)
+}

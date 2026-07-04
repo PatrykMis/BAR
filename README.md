@@ -4,7 +4,7 @@
 
 ![license badge](https://img.shields.io/github/license/PatrykMis/BAR)
 
-BAR is a simple Android audio recording app forked from [BCR](https://github.com/chenxiaolong/BCR), with the microphone quick settings tile concept based on [on this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).
+BAR is a simple Android audio recording app forked from [BCR](https://github.com/chenxiaolong/BCR), with the microphone quick settings tile concept based [on this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).
 
 I've decided to fork because BCR has a robust audio recording/encoding pipeline that supports multiple output formats and accounts for many edge cases and failure conditions that other apps may ignore. BAR records from a selectable Android microphone input source. The output files are saved with a _mic suffix in the output directory.
 
@@ -21,6 +21,7 @@ I've decided to fork because BCR has a robust audio recording/encoding pipeline 
 * Material You dynamic theming
 * No network access permission
 * No third party dependencies
+* Fully usable with screen readers, using standard Android controls and accessibility-aware workflows.
 
 ### Audio format choices
 
@@ -59,14 +60,10 @@ As the name alludes, BAR intends to be a basic as possible. The project will hav
 ### Usage
 
 1. Releases are not published yet. Once v1.0 is available, download it from the[releases page](https://github.com/PatrykMis/BAR/releases).
-<!-- TODO(v1.0): Replace this with the normal releases-page sentence after publishing - "Download the latest version from the …" -->
-
+    <!-- TODO(v1.0): Replace this with the normal releases-page sentence after publishing - "Download the latest version from the …" -->
 2. Install BAR.
-
 3. Open BAR.
-
 4. Grant the required microphone and notification permissions when prompted.
-
 5. Pick an output directory. If no output directory is selected or if the output directory is no longer accessible, then recordings will be saved to `/sdcard/Android/data/com.patrykmis.bar/files`.
 
 BAR will prompt for microphone and notification (Android 13+) permissions. They are required for BAR to be able to record in the background.

@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">Настройки аудио</string>
     <string name="pref_output_format_desc">Выберите источник, каналы и кодирование записей.</string>
-    <string name="pref_output_format_recording_disabled_desc">Остановите запись, чтобы изменить источник, каналы, формат, битрейт или частоту дискретизации.</string>
+    <string name="pref_output_format_recording_disabled_desc">Остановите запись, чтобы изменить источник, каналы, формат файла, битовую глубину, битрейт или частоту дискретизации.</string>
 
     <string name="pref_inhibit_batt_opt_name">Отключить оптимизацию батареи</string>
     <string name="pref_inhibit_batt_opt_desc">Снижает вероятность того, что система остановит приложение.</string>
@@ -51,9 +51,14 @@
     <string name="output_format_audio_source">Источник</string>
     <string name="output_format_channels">Каналы</string>
     <string name="output_format_format">Формат</string>
+    <string name="output_format_bit_depth">Битовая глубина</string>
     <string name="output_format_bottom_sheet_compression_level">Уровень сжатия</string>
     <string name="output_format_bottom_sheet_bitrate">Битрейт</string>
     <string name="output_format_bottom_sheet_sample_rate">Частота дискретизации</string>
+    <string name="audio_sample_format_pcm_16bit">PCM 16 бит</string>
+    <string name="audio_sample_format_pcm_24bit">PCM 24 бит</string>
+    <string name="audio_sample_format_pcm_32bit">PCM 32 бит</string>
+    <string name="audio_sample_format_pcm_float">Float 32 бит</string>
     <string name="audio_source_unprocessed">Сырой звук (без обработки)</string>
     <string name="audio_source_voice_recognition">Распознавание речи</string>
     <string name="audio_source_microphone">Микрофон</string>

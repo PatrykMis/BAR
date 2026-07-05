@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">Ses ayarları</string>
     <string name="pref_output_format_desc">Kayıtlar için kaynağı, kanalları ve kodlamayı seçin.</string>
-    <string name="pref_output_format_recording_disabled_desc">Kaynak, kanallar, biçim, bit hızı veya örnekleme hızını değiştirmek için kaydı durdurun.</string>
+    <string name="pref_output_format_recording_disabled_desc">Kaynak, kanallar, dosya biçimi, bit derinliği, bit hızı veya örnekleme hızını değiştirmek için kaydı durdurun.</string>
 
     <string name="pref_inhibit_batt_opt_name">Pil optimizasyonunu devre dışı bırak</string>
     <string name="pref_inhibit_batt_opt_desc">Sistemin uygulamayı durdurma olasılığını azaltır.</string>
@@ -49,9 +49,14 @@
     <string name="output_format_audio_source">Kaynak</string>
     <string name="output_format_channels">Kanallar</string>
     <string name="output_format_format">Format</string>
+    <string name="output_format_bit_depth">Bit derinliği</string>
     <string name="output_format_bottom_sheet_compression_level">Sıkıştırma seviyesi</string>
     <string name="output_format_bottom_sheet_bitrate">Bit hızı</string>
     <string name="output_format_bottom_sheet_sample_rate">Örnekleme hızı</string>
+    <string name="audio_sample_format_pcm_16bit">16-bit PCM</string>
+    <string name="audio_sample_format_pcm_24bit">24-bit PCM</string>
+    <string name="audio_sample_format_pcm_32bit">32-bit PCM</string>
+    <string name="audio_sample_format_pcm_float">32-bit float</string>
     <string name="audio_source_unprocessed">Ham (işlenmemiş)</string>
     <string name="audio_source_voice_recognition">Ses tanıma</string>
     <string name="audio_source_microphone">Mikrofon</string>

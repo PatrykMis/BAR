@@ -1,6 +1,7 @@
 package com.patrykmis.bar.format
 
 import android.media.MediaFormat
+import com.patrykmis.bar.audio.AudioSampleFormat
 import java.io.FileDescriptor
 
 object FlacFormat : Format() {
@@ -13,6 +14,11 @@ object FlacFormat : Format() {
         8u,
     )
     override val sampleRates: Array<SampleRate> = SampleRate.all
+    override val sampleFormats: Array<AudioSampleFormat> = arrayOf(
+        AudioSampleFormat.Pcm16,
+        AudioSampleFormat.Pcm24,
+        AudioSampleFormat.Pcm32,
+    )
 
     override val mimeTypeContainer: String = MediaFormat.MIMETYPE_AUDIO_FLAC
     override val mimeTypeAudio: String = MediaFormat.MIMETYPE_AUDIO_FLAC

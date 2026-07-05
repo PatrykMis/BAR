@@ -115,10 +115,12 @@ class MediaCodecEncoder(
         private val TAG = MediaCodecEncoder::class.java.simpleName
         private const val TIMEOUT = 500L
 
+        fun findEncoderForFormat(mediaFormat: MediaFormat): String? =
+            MediaCodecList(MediaCodecList.REGULAR_CODECS).findEncoderForFormat(mediaFormat)
+
         fun createCodec(mediaFormat: MediaFormat): MediaCodec {
-            val encoder =
-                MediaCodecList(MediaCodecList.REGULAR_CODECS).findEncoderForFormat(mediaFormat)
-                    ?: throw Exception("No suitable encoder found for $mediaFormat")
+            val encoder = findEncoderForFormat(mediaFormat)
+                ?: throw Exception("No suitable encoder found for $mediaFormat")
             Log.d(TAG, "Audio encoder: $encoder")
 
             val codec = MediaCodec.createByCodecName(encoder)

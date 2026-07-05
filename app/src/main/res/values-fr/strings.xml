@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">Réglages audio</string>
     <string name="pref_output_format_desc">Choisissez la source, les canaux et le codage des enregistrements.</string>
-    <string name="pref_output_format_recording_disabled_desc">Arrêtez l\'enregistrement pour changer la source, les canaux, le format, le débit binaire ou la fréquence d\'échantillonnage.</string>
+    <string name="pref_output_format_recording_disabled_desc">Arrêtez l\'enregistrement pour changer la source, les canaux, le format, la profondeur de bits, le débit binaire ou la fréquence d\'échantillonnage.</string>
 
     <string name="pref_inhibit_batt_opt_name">Désactiver l\'optimisation de la batterie</string>
     <string name="pref_inhibit_batt_opt_desc">Réduit le risque que le système arrête l\'application.</string>
@@ -50,9 +50,14 @@
     <string name="output_format_audio_source">Source</string>
     <string name="output_format_channels">Canaux</string>
     <string name="output_format_format">Format</string>
+    <string name="output_format_bit_depth">Profondeur de bits</string>
     <string name="output_format_bottom_sheet_compression_level">Niveau de compression</string>
     <string name="output_format_bottom_sheet_bitrate">Débit binaire</string>
     <string name="output_format_bottom_sheet_sample_rate">Fréquence d\'échantillonnage</string>
+    <string name="audio_sample_format_pcm_16bit">PCM 16 bits</string>
+    <string name="audio_sample_format_pcm_24bit">PCM 24 bits</string>
+    <string name="audio_sample_format_pcm_32bit">PCM 32 bits</string>
+    <string name="audio_sample_format_pcm_float">Float 32 bits</string>
     <string name="audio_source_unprocessed">Brut (non traité)</string>
     <string name="audio_source_voice_recognition">Reconnaissance vocale</string>
     <string name="audio_source_microphone">Microphone</string>

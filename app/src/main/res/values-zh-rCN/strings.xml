@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">音频设置</string>
     <string name="pref_output_format_desc">选择录音的来源、声道和编码。</string>
-    <string name="pref_output_format_recording_disabled_desc">停止录音后才能更改来源、声道、格式、比特率或采样率。</string>
+    <string name="pref_output_format_recording_disabled_desc">停止录音后才能更改来源、声道、文件格式、位深度、比特率或采样率。</string>
 
     <string name="pref_inhibit_batt_opt_name">关闭电池优化</string>
     <string name="pref_inhibit_batt_opt_desc">降低应用被系统停止的概率。</string>
@@ -48,9 +48,14 @@
     <string name="output_format_audio_source">来源</string>
     <string name="output_format_channels">声道</string>
     <string name="output_format_format">格式</string>
+    <string name="output_format_bit_depth">位深度</string>
     <string name="output_format_bottom_sheet_compression_level">压缩等级</string>
     <string name="output_format_bottom_sheet_bitrate">比特率</string>
     <string name="output_format_bottom_sheet_sample_rate">采样率</string>
+    <string name="audio_sample_format_pcm_16bit">16-bit PCM</string>
+    <string name="audio_sample_format_pcm_24bit">24-bit PCM</string>
+    <string name="audio_sample_format_pcm_32bit">32-bit PCM</string>
+    <string name="audio_sample_format_pcm_float">32-bit float</string>
     <string name="audio_source_unprocessed">原始（未处理）</string>
     <string name="audio_source_voice_recognition">语音识别</string>
     <string name="audio_source_microphone">麦克风</string>

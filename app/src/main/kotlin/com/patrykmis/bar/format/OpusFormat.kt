@@ -2,6 +2,7 @@ package com.patrykmis.bar.format
 
 import android.media.MediaFormat
 import android.media.MediaMuxer
+import com.patrykmis.bar.audio.AudioSampleFormat
 import java.io.FileDescriptor
 
 object OpusFormat : Format() {
@@ -16,6 +17,12 @@ object OpusFormat : Format() {
     )
     override val sampleRates: Array<SampleRate> =
         SampleRate.all.filter { it.value != 44_100u }.toTypedArray()
+    override val sampleFormats: Array<AudioSampleFormat> = arrayOf(
+        AudioSampleFormat.Pcm16,
+        AudioSampleFormat.Pcm24,
+        AudioSampleFormat.Pcm32,
+        AudioSampleFormat.PcmFloat,
+    )
 
     // https://datatracker.ietf.org/doc/html/rfc7845#section-9
     override val mimeTypeContainer: String = "audio/ogg"

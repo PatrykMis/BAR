@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">Ajustes de audio</string>
     <string name="pref_output_format_desc">Elige la fuente, los canales y la codificación de las grabaciones.</string>
-    <string name="pref_output_format_recording_disabled_desc">Detén la grabación para cambiar la fuente, los canales, el formato, la tasa de bits o la frecuencia de muestreo.</string>
+    <string name="pref_output_format_recording_disabled_desc">Detén la grabación para cambiar la fuente, los canales, el formato, la profundidad de bits, la tasa de bits o la frecuencia de muestreo.</string>
 
     <string name="pref_inhibit_batt_opt_name">Desactivar optimización de batería</string>
     <string name="pref_inhibit_batt_opt_desc">Reduce la probabilidad de que el sistema detenga la app.</string>
@@ -50,9 +50,14 @@
     <string name="output_format_audio_source">Fuente</string>
     <string name="output_format_channels">Canales</string>
     <string name="output_format_format">Formato</string>
+    <string name="output_format_bit_depth">Profundidad de bits</string>
     <string name="output_format_bottom_sheet_compression_level">Nivel de compresión</string>
     <string name="output_format_bottom_sheet_bitrate">Tasa de bits</string>
     <string name="output_format_bottom_sheet_sample_rate">Frecuencia de muestreo</string>
+    <string name="audio_sample_format_pcm_16bit">PCM de 16 bits</string>
+    <string name="audio_sample_format_pcm_24bit">PCM de 24 bits</string>
+    <string name="audio_sample_format_pcm_32bit">PCM de 32 bits</string>
+    <string name="audio_sample_format_pcm_float">Float de 32 bits</string>
     <string name="audio_source_unprocessed">Sin procesar (raw)</string>
     <string name="audio_source_voice_recognition">Reconocimiento de voz</string>
     <string name="audio_source_microphone">Micrófono</string>

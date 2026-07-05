@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">הגדרות שמע</string>
     <string name="pref_output_format_desc">בחר את המקור, הערוצים והקידוד של ההקלטות.</string>
-    <string name="pref_output_format_recording_disabled_desc">יש לעצור את ההקלטה כדי לשנות מקור, ערוצים, פורמט, קצב סיביות או קצב דגימה.</string>
+    <string name="pref_output_format_recording_disabled_desc">יש לעצור את ההקלטה כדי לשנות מקור, ערוצים, פורמט קובץ, עומק סיביות, קצב סיביות או קצב דגימה.</string>
 
     <string name="pref_inhibit_batt_opt_name">השבת מיטוב סוללה</string>
     <string name="pref_inhibit_batt_opt_desc">מפחית את הסיכוי שהמערכת תעצור את האפליקציה.</string>
@@ -50,9 +50,14 @@
     <string name="output_format_audio_source">מקור</string>
     <string name="output_format_channels">ערוצים</string>
     <string name="output_format_format">פורמט</string>
+    <string name="output_format_bit_depth">עומק סיביות</string>
     <string name="output_format_bottom_sheet_compression_level">רמת דחיסה</string>
     <string name="output_format_bottom_sheet_bitrate">קצב סיביות</string>
     <string name="output_format_bottom_sheet_sample_rate">קצב דגימה</string>
+    <string name="audio_sample_format_pcm_16bit">PCM 16 סיביות</string>
+    <string name="audio_sample_format_pcm_24bit">PCM 24 סיביות</string>
+    <string name="audio_sample_format_pcm_32bit">PCM 32 סיביות</string>
+    <string name="audio_sample_format_pcm_float">float 32 סיביות</string>
     <string name="audio_source_unprocessed">גולמי (לא מעובד)</string>
     <string name="audio_source_voice_recognition">זיהוי דיבור</string>
     <string name="audio_source_microphone">מיקרופון</string>

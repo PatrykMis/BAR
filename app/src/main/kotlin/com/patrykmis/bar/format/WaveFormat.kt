@@ -1,12 +1,19 @@
 package com.patrykmis.bar.format
 
 import android.media.MediaFormat
+import com.patrykmis.bar.audio.AudioSampleFormat
 import java.io.FileDescriptor
 
 object WaveFormat : Format() {
     override val name: String = "WAV/PCM"
     override val paramInfo: FormatParamInfo = NoParamInfo
     override val sampleRates: Array<SampleRate> = SampleRate.all
+    override val sampleFormats: Array<AudioSampleFormat> = arrayOf(
+        AudioSampleFormat.Pcm16,
+        AudioSampleFormat.Pcm24,
+        AudioSampleFormat.Pcm32,
+        AudioSampleFormat.PcmFloat,
+    )
 
     // Should be "audio/vnd.wave" [1], but Android only recognizes "audio/x-wav" [2] for the
     // purpose of picking an appropriate file extension when creating a file via SAF.

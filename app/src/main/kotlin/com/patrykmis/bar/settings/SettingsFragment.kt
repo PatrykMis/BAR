@@ -130,11 +130,14 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
     private fun refreshOutputFormat() {
         val context = requireContext()
-        val (format, formatParamSaved, sampleRateSaved) = Format.fromPreferences(prefs)
-        val sampleRate = sampleRateSaved ?: format.defaultSampleRate
+        val recordingSettings = Format.fromPreferences(prefs)
+        val format = recordingSettings.format
+        val sampleRate = recordingSettings.sampleRate
         val audioSource = AudioInputSource.fromPreferences(context, prefs)
-        val audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
-        val formatParam = formatParamSaved ?: format.defaultParam(sampleRate, audioChannels)
+        val audioChannels = recordingSettings.audioChannels
+        val audioSampleFormat = recordingSettings.sampleFormat
+        val formatParam = recordingSettings.formatParam
+            ?: format.defaultParam(sampleRate, audioChannels)
         val isRecording = RecorderService.isRecording
         val summary = getString(
             if (isRecording) {
@@ -151,7 +154,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefOutputFormat.isEnabled = !isRecording
         prefOutputFormat.summary =
             "${summary}\n\n" +
-                    "${audioSource.displayName(context)}, ${audioChannels.displayName(context)}\n" +
+                    "${audioSource.displayName(context)}, " +
+                    "${audioChannels.displayName(context)}, " +
+                    "${audioSampleFormat.displayName(context)}\n" +
                     "${format.name} (${prefix}${sampleRate})"
     }
 

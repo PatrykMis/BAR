@@ -1,9 +1,9 @@
 package com.patrykmis.bar.format
 
-import android.media.AudioFormat
 import android.media.MediaFormat
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.audio.AudioChannels
+import com.patrykmis.bar.audio.AudioSampleFormat
 import java.io.FileDescriptor
 
 sealed class Format {
@@ -19,6 +19,9 @@ sealed class Format {
 
     /** Sample rates that should be offered for this format. */
     abstract val sampleRates: Array<SampleRate>
+
+    /** Input PCM sample formats that can be offered for this output format. */
+    abstract val sampleFormats: Array<AudioSampleFormat>
 
     /** The default sample rate for new selections of this format. */
     val defaultSampleRate: SampleRate
@@ -65,18 +68,23 @@ sealed class Format {
      * Create a [MediaFormat] representing the encoded audio with parameters matching the specified
      * input PCM audio format.
      *
-     * @param audioFormat [AudioFormat.getSampleRate] must not be
-     * [AudioFormat.SAMPLE_RATE_UNSPECIFIED].
+     * @param sampleRate Must be one of [sampleRates].
+     * @param audioChannels Must be supported by the selected input source.
+     * @param sampleFormat Must be one of [sampleFormats].
      * @param param Format-specific parameter value. Must be valid according to [paramInfo].
      *
      * @throws IllegalArgumentException if [FormatParamInfo.validate] fails
      */
-    fun getMediaFormat(audioFormat: AudioFormat, param: UInt?): MediaFormat {
-        val sampleRate = SampleRate(audioFormat.sampleRate.toUInt())
-        val audioChannels = AudioChannels.getByCount(audioFormat.channelCount)
-            ?: throw IllegalArgumentException(
-                "Unsupported channel count: ${audioFormat.channelCount}"
-            )
+    fun getMediaFormat(
+        sampleRate: SampleRate,
+        audioChannels: AudioChannels,
+        sampleFormat: AudioSampleFormat,
+        param: UInt?,
+    ): MediaFormat {
+        require(sampleFormat in sampleFormats) {
+            "Unsupported sample format for $name: $sampleFormat"
+        }
+
         val info = paramInfo(sampleRate, audioChannels)
 
         if (param != null) {
@@ -85,9 +93,10 @@ sealed class Format {
 
         val format = MediaFormat().apply {
             setString(MediaFormat.KEY_MIME, mimeTypeAudio)
-            setInteger(MediaFormat.KEY_CHANNEL_COUNT, audioFormat.channelCount)
-            setInteger(MediaFormat.KEY_SAMPLE_RATE, audioFormat.sampleRate)
-            setInteger(KEY_X_FRAME_SIZE_IN_BYTES, audioFormat.frameSizeInBytes)
+            setInteger(MediaFormat.KEY_CHANNEL_COUNT, audioChannels.count)
+            setInteger(MediaFormat.KEY_SAMPLE_RATE, sampleRate.value.toInt())
+            setInteger(MediaFormat.KEY_PCM_ENCODING, sampleFormat.encoding)
+            setInteger(KEY_X_FRAME_SIZE_IN_BYTES, sampleFormat.frameSize(audioChannels))
         }
 
         updateMediaFormat(format, param ?: info.default)
@@ -118,6 +127,40 @@ sealed class Format {
             MediaCodecEncoder(mediaFormat, container)
         }
 
+    fun isSampleFormatSupported(
+        sampleRate: SampleRate,
+        audioChannels: AudioChannels,
+        sampleFormat: AudioSampleFormat,
+    ): Boolean {
+        if (sampleFormat !in sampleFormats ||
+            sampleRate !in sampleRates ||
+            !sampleFormat.isCaptureSupported(sampleRate, audioChannels)
+        ) {
+            return false
+        }
+
+        if (passthrough) {
+            return true
+        }
+
+        val mediaFormat = try {
+            getMediaFormat(
+                sampleRate,
+                audioChannels,
+                sampleFormat,
+                defaultParam(sampleRate, audioChannels),
+            )
+        } catch (e: Exception) {
+            return false
+        }
+
+        return try {
+            MediaCodecEncoder.findEncoderForFormat(mediaFormat) != null
+        } catch (e: Exception) {
+            false
+        }
+    }
+
     /**
      * Create a container muxer that takes encoded input and writes the muxed output to [fd].
      *
@@ -131,6 +174,14 @@ sealed class Format {
         val all: Array<Format> = arrayOf(OpusFormat, AacFormat, FlacFormat, WaveFormat)
         private val default: Format = all.first { it.supported }
 
+        data class RecordingSettings(
+            val format: Format,
+            val formatParam: UInt?,
+            val sampleRate: SampleRate,
+            val audioChannels: AudioChannels,
+            val sampleFormat: AudioSampleFormat,
+        )
+
         /** Find output format by name. */
         fun getByName(name: String): Format? = all.find { it.name == name }
 
@@ -140,7 +191,7 @@ sealed class Format {
          * The parameter, if set, is clamped to the format's allowed parameter range. The sample
          * rate is returned only if it is valid for the selected format.
          */
-        fun fromPreferences(prefs: Preferences): Triple<Format, UInt?, SampleRate?> {
+        fun fromPreferences(prefs: Preferences): RecordingSettings {
             // Use the saved format if it is valid and supported on the current device. Otherwise, fall
             // back to the default.
             val format = prefs.format
@@ -153,20 +204,55 @@ sealed class Format {
                 }
                 ?: default
 
-            val sampleRate = prefs.getFormatSampleRate(format)
+            val preferredSampleRate = prefs.getFormatSampleRate(format)
                 ?.let { SampleRate(it) }
                 ?.takeIf { it in format.sampleRates }
 
-            val effectiveSampleRate = sampleRate ?: format.defaultSampleRate
-            val audioChannels = AudioChannels.fromPreferences(prefs, effectiveSampleRate)
+            val preferredSampleFormat = prefs.getFormatSampleFormat(format)
+                ?.takeIf { it in format.sampleFormats }
+
+            val sampleRates = format.sampleRates
+                .asList()
+                .withPreferred(preferredSampleRate, format.defaultSampleRate)
+            val audioChannels = AudioChannels.values()
+                .asList()
+                .withPreferred(prefs.audioChannels, AudioChannels.default, AudioChannels.fallback)
+            val sampleFormats = format.sampleFormats
+                .asList()
+                .withPreferred(preferredSampleFormat, AudioSampleFormat.default)
+
+            val recordingSettings = sampleRates.asSequence()
+                .flatMap { sampleRate ->
+                    audioChannels.asSequence().flatMap { audioChannels ->
+                        sampleFormats.asSequence().map { sampleFormat ->
+                            RecordingSettings(format, null, sampleRate, audioChannels, sampleFormat)
+                        }
+                    }
+                }
+                .firstOrNull {
+                    format.isSampleFormatSupported(it.sampleRate, it.audioChannels, it.sampleFormat)
+                }
+                ?: RecordingSettings(
+                    format,
+                    null,
+                    format.defaultSampleRate,
+                    AudioChannels.fallback,
+                    AudioSampleFormat.default,
+                )
 
             // Convert the saved value to the nearest valid value (eg. in case bitrate range or step
             // size in changed in a future version)
             val param = prefs.getFormatParam(format)?.let {
-                format.paramInfo(effectiveSampleRate, audioChannels).toNearest(it)
+                format.paramInfo(
+                    recordingSettings.sampleRate,
+                    recordingSettings.audioChannels,
+                ).toNearest(it)
             }
 
-            return Triple(format, param, sampleRate)
+            return recordingSettings.copy(formatParam = param)
         }
+
+        private fun <T> List<T>.withPreferred(vararg preferred: T?): List<T> =
+            (preferred.filterNotNull() + this).distinct()
     }
 }

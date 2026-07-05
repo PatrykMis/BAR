@@ -4,6 +4,7 @@ import android.media.MediaCodecInfo
 import android.media.MediaFormat
 import android.media.MediaMuxer
 import com.patrykmis.bar.audio.AudioChannels
+import com.patrykmis.bar.audio.AudioSampleFormat
 import java.io.FileDescriptor
 
 object AacFormat : Format() {
@@ -16,6 +17,11 @@ object AacFormat : Format() {
         get() = SampleRate.all.filter { sampleRate ->
             bitrateConfigurations.keys.any { it.first == sampleRate }
         }.toTypedArray()
+    override val sampleFormats: Array<AudioSampleFormat> = arrayOf(
+        AudioSampleFormat.Pcm16,
+        AudioSampleFormat.Pcm24,
+        AudioSampleFormat.Pcm32,
+    )
 
     // https://datatracker.ietf.org/doc/html/rfc6381#section-3.1
     override val mimeTypeContainer: String = "audio/mp4"

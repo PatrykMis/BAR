@@ -4,6 +4,7 @@
 package com.patrykmis.bar.format
 
 import android.media.MediaCodec
+import android.media.AudioFormat
 import android.media.MediaFormat
 import android.system.Os
 import android.system.OsConstants
@@ -17,6 +18,7 @@ class WaveContainer(private val fd: FileDescriptor) : Container {
     private var track = -1
     private var frameSize = 0
     private var channelCount = 0
+    private var pcmEncoding = AudioFormat.ENCODING_PCM_16BIT
     private var sampleRate = 0
 
     override fun start() {
@@ -63,6 +65,7 @@ class WaveContainer(private val fd: FileDescriptor) : Container {
         track = 0
         frameSize = mediaFormat.getInteger(Format.KEY_X_FRAME_SIZE_IN_BYTES)
         channelCount = mediaFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
+        pcmEncoding = mediaFormat.getInteger(MediaFormat.KEY_PCM_ENCODING)
         sampleRate = mediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
 
         return track
@@ -106,7 +109,7 @@ class WaveContainer(private val fd: FileDescriptor) : Container {
             // 16-19: Subchunk 1 size
             putInt(16)
             // 20-21: Audio format
-            putShort(1)
+            putShort(waveFormatCode)
             // 22-23: Number of channels
             putShort(channelCount.toShort())
             // 24-27: Sample rate
@@ -127,9 +130,18 @@ class WaveContainer(private val fd: FileDescriptor) : Container {
 
     companion object {
         private const val HEADER_SIZE = 44
+        private const val WAVE_FORMAT_PCM = 1.toShort()
+        private const val WAVE_FORMAT_IEEE_FLOAT = 3.toShort()
         private val RIFF_MAGIC = ubyteArrayOf(0x52u, 0x49u, 0x46u, 0x46u) // RIFF
         private val WAVE_MAGIC = ubyteArrayOf(0x57u, 0x41u, 0x56u, 0x45u) // WAVE
         private val FMT_MAGIC = ubyteArrayOf(0x66u, 0x6du, 0x74u, 0x20u) // "fmt "
         private val DATA_MAGIC = ubyteArrayOf(0x64u, 0x61u, 0x74u, 0x61u) // data
     }
+
+    private val waveFormatCode: Short
+        get() = if (pcmEncoding == AudioFormat.ENCODING_PCM_FLOAT) {
+            WAVE_FORMAT_IEEE_FLOAT
+        } else {
+            WAVE_FORMAT_PCM
+        }
 }

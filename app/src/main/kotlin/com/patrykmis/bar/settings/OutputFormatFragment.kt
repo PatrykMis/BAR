@@ -9,6 +9,7 @@ import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
 import com.patrykmis.bar.audio.AudioChannels
 import com.patrykmis.bar.audio.AudioInputSource
+import com.patrykmis.bar.audio.AudioSampleFormat
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.NoParamInfo
 import com.patrykmis.bar.format.RangedParamInfo
@@ -26,10 +27,13 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
     private fun refreshScreen() {
         val context = preferenceManager.context
         val screen = preferenceManager.createPreferenceScreen(context)
-        val (currentFormat, currentParam, currentSampleRateSaved) = Format.fromPreferences(prefs)
-        val currentSampleRate = currentSampleRateSaved ?: currentFormat.defaultSampleRate
+        val recordingSettings = Format.fromPreferences(prefs)
+        val currentFormat = recordingSettings.format
+        val currentParam = recordingSettings.formatParam
+        val currentSampleRate = recordingSettings.sampleRate
         val currentAudioSource = AudioInputSource.fromPreferences(context, prefs)
-        val currentAudioChannels = AudioChannels.fromPreferences(prefs, currentSampleRate)
+        val currentAudioChannels = recordingSettings.audioChannels
+        val currentSampleFormat = recordingSettings.sampleFormat
         val currentParamInfo = currentFormat.paramInfo(currentSampleRate, currentAudioChannels)
 
         val audioSources = AudioInputSource.available()
@@ -55,7 +59,8 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             }
         })
 
-        val audioChannels = AudioChannels.available(currentSampleRate)
+        val audioChannels =
+            AudioChannels.available(currentFormat, currentSampleRate, currentSampleFormat)
         screen.addPreference(ListPreference(context).apply {
             isIconSpaceReserved = false
             isPersistent = false
@@ -91,6 +96,30 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             }
         })
 
+        val sampleFormats = AudioSampleFormat.available(
+            currentFormat,
+            currentSampleRate,
+            currentAudioChannels,
+        )
+        screen.addPreference(ListPreference(context).apply {
+            isIconSpaceReserved = false
+            isPersistent = false
+            key = "audio_sample_format"
+            setTitle(R.string.output_format_bit_depth)
+            entries = sampleFormats.map { it.displayName(context) }.toTypedArray()
+            entryValues = sampleFormats.map { it.preferenceValue }.toTypedArray()
+            value = currentSampleFormat.preferenceValue
+            summary = currentSampleFormat.displayName(context)
+            setOnPreferenceChangeListener { _, newValue ->
+                prefs.setFormatSampleFormat(
+                    currentFormat,
+                    AudioSampleFormat.getByPreferenceValue(newValue as String),
+                )
+                refreshScreen()
+                false
+            }
+        })
+
         when (val info = currentParamInfo) {
             is RangedParamInfo -> addParamPreference(
                 screen,
@@ -109,8 +138,17 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             isPersistent = false
             key = "output_format_sample_rate"
             setTitle(R.string.output_format_bottom_sheet_sample_rate)
-            entries = currentFormat.sampleRates.map { it.toString() }.toTypedArray()
-            entryValues = currentFormat.sampleRates.map { it.value.toString() }.toTypedArray()
+            val sampleRates = currentFormat.sampleRates
+                .filter {
+                    currentFormat.isSampleFormatSupported(
+                        it,
+                        currentAudioChannels,
+                        currentSampleFormat,
+                    )
+                }
+                .ifEmpty { listOf(currentSampleRate) }
+            entries = sampleRates.map { it.toString() }.toTypedArray()
+            entryValues = sampleRates.map { it.value.toString() }.toTypedArray()
             value = currentSampleRate.value.toString()
             summary = currentSampleRate.toString()
             setOnPreferenceChangeListener { _, newValue ->

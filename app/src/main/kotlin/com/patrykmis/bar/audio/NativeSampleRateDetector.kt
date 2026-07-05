@@ -9,6 +9,7 @@ object NativeSampleRateDetector {
     private val TAG = NativeSampleRateDetector::class.java.simpleName
 
     private const val FALLBACK_SAMPLE_RATE = 48_000
+    private const val ENCODING = AudioFormat.ENCODING_PCM_16BIT
     private val SAMPLE_RATES = intArrayOf(48_000, 44_100)
     private val CHANNEL_CONFIGS = listOf(
         ChannelConfig("default", AudioFormat.CHANNEL_IN_DEFAULT),
@@ -24,7 +25,7 @@ object NativeSampleRateDetector {
             "Starting native sample rate buffer heuristic: " +
                     "sampleRates=${SAMPLE_RATES.joinToString()}, " +
                     "channels=${CHANNEL_CONFIGS.joinToString { it.name }}, " +
-                    "encoding=${AudioChannels.ENCODING}"
+                    "encoding=$ENCODING"
         )
 
         val attempts = CHANNEL_CONFIGS.flatMap { channelConfig ->
@@ -61,7 +62,7 @@ object NativeSampleRateDetector {
         val minBufferSize = AudioRecord.getMinBufferSize(
             sampleRate,
             channelConfig.value,
-            AudioChannels.ENCODING,
+            ENCODING,
         )
         val error = if (minBufferSize > 0) {
             null
@@ -82,7 +83,7 @@ object NativeSampleRateDetector {
             "Native sample rate buffer test: " +
                     "sampleRate=${attempt.sampleRate}, " +
                     "channel=${attempt.channelName}(${attempt.channelConfig}), " +
-                    "encoding=${AudioChannels.ENCODING}, " +
+                    "encoding=$ENCODING, " +
                     "minBufferSize=${attempt.minBufferSize}, " +
                     "supported=${attempt.minBufferSize > 0}, " +
                     "error=${attempt.error ?: "none"}"

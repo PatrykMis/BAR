@@ -2,10 +2,10 @@ package com.patrykmis.bar.audio
 
 import android.content.Context
 import android.media.AudioFormat
-import android.media.AudioRecord
 import androidx.annotation.StringRes
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
+import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
 
 enum class AudioChannels(
@@ -19,18 +19,16 @@ enum class AudioChannels(
 
     fun displayName(context: Context): String = context.getString(labelRes)
 
-    fun isSupported(sampleRate: SampleRate): Boolean =
-        AudioRecord.getMinBufferSize(
-            sampleRate.value.toInt(),
-            channelConfig,
-            ENCODING
-        ) > 0
+    fun isSupported(
+        format: Format,
+        sampleRate: SampleRate,
+        sampleFormat: AudioSampleFormat,
+    ): Boolean =
+        format.isSampleFormatSupported(sampleRate, this, sampleFormat)
 
     companion object {
-        const val ENCODING = AudioFormat.ENCODING_PCM_16BIT
-
-        private val default = Stereo
-        private val fallback = Mono
+        val default = Stereo
+        val fallback = Mono
 
         fun getByPreferenceValue(value: String?): AudioChannels? =
             values().find { it.preferenceValue == value }
@@ -38,11 +36,22 @@ enum class AudioChannels(
         fun getByCount(count: Int): AudioChannels? =
             values().find { it.count == count }
 
-        fun available(sampleRate: SampleRate): List<AudioChannels> =
-            values().filter { it.isSupported(sampleRate) }.ifEmpty { listOf(fallback) }
+        fun available(
+            format: Format,
+            sampleRate: SampleRate,
+            sampleFormat: AudioSampleFormat,
+        ): List<AudioChannels> =
+            values()
+                .filter { it.isSupported(format, sampleRate, sampleFormat) }
+                .ifEmpty { listOf(fallback) }
 
-        fun fromPreferences(prefs: Preferences, sampleRate: SampleRate): AudioChannels {
-            val available = available(sampleRate)
+        fun fromPreferences(
+            prefs: Preferences,
+            format: Format,
+            sampleRate: SampleRate,
+            sampleFormat: AudioSampleFormat,
+        ): AudioChannels {
+            val available = available(format, sampleRate, sampleFormat)
 
             return prefs.audioChannels?.takeIf { it in available }
                 ?: default.takeIf { it in available }

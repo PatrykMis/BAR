@@ -11,6 +11,7 @@ import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
 import com.patrykmis.bar.audio.AudioChannels
 import com.patrykmis.bar.audio.AudioInputSource
+import com.patrykmis.bar.audio.AudioSampleFormat
 import com.patrykmis.bar.extension.listFilesWithNames
 import com.patrykmis.bar.extension.renameToPreserveExt
 import com.patrykmis.bar.extension.threadIdCompat
@@ -65,6 +66,7 @@ class RecorderThread(
     // Format
     private val audioInputSource: AudioInputSource
     private val audioChannels: AudioChannels
+    private val audioSampleFormat: AudioSampleFormat
     private val format: Format
     private val formatParam: UInt?
     private val sampleRate: SampleRate
@@ -75,12 +77,16 @@ class RecorderThread(
     private lateinit var logcatProcess: Process
 
     init {
-        val (savedFormat, savedFormatParam, savedSampleRate) = Format.fromPreferences(prefs)
-        format = savedFormat
-        sampleRate = savedSampleRate ?: format.defaultSampleRate
+        val recordingSettings = Format.fromPreferences(prefs)
+        format = recordingSettings.format
+        formatParam = recordingSettings.formatParam ?: format.defaultParam(
+            recordingSettings.sampleRate,
+            recordingSettings.audioChannels,
+        )
+        sampleRate = recordingSettings.sampleRate
         audioInputSource = AudioInputSource.fromPreferences(context, prefs)
-        audioChannels = AudioChannels.fromPreferences(prefs, sampleRate)
-        formatParam = savedFormatParam ?: format.defaultParam(sampleRate, audioChannels)
+        audioChannels = recordingSettings.audioChannels
+        audioSampleFormat = recordingSettings.sampleFormat
 
         Log.i(
             tag,
@@ -88,6 +94,7 @@ class RecorderThread(
                     "source=${audioInputSource.preferenceValue}(${audioInputSource.source}), " +
                     "channels=${audioChannels.preferenceValue}(${audioChannels.count}), " +
                     "sampleRate=$sampleRate, " +
+                    "sampleFormat=${audioSampleFormat.preferenceValue}(${audioSampleFormat.encoding}), " +
                     "format=${format.name}, " +
                     "formatParam=$formatParam"
         )
@@ -323,7 +330,7 @@ class RecorderThread(
         AndroidProcess.setThreadPriority(AndroidProcess.THREAD_PRIORITY_URGENT_AUDIO)
 
         val minBufSize = AudioRecord.getMinBufferSize(
-            sampleRate.value.toInt(), audioChannels.channelConfig, ENCODING
+            sampleRate.value.toInt(), audioChannels.channelConfig, audioSampleFormat.encoding
         )
         if (minBufSize < 0) {
             throw Exception("Failure when querying minimum buffer size: $minBufSize")
@@ -334,7 +341,7 @@ class RecorderThread(
             audioInputSource.source,
             sampleRate.value.toInt(),
             audioChannels.channelConfig,
-            ENCODING,
+            audioSampleFormat.encoding,
             // On some devices, MediaCodec occasionally has sudden spikes in processing time, so use
             // a larger internal buffer to reduce the chance of overrun on the recording side.
             minBufSize * 6,
@@ -353,8 +360,17 @@ class RecorderThread(
                 val container = format.getContainer(pfd.fileDescriptor)
 
                 try {
-                    // audioRecord.format has the detected native sample rate
-                    val mediaFormat = format.getMediaFormat(audioRecord.format, formatParam)
+                    val actualSampleRate = SampleRate(audioRecord.sampleRate.toUInt())
+                    val actualChannels = AudioChannels.getByCount(audioRecord.format.channelCount)
+                        ?: throw IllegalArgumentException(
+                            "Unsupported channel count: ${audioRecord.format.channelCount}"
+                        )
+                    val mediaFormat = format.getMediaFormat(
+                        actualSampleRate,
+                        actualChannels,
+                        audioSampleFormat,
+                        formatParam,
+                    )
                     val encoder = format.getEncoder(mediaFormat, container)
 
                     try {
@@ -468,10 +484,6 @@ class RecorderThread(
             tag, "Input complete after ${"%.1f".format(durationSecsTotal)}s " +
                     "(${"%.1f".format(durationSecsEncoded)}s encoded)"
         )
-    }
-
-    companion object {
-        private const val ENCODING = AudioChannels.ENCODING
     }
 
     interface OnRecordingCompletedListener {

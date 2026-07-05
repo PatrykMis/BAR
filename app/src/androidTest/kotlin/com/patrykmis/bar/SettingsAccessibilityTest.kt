@@ -54,6 +54,11 @@ class SettingsAccessibilityTest {
     }
 
     @Test
+    fun bitDepthDialogPassesAccessibilityChecks() {
+        checkOutputFormatDialogAccessibility(R.string.output_format_bit_depth)
+    }
+
+    @Test
     fun formatParameterDialogPassesAccessibilityChecks() {
         checkOutputFormatDialogAccessibility(R.string.output_format_bottom_sheet_bitrate)
     }

@@ -50,7 +50,7 @@ class PassthroughEncoder(
         val frames = buffer.remaining() / frameSize
 
         bufferInfo.offset = buffer.position()
-        bufferInfo.size = buffer.limit()
+        bufferInfo.size = buffer.remaining()
         bufferInfo.presentationTimeUs = timestampUs
         bufferInfo.flags = if (isEof) {
             MediaCodec.BUFFER_FLAG_END_OF_STREAM

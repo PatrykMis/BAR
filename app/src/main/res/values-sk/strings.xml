@@ -19,7 +19,7 @@
 
     <string name="pref_output_format_name">Nastavenia zvuku</string>
     <string name="pref_output_format_desc">Vyberte zdroj, kanály a kódovanie nahrávok.</string>
-    <string name="pref_output_format_recording_disabled_desc">Zastavte nahrávanie, aby ste zmenili zdroj, kanály, formát, dátový tok alebo vzorkovaciu frekvenciu.</string>
+    <string name="pref_output_format_recording_disabled_desc">Zastavte nahrávanie, aby ste zmenili zdroj, kanály, formát súboru, bitovú hĺbku, bitovú rýchlosť alebo vzorkovaciu frekvenciu.</string>
 
     <string name="pref_inhibit_batt_opt_name">Vypnúť optimalizáciu batérie</string>
     <string name="pref_inhibit_batt_opt_desc">Znižuje pravdepodobnosť, že systém aplikáciu ukončí.</string>
@@ -51,9 +51,14 @@
     <string name="output_format_audio_source">Zdroj</string>
     <string name="output_format_channels">Kanály</string>
     <string name="output_format_format">Formát</string>
+    <string name="output_format_bit_depth">Bitová hĺbka</string>
     <string name="output_format_bottom_sheet_compression_level">Úroveň kompresie</string>
     <string name="output_format_bottom_sheet_bitrate">Bitová rýchlosť</string>
     <string name="output_format_bottom_sheet_sample_rate">Vzorkovacia frekvencia</string>
+    <string name="audio_sample_format_pcm_16bit">16-bit PCM</string>
+    <string name="audio_sample_format_pcm_24bit">24-bit PCM</string>
+    <string name="audio_sample_format_pcm_32bit">32-bit PCM</string>
+    <string name="audio_sample_format_pcm_float">32-bit float</string>
     <string name="audio_source_unprocessed">Surový (nespracovaný)</string>
     <string name="audio_source_voice_recognition">Rozpoznávanie reči</string>
     <string name="audio_source_microphone">Mikrofón</string>

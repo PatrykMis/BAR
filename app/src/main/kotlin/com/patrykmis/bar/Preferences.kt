@@ -13,6 +13,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.patrykmis.bar.audio.AudioChannels
 import com.patrykmis.bar.audio.AudioInputSource
+import com.patrykmis.bar.audio.AudioSampleFormat
 import com.patrykmis.bar.format.Format
 import com.patrykmis.bar.format.SampleRate
 import com.patrykmis.bar.output.Retention
@@ -46,6 +47,7 @@ class Preferences(private val context: Context) {
         private const val PREF_FORMAT_NAME = "codec_name"
         private const val PREF_FORMAT_PARAM_PREFIX = "codec_param_"
         private const val PREF_FORMAT_SAMPLE_RATE_PREFIX = "codec_sample_rate_"
+        private const val PREF_FORMAT_SAMPLE_FORMAT_PREFIX = "codec_sample_format_"
         const val PREF_OUTPUT_RETENTION = "output_retention"
 
         private val listeners = CopyOnWriteArraySet<OnPreferenceChangeListener>()
@@ -53,7 +55,8 @@ class Preferences(private val context: Context) {
         fun isFormatKey(key: String): Boolean =
             key == PREF_FORMAT_NAME ||
                     key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
-                    key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX)
+                    key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX) ||
+                    key.startsWith(PREF_FORMAT_SAMPLE_FORMAT_PREFIX)
 
         fun isRecordingSettingsKey(key: String): Boolean =
             isFormatKey(key) || key == PREF_AUDIO_SOURCE || key == PREF_AUDIO_CHANNELS
@@ -283,6 +286,19 @@ class Preferences(private val context: Context) {
         setOptionalUint(PREF_FORMAT_SAMPLE_RATE_PREFIX + format.name, sampleRate?.value)
 
     /**
+     * Get the format-specific PCM sample format for [format].
+     */
+    fun getFormatSampleFormat(format: Format): AudioSampleFormat? =
+        getString(PREF_FORMAT_SAMPLE_FORMAT_PREFIX + format.name)
+            ?.let { AudioSampleFormat.getByPreferenceValue(it) }
+
+    /**
+     * Set the format-specific PCM sample format for [format].
+     */
+    fun setFormatSampleFormat(format: Format, sampleFormat: AudioSampleFormat?) =
+        setString(PREF_FORMAT_SAMPLE_FORMAT_PREFIX + format.name, sampleFormat?.preferenceValue)
+
+    /**
      * Remove the default recording settings and the parameters for all formats.
      */
     fun resetRecordingSettings() {
@@ -312,6 +328,10 @@ class Preferences(private val context: Context) {
             key.startsWith(PREF_FORMAT_PARAM_PREFIX) ||
                     key.startsWith(PREF_FORMAT_SAMPLE_RATE_PREFIX) -> {
                 remove(intPreferencesKey(key))
+            }
+
+            key.startsWith(PREF_FORMAT_SAMPLE_FORMAT_PREFIX) -> {
+                remove(stringPreferencesKey(key))
             }
         }
     }

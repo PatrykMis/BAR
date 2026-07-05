@@ -8,10 +8,12 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceViewHolder
 import com.patrykmis.bar.R
+import com.patrykmis.bar.RecorderService
 import com.patrykmis.bar.audio.NativeSampleRateDetector
 
 class NativeSampleRateFragment : PreferenceFragmentCompat() {
     private lateinit var prefResult: ResultPreference
+    private lateinit var prefRunTest: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = preferenceManager.context
@@ -32,17 +34,29 @@ class NativeSampleRateFragment : PreferenceFragmentCompat() {
         }
         screen.addPreference(prefResult)
 
-        screen.addPreference(Preference(context).apply {
+        prefRunTest = Preference(context).apply {
             isIconSpaceReserved = false
             setTitle(R.string.native_sample_rate_run_test)
-            setSummary(R.string.native_sample_rate_run_test_desc)
             setOnPreferenceClickListener {
+                if (RecorderService.isRecording) {
+                    refreshRecordingState()
+                    return@setOnPreferenceClickListener true
+                }
+
                 runTest()
                 true
             }
-        })
+        }
+        screen.addPreference(prefRunTest)
 
         preferenceScreen = screen
+        refreshRecordingState()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        refreshRecordingState()
     }
 
     private fun runTest() {
@@ -66,6 +80,23 @@ class NativeSampleRateFragment : PreferenceFragmentCompat() {
             )
         }
         prefResult.setAnnouncedSummary(summary)
+    }
+
+    private fun refreshRecordingState() {
+        if (!this::prefRunTest.isInitialized) {
+            return
+        }
+
+        val isRecording = RecorderService.isRecording
+
+        prefRunTest.isEnabled = !isRecording
+        prefRunTest.setSummary(
+            if (isRecording) {
+                R.string.pref_native_sample_rate_recording_disabled_desc
+            } else {
+                R.string.native_sample_rate_run_test_desc
+            }
+        )
     }
 
     private class ResultPreference(context: Context) : Preference(context) {

@@ -10,6 +10,7 @@ import com.google.android.material.slider.Slider
 import com.patrykmis.bar.OpenPersistentDocumentTree
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
+import com.patrykmis.bar.RecorderService
 import com.patrykmis.bar.databinding.OutputDirectoryBottomSheetBinding
 import com.patrykmis.bar.extension.formattedString
 import com.patrykmis.bar.output.Retention
@@ -23,6 +24,11 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
 
     private val requestSafOutputDir =
         registerForActivityResult(OpenPersistentDocumentTree()) { uri ->
+            if (RecorderService.isRecording) {
+                refreshRecordingState()
+                return@registerForActivityResult
+            }
+
             prefs.outputDir = uri
             refreshOutputDir()
         }
@@ -39,6 +45,11 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
         prefs = Preferences(context)
 
         binding.selectNewDir.setOnClickListener {
+            if (RecorderService.isRecording) {
+                refreshRecordingState()
+                return@setOnClickListener
+            }
+
             requestSafOutputDir.launch(null)
         }
 
@@ -53,6 +64,11 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
         binding.retentionSlider.addOnChangeListener(this)
 
         binding.reset.setOnClickListener {
+            if (RecorderService.isRecording) {
+                refreshRecordingState()
+                return@setOnClickListener
+            }
+
             prefs.outputDir = null
             refreshOutputDir()
             prefs.outputRetention = null
@@ -61,8 +77,15 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
 
         refreshOutputDir()
         refreshOutputRetention()
+        refreshRecordingState()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        refreshRecordingState()
     }
 
     private fun refreshOutputDir() {
@@ -82,9 +105,17 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
                 val retention = Retention.all[value.toInt()]
                 updateRetentionStateDescription(retention)
 
-                if (fromUser) {
-                    prefs.outputRetention = retention
+                if (!fromUser) {
+                    return
                 }
+
+                if (RecorderService.isRecording) {
+                    refreshOutputRetention()
+                    refreshRecordingState()
+                    return
+                }
+
+                prefs.outputRetention = retention
             }
         }
     }
@@ -94,6 +125,18 @@ class OutputDirectoryBottomSheetFragment : BottomSheetDialogFragment(), Slider.O
             binding.retentionSlider,
             retention.toFormattedString(requireContext())
         )
+    }
+
+    private fun refreshRecordingState() {
+        if (_binding == null) {
+            return
+        }
+
+        val enabled = !RecorderService.isRecording
+
+        binding.selectNewDir.isEnabled = enabled
+        binding.retentionSlider.isEnabled = enabled
+        binding.reset.isEnabled = enabled
     }
 
     companion object {

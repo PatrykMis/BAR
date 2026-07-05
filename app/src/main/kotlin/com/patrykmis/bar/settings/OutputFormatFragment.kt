@@ -9,6 +9,7 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
+import com.patrykmis.bar.RecorderService
 import com.patrykmis.bar.audio.AudioChannels
 import com.patrykmis.bar.audio.AudioInputSource
 import com.patrykmis.bar.audio.AudioSampleFormat
@@ -26,9 +27,16 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         refreshScreen()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        refreshScreen()
+    }
+
     private fun refreshScreen() {
         val context = preferenceManager.context
         val screen = preferenceManager.createPreferenceScreen(context)
+        val isRecording = RecorderService.isRecording
         val recordingSettings = Format.fromPreferences(prefs)
         val currentFormat = recordingSettings.format
         val currentParam = recordingSettings.formatParam
@@ -49,6 +57,10 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             value = currentAudioSource.preferenceValue
             summary = getAudioSourceSummary(currentAudioSource)
             setOnPreferenceChangeListener { _, newValue ->
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceChangeListener false
+                }
+
                 val audioSource = AudioInputSource.getByPreferenceValue(newValue as String)!!
                 prefs.audioInputSource = audioSource
                 refreshScreen()
@@ -61,6 +73,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
 
                 false
             }
+            disableIfRecording(isRecording)
         })
 
         val audioChannels =
@@ -75,11 +88,16 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             value = currentAudioChannels.preferenceValue
             summary = currentAudioChannels.displayName(context)
             setOnPreferenceChangeListener { _, newValue ->
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceChangeListener false
+                }
+
                 prefs.audioChannels =
                     AudioChannels.getByPreferenceValue(newValue as String)
                 refreshScreen()
                 false
             }
+            disableIfRecording(isRecording)
         })
 
         screen.addPreference(ListPreference(context).apply {
@@ -94,10 +112,15 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             value = currentFormat.name
             summary = currentFormat.name
             setOnPreferenceChangeListener { _, newValue ->
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceChangeListener false
+                }
+
                 prefs.format = Format.getByName(newValue as String)!!
                 refreshScreen()
                 false
             }
+            disableIfRecording(isRecording)
         })
 
         val sampleFormats = AudioSampleFormat.available(
@@ -115,6 +138,10 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             value = currentSampleFormat.preferenceValue
             summary = currentSampleFormat.displayName(context)
             setOnPreferenceChangeListener { _, newValue ->
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceChangeListener false
+                }
+
                 val sampleFormat = AudioSampleFormat.getByPreferenceValue(newValue as String)
                 prefs.setFormatSampleFormat(
                     currentFormat,
@@ -130,6 +157,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
 
                 false
             }
+            disableIfRecording(isRecording)
         })
 
         when (val info = currentParamInfo) {
@@ -140,6 +168,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
                 info,
                 currentParam,
                 currentAudioChannels,
+                isRecording,
             )
 
             NoParamInfo -> {}
@@ -164,20 +193,30 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             value = currentSampleRate.value.toString()
             summary = currentSampleRate.toString()
             setOnPreferenceChangeListener { _, newValue ->
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceChangeListener false
+                }
+
                 prefs.setFormatSampleRate(currentFormat, SampleRate((newValue as String).toUInt()))
                 refreshScreen()
                 false
             }
+            disableIfRecording(isRecording)
         })
 
         screen.addPreference(Preference(context).apply {
             isIconSpaceReserved = false
             setTitle(R.string.bottom_sheet_reset)
             setOnPreferenceClickListener {
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceClickListener true
+                }
+
                 prefs.resetRecordingSettings()
                 refreshScreen()
                 true
             }
+            disableIfRecording(isRecording)
         })
 
         preferenceScreen = screen
@@ -190,6 +229,7 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         info: RangedParamInfo,
         currentParam: UInt?,
         audioChannels: AudioChannels,
+        isRecording: Boolean,
     ) {
         val context = preferenceManager.context
         val currentValue = info.toNearest(
@@ -213,12 +253,38 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             summary = info.format(currentValue)
 
             setOnPreferenceChangeListener { preference, newValue ->
+                if (blockChangeIfRecording()) {
+                    return@setOnPreferenceChangeListener false
+                }
+
                 val param = (newValue as String).toUInt()
                 prefs.setFormatParam(format, param)
                 preference.summary = info.format(param)
                 true
             }
+            disableIfRecording(isRecording)
         })
+    }
+
+    private fun Preference.disableIfRecording(isRecording: Boolean) {
+        if (!isRecording) {
+            return
+        }
+
+        val currentSummary = summary?.toString()?.takeIf { it.isNotBlank() }
+        val recordingSummary = getString(R.string.pref_output_format_recording_disabled_desc)
+
+        isEnabled = false
+        summary = listOfNotNull(currentSummary, recordingSummary).joinToString("\n\n")
+    }
+
+    private fun blockChangeIfRecording(): Boolean {
+        if (!RecorderService.isRecording) {
+            return false
+        }
+
+        refreshScreen()
+        return true
     }
 
     private fun getAudioSourceSummary(audioSource: AudioInputSource): String =

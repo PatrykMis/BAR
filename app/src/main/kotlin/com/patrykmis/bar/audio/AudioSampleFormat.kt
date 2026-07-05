@@ -41,6 +41,9 @@ enum class AudioSampleFormat(
 
     fun displayName(context: Context): String = context.getString(labelRes)
 
+    val needsHigherBitDepthWarning: Boolean
+        get() = this != Pcm16
+
     fun frameSize(audioChannels: AudioChannels): Int =
         bytesPerSample * audioChannels.count
 

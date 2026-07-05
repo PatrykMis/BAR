@@ -58,6 +58,8 @@
     <string name="audio_sample_format_pcm_24bit">PCM de 24 bits</string>
     <string name="audio_sample_format_pcm_32bit">PCM de 32 bits</string>
     <string name="audio_sample_format_pcm_float">Float de 32 bits</string>
+    <string name="bit_depth_warning_title">La mayor profundidad de bits no está garantizada</string>
+    <string name="bit_depth_warning_message">Android puede permitir grabar en 24 bits, 32 bits o float incluso cuando el dispositivo captura audio internamente con menor precisión. En ese caso, los bits adicionales pueden estar rellenados o derivados, no proceder de detalles reales del micrófono. Usa PCM de 16 bits para la compatibilidad más predecible.</string>
     <string name="audio_source_unprocessed">Sin procesar (raw)</string>
     <string name="audio_source_voice_recognition">Reconocimiento de voz</string>
     <string name="audio_source_microphone">Micrófono</string>

@@ -111,11 +111,17 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
             value = currentSampleFormat.preferenceValue
             summary = currentSampleFormat.displayName(context)
             setOnPreferenceChangeListener { _, newValue ->
+                val sampleFormat = AudioSampleFormat.getByPreferenceValue(newValue as String)
                 prefs.setFormatSampleFormat(
                     currentFormat,
-                    AudioSampleFormat.getByPreferenceValue(newValue as String),
+                    sampleFormat,
                 )
                 refreshScreen()
+
+                if (sampleFormat?.needsHigherBitDepthWarning == true) {
+                    showHigherBitDepthDialog()
+                }
+
                 false
             }
         })
@@ -223,6 +229,14 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.audio_source_unsupported_unprocessed_title)
             .setMessage(R.string.audio_source_unsupported_unprocessed_message)
+            .setNeutralButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private fun showHigherBitDepthDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.bit_depth_warning_title)
+            .setMessage(R.string.bit_depth_warning_message)
             .setNeutralButton(android.R.string.ok, null)
             .show()
     }

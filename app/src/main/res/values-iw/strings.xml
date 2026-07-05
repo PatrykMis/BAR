@@ -58,6 +58,8 @@
     <string name="audio_sample_format_pcm_24bit">PCM 24 סיביות</string>
     <string name="audio_sample_format_pcm_32bit">PCM 32 סיביות</string>
     <string name="audio_sample_format_pcm_float">float 32 סיביות</string>
+    <string name="bit_depth_warning_title">עומק סיביות גבוה יותר אינו מובטח</string>
+    <string name="bit_depth_warning_message">Android עשוי לאפשר הקלטה ב-24 סיביות, 32 סיביות או float גם כאשר המכשיר קולט שמע פנימית בדיוק נמוך יותר. במקרה כזה, הסיביות הנוספות עשויות להיות מרופדות או מחושבות, ולא לייצג פרטים אמיתיים מהמיקרופון. השתמש ב-PCM 16 סיביות לקבלת התאימות הצפויה ביותר.</string>
     <string name="audio_source_unprocessed">גולמי (לא מעובד)</string>
     <string name="audio_source_voice_recognition">זיהוי דיבור</string>
     <string name="audio_source_microphone">מיקרופון</string>

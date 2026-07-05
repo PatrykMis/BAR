@@ -56,6 +56,8 @@
     <string name="audio_sample_format_pcm_24bit">24-bit PCM</string>
     <string name="audio_sample_format_pcm_32bit">32-bit PCM</string>
     <string name="audio_sample_format_pcm_float">32-bit float</string>
+    <string name="bit_depth_warning_title">更高位深度无法保证</string>
+    <string name="bit_depth_warning_message">即使设备内部以较低精度采集音频，Android 也可能允许 24-bit、32-bit 或 float 录音。在这种情况下，额外的位可能只是填充或推导出来的，并不代表真实的麦克风细节。若需要最可预期的兼容性，请使用 16-bit PCM。</string>
     <string name="audio_source_unprocessed">原始（未处理）</string>
     <string name="audio_source_voice_recognition">语音识别</string>
     <string name="audio_source_microphone">麦克风</string>

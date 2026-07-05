@@ -57,6 +57,8 @@
     <string name="audio_sample_format_pcm_24bit">24-bit PCM</string>
     <string name="audio_sample_format_pcm_32bit">32-bit PCM</string>
     <string name="audio_sample_format_pcm_float">32-bit float</string>
+    <string name="bit_depth_warning_title">Daha yüksek bit derinliği garanti edilmez</string>
+    <string name="bit_depth_warning_message">Android, cihaz sesi dahili olarak daha düşük hassasiyetle yakalasa bile 24-bit, 32-bit veya float kayda izin verebilir. Bu durumda ek bitler gerçek mikrofon ayrıntısı yerine doldurulmuş veya türetilmiş olabilir. En öngörülebilir uyumluluk için 16-bit PCM kullanın.</string>
     <string name="audio_source_unprocessed">Ham (işlenmemiş)</string>
     <string name="audio_source_voice_recognition">Ses tanıma</string>
     <string name="audio_source_microphone">Mikrofon</string>

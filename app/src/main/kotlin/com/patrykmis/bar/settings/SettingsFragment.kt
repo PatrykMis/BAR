@@ -28,6 +28,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     private lateinit var prefInhibitBatteryOpt: SwitchPreferenceCompat
     private lateinit var prefNativeSampleRate: Preference
     private lateinit var prefDebugMode: SwitchPreferenceCompat
+    private lateinit var prefResetWarnings: Preference
     private lateinit var prefVersion: Preference
 
     private val requestPermissionRequired =
@@ -72,6 +73,10 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefDebugMode.onPreferenceChangeListener = this
         refreshDebugMode()
 
+        prefResetWarnings = findPreference(Preferences.PREF_RESET_WARNINGS)!!
+        prefResetWarnings.onPreferenceClickListener = this
+        refreshResetWarnings()
+
         prefVersion = findPreference(Preferences.PREF_VERSION)!!
         prefVersion.isSelectable = false
         refreshVersion()
@@ -88,6 +93,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         refreshOutputFormat()
         refreshInhibitBatteryOptState()
         refreshDebugMode()
+        refreshResetWarnings()
     }
 
     override fun onResume() {
@@ -212,6 +218,19 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         )
     }
 
+    private fun refreshResetWarnings() {
+        val hasHiddenWarnings = prefs.hasHiddenWarnings
+
+        prefResetWarnings.isEnabled = hasHiddenWarnings
+        prefResetWarnings.summary = getString(
+            if (hasHiddenWarnings) {
+                R.string.pref_reset_warnings_desc
+            } else {
+                R.string.pref_reset_warnings_none_desc
+            }
+        )
+    }
+
     override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
         when (preference) {
             // This is only reachable if battery optimization is not already inhibited
@@ -260,6 +279,12 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
 
             prefNativeSampleRate -> {
                 startActivity(Intent(requireContext(), NativeSampleRateActivity::class.java))
+                return true
+            }
+
+            prefResetWarnings -> {
+                prefs.resetHiddenWarnings()
+                refreshResetWarnings()
                 return true
             }
 

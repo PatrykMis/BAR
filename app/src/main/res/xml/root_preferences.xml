@@ -49,6 +49,13 @@
             app:persistent="false"
             app:summary="@string/pref_debug_mode_desc"
             app:title="@string/pref_debug_mode_name" />
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="reset_warnings"
+            app:persistent="false"
+            app:summary="@string/pref_reset_warnings_none_desc"
+            app:title="@string/pref_reset_warnings_name" />
     </PreferenceCategory>
 
     <PreferenceCategory

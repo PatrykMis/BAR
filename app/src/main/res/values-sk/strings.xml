@@ -33,6 +33,10 @@
     <string name="pref_debug_mode_recording_disabled_desc">Zastavte nahrávanie, aby ste zmenili logovanie pre budúce nahrávky.</string>
     <string name="pref_debug_mode_forced_desc">V debug buildoch je vždy zapnuté.</string>
 
+    <string name="pref_reset_warnings_name">Obnoviť všetky upozornenia</string>
+    <string name="pref_reset_warnings_desc">Znova zobrazí správy skryté pomocou „Túto správu už nezobrazovať“.</string>
+    <string name="pref_reset_warnings_none_desc">Žiadne skryté upozornenia.</string>
+
     <!-- About "preference" -->
     <string name="pref_version_name">Verzia</string>
 
@@ -61,6 +65,7 @@
     <string name="audio_sample_format_pcm_float">32-bit float</string>
     <string name="bit_depth_warning_title">Vyššia bitová hĺbka nie je zaručená</string>
     <string name="bit_depth_warning_message">Android môže povoliť nahrávanie v 24-bit, 32-bit alebo float aj vtedy, keď zariadenie interne zachytáva zvuk s nižšou presnosťou. V takom prípade môžu byť dodatočné bity doplnené alebo odvodené, nie skutočné detaily z mikrofónu. Pre najpredvídateľnejšiu kompatibilitu použite 16-bit PCM.</string>
+    <string name="dialog_do_not_show_again">Túto správu už nezobrazovať</string>
     <string name="audio_source_unprocessed">Surový (nespracovaný)</string>
     <string name="audio_source_voice_recognition">Rozpoznávanie reči</string>
     <string name="audio_source_microphone">Mikrofón</string>

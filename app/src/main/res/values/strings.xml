@@ -33,6 +33,10 @@
     <string name="pref_debug_mode_recording_disabled_desc">Stop recording to change logging for future recordings.</string>
     <string name="pref_debug_mode_forced_desc">Always enabled in debug builds.</string>
 
+    <string name="pref_reset_warnings_name">Reset all warnings</string>
+    <string name="pref_reset_warnings_desc">Show warning messages hidden with “Don\'t show this message again.”</string>
+    <string name="pref_reset_warnings_none_desc">No hidden warning messages.</string>
+
     <!-- About "preference" -->
     <string name="pref_version_name">Version</string>
 
@@ -59,6 +63,7 @@
     <string name="audio_sample_format_pcm_float">32-bit float</string>
     <string name="bit_depth_warning_title">Higher bit depth is not guaranteed</string>
     <string name="bit_depth_warning_message">Android may allow 24-bit, 32-bit, or float recording even when the device captures audio internally at a lower precision. In that case, the extra bits may be padded or derived rather than real microphone detail. Use 16-bit PCM for the most predictable compatibility.</string>
+    <string name="dialog_do_not_show_again">Don\'t show this message again</string>
     <string name="audio_source_unprocessed">Raw (unprocessed)</string>
     <string name="audio_source_voice_recognition">Voice recognition</string>
     <string name="audio_source_microphone">Microphone</string>

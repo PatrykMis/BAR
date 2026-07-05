@@ -33,6 +33,10 @@
     <string name="pref_debug_mode_recording_disabled_desc">Остановите запись, чтобы изменить логирование для будущих записей.</string>
     <string name="pref_debug_mode_forced_desc">В debug-сборках всегда включено.</string>
 
+    <string name="pref_reset_warnings_name">Сбросить все предупреждения</string>
+    <string name="pref_reset_warnings_desc">Снова показывать сообщения, скрытые с помощью «Больше не показывать это сообщение».</string>
+    <string name="pref_reset_warnings_none_desc">Нет скрытых предупреждений.</string>
+
     <!-- About "preference" -->
     <string name="pref_version_name">Версия</string>
 
@@ -61,6 +65,7 @@
     <string name="audio_sample_format_pcm_float">Float 32 бит</string>
     <string name="bit_depth_warning_title">Более высокая битовая глубина не гарантируется</string>
     <string name="bit_depth_warning_message">Android может разрешать запись в 24 бит, 32 бит или float даже тогда, когда устройство внутренне захватывает звук с меньшей точностью. В таком случае дополнительные биты могут быть заполнены или вычислены, а не содержать реальные детали с микрофона. Используйте PCM 16 бит для наиболее предсказуемой совместимости.</string>
+    <string name="dialog_do_not_show_again">Больше не показывать это сообщение</string>
     <string name="audio_source_unprocessed">Сырой звук (без обработки)</string>
     <string name="audio_source_voice_recognition">Распознавание речи</string>
     <string name="audio_source_microphone">Микрофон</string>

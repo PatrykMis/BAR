@@ -1,9 +1,11 @@
 package com.patrykmis.bar.settings
 
 import android.os.Bundle
+import androidx.annotation.StringRes
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.patrykmis.bar.Preferences
 import com.patrykmis.bar.R
@@ -51,7 +53,9 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
                 prefs.audioInputSource = audioSource
                 refreshScreen()
 
-                if (audioSource.needsUnsupportedWarning(context)) {
+                if (audioSource.needsUnsupportedWarning(context) &&
+                    !prefs.hideUnsupportedUnprocessedWarning
+                ) {
                     showUnsupportedUnprocessedDialog()
                 }
 
@@ -118,7 +122,9 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
                 )
                 refreshScreen()
 
-                if (sampleFormat?.needsHigherBitDepthWarning == true) {
+                if (sampleFormat?.needsHigherBitDepthWarning == true &&
+                    !prefs.hideHigherBitDepthWarning
+                ) {
                     showHigherBitDepthDialog()
                 }
 
@@ -226,18 +232,41 @@ class OutputFormatFragment : PreferenceFragmentCompat() {
         }
 
     private fun showUnsupportedUnprocessedDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.audio_source_unsupported_unprocessed_title)
-            .setMessage(R.string.audio_source_unsupported_unprocessed_message)
-            .setNeutralButton(android.R.string.ok, null)
-            .show()
+        showWarningDialog(
+            R.string.audio_source_unsupported_unprocessed_title,
+            R.string.audio_source_unsupported_unprocessed_message,
+        ) {
+            prefs.hideUnsupportedUnprocessedWarning = true
+        }
     }
 
     private fun showHigherBitDepthDialog() {
+        showWarningDialog(
+            R.string.bit_depth_warning_title,
+            R.string.bit_depth_warning_message,
+        ) {
+            prefs.hideHigherBitDepthWarning = true
+        }
+    }
+
+    private fun showWarningDialog(
+        @StringRes titleRes: Int,
+        @StringRes messageRes: Int,
+        onHideFutureMessages: () -> Unit,
+    ) {
+        val doNotShowAgain = MaterialCheckBox(requireContext()).apply {
+            text = getString(R.string.dialog_do_not_show_again)
+        }
+
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.bit_depth_warning_title)
-            .setMessage(R.string.bit_depth_warning_message)
-            .setNeutralButton(android.R.string.ok, null)
+            .setTitle(titleRes)
+            .setMessage(messageRes)
+            .setView(doNotShowAgain)
+            .setNeutralButton(android.R.string.ok) { _, _ ->
+                if (doNotShowAgain.isChecked) {
+                    onHideFutureMessages()
+                }
+            }
             .show()
     }
 }

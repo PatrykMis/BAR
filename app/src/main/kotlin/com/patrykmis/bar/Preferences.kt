@@ -39,6 +39,7 @@ class Preferences(private val context: Context) {
         const val PREF_INHIBIT_BATT_OPT = "inhibit_batt_opt"
         const val PREF_NATIVE_SAMPLE_RATE = "native_sample_rate"
         const val PREF_DEBUG_MODE = "debug_mode"
+        const val PREF_RESET_WARNINGS = "reset_warnings"
         const val PREF_VERSION = "version"
 
         // Not associated with a UI preference
@@ -48,6 +49,9 @@ class Preferences(private val context: Context) {
         private const val PREF_FORMAT_PARAM_PREFIX = "codec_param_"
         private const val PREF_FORMAT_SAMPLE_RATE_PREFIX = "codec_sample_rate_"
         private const val PREF_FORMAT_SAMPLE_FORMAT_PREFIX = "codec_sample_format_"
+        private const val PREF_HIDE_HIGHER_BIT_DEPTH_WARNING = "hide_higher_bit_depth_warning"
+        private const val PREF_HIDE_UNSUPPORTED_UNPROCESSED_WARNING =
+            "hide_unsupported_unprocessed_warning"
         const val PREF_OUTPUT_RETENTION = "output_retention"
 
         private val listeners = CopyOnWriteArraySet<OnPreferenceChangeListener>()
@@ -158,6 +162,29 @@ class Preferences(private val context: Context) {
     var isDebugMode: Boolean
         get() = BuildConfig.FORCE_DEBUG_MODE || getBoolean(PREF_DEBUG_MODE, false)
         set(enabled) = setBoolean(PREF_DEBUG_MODE, enabled)
+
+    var hideHigherBitDepthWarning: Boolean
+        get() = getBoolean(PREF_HIDE_HIGHER_BIT_DEPTH_WARNING, false)
+        set(hidden) = setBoolean(PREF_HIDE_HIGHER_BIT_DEPTH_WARNING, hidden)
+
+    var hideUnsupportedUnprocessedWarning: Boolean
+        get() = getBoolean(PREF_HIDE_UNSUPPORTED_UNPROCESSED_WARNING, false)
+        set(hidden) = setBoolean(PREF_HIDE_UNSUPPORTED_UNPROCESSED_WARNING, hidden)
+
+    val hasHiddenWarnings: Boolean
+        get() = hideHigherBitDepthWarning || hideUnsupportedUnprocessedWarning
+
+    fun resetHiddenWarnings() {
+        updatePreferences(
+            listOf(
+                PREF_HIDE_HIGHER_BIT_DEPTH_WARNING,
+                PREF_HIDE_UNSUPPORTED_UNPROCESSED_WARNING,
+            )
+        ) {
+            remove(booleanPreferencesKey(PREF_HIDE_HIGHER_BIT_DEPTH_WARNING))
+            remove(booleanPreferencesKey(PREF_HIDE_UNSUPPORTED_UNPROCESSED_WARNING))
+        }
+    }
 
     /**
      * Get the default output directory. The directory should always be writable and is suitable for

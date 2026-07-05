@@ -33,6 +33,10 @@
     <string name="pref_debug_mode_recording_disabled_desc">Gelecek kayıtlar için günlüklemeyi değiştirmek üzere kaydı durdurun.</string>
     <string name="pref_debug_mode_forced_desc">Debug derlemelerinde her zaman etkindir.</string>
 
+    <string name="pref_reset_warnings_name">Tüm uyarıları sıfırla</string>
+    <string name="pref_reset_warnings_desc">“Bu mesajı tekrar gösterme” ile gizlenen uyarıları tekrar gösterir.</string>
+    <string name="pref_reset_warnings_none_desc">Gizli uyarı yok.</string>
+
     <!-- About "preference" -->
     <string name="pref_version_name">Sürüm</string>
 
@@ -59,6 +63,7 @@
     <string name="audio_sample_format_pcm_float">32-bit float</string>
     <string name="bit_depth_warning_title">Daha yüksek bit derinliği garanti edilmez</string>
     <string name="bit_depth_warning_message">Android, cihaz sesi dahili olarak daha düşük hassasiyetle yakalasa bile 24-bit, 32-bit veya float kayda izin verebilir. Bu durumda ek bitler gerçek mikrofon ayrıntısı yerine doldurulmuş veya türetilmiş olabilir. En öngörülebilir uyumluluk için 16-bit PCM kullanın.</string>
+    <string name="dialog_do_not_show_again">Bu mesajı tekrar gösterme</string>
     <string name="audio_source_unprocessed">Ham (işlenmemiş)</string>
     <string name="audio_source_voice_recognition">Ses tanıma</string>
     <string name="audio_source_microphone">Mikrofon</string>

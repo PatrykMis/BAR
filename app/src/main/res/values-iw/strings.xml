@@ -33,6 +33,10 @@
     <string name="pref_debug_mode_recording_disabled_desc">יש לעצור את ההקלטה כדי לשנות רישום עבור הקלטות עתידיות.</string>
     <string name="pref_debug_mode_forced_desc">מופעל תמיד בגרסאות debug.</string>
 
+    <string name="pref_reset_warnings_name">איפוס כל האזהרות</string>
+    <string name="pref_reset_warnings_desc">הצג שוב הודעות שהוסתרו באמצעות „לא להציג שוב הודעה זו”.</string>
+    <string name="pref_reset_warnings_none_desc">אין הודעות אזהרה מוסתרות.</string>
+
     <!-- About "preference" -->
     <string name="pref_version_name">גרסה</string>
 
@@ -60,6 +64,7 @@
     <string name="audio_sample_format_pcm_float">float 32 סיביות</string>
     <string name="bit_depth_warning_title">עומק סיביות גבוה יותר אינו מובטח</string>
     <string name="bit_depth_warning_message">Android עשוי לאפשר הקלטה ב-24 סיביות, 32 סיביות או float גם כאשר המכשיר קולט שמע פנימית בדיוק נמוך יותר. במקרה כזה, הסיביות הנוספות עשויות להיות מרופדות או מחושבות, ולא לייצג פרטים אמיתיים מהמיקרופון. השתמש ב-PCM 16 סיביות לקבלת התאימות הצפויה ביותר.</string>
+    <string name="dialog_do_not_show_again">לא להציג שוב הודעה זו</string>
     <string name="audio_source_unprocessed">גולמי (לא מעובד)</string>
     <string name="audio_source_voice_recognition">זיהוי דיבור</string>
     <string name="audio_source_microphone">מיקרופון</string>

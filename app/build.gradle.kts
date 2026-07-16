@@ -70,20 +70,16 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
             buildConfigField("boolean", "FORCE_DEBUG_MODE", "true")
             applicationIdSuffix = ".debug"
         }
-
-        getByName("release") {
+        release {
             buildConfigField("boolean", "FORCE_DEBUG_MODE", "false")
 
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            optimization {
+                enable = true
+            }
 
             if (useKeystoreProperties) {
                 signingConfig = signingConfigs.getByName("release")

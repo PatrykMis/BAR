@@ -105,6 +105,11 @@ Bug fix and translation pull requests are welcome and much appreciated!
 
 If you are interested in implementing a new feature and would like to see it included in BAR, please open an issue to discuss it first. I intend for BAR to be as simple and low-maintenance as possible, so I am not too inclined to add any new features, but I could be convinced otherwise.
 
+### Roadmap
+
+#### v1.1
+- Optionally skip Android-muted segments during phone calls.
+
 ### License
 
 BAR is licensed under GPLv3. Please see [`LICENSE`](./LICENSE) for the full license text.

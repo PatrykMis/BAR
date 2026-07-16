@@ -1,0 +1,1 @@
+Initial release of BAR: reliable microphone recording from a Quick Settings tile, local storage, multiple audio formats, accessibility-focused settings, and no network permission.

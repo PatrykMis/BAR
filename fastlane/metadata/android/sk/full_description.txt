@@ -1,0 +1,19 @@
+BAR je jednoduchý lokálny zvukový rekordér pre Android, navrhnutý na spoľahlivé nahrávanie na pozadí.
+
+Spustite nahrávanie z dlaždice rýchlych nastavení, ďalej používajte telefón normálne a nahrávanie pozastavte alebo zastavte z trvalého oznámenia. BAR ukladá štandardné zvukové súbory do priečinka, ktorý si vyberiete.
+
+Bez účtu. Bez reklám. Bez sledovania. Bez odosielania do cloudu. Bez povolenia na prístup k sieti.
+
+Funkcie:
+- Dlaždica rýchlych nastavení na spustenie a zastavenie nahrávania
+- Spoľahlivé nahrávanie na pozadí počas používania iných aplikácií
+- Miestne ukladanie súborov pomocou výberu priečinka v Androide
+- Výstup OGG/Opus, M4A/AAC, FLAC a WAV
+- Možnosti mono/stereo, vzorkovacej frekvencie, zdroja a bitovej hĺbky, ak ich zariadenie podporuje
+- Možnosť uchovávania súborov
+- Pokročilá diagnostika na testovanie vzorkovacej frekvencie
+- Navrhnuté tak, aby dobre fungovalo s čítačkami obrazovky
+
+Obmedzenia:
+- BAR nahráva zvuk z mikrofónu, nie telefónne hovory.
+- Počas hovorov môže Android stlmiť nahrávanie mikrofónu z dôvodu obmedzení súkromia platformy.

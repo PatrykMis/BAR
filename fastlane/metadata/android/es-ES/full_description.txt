@@ -1,0 +1,19 @@
+BAR es una grabadora de audio sencilla para Android, pensada para grabar de forma fiable en segundo plano y guardar los archivos localmente.
+
+Inicia la grabación desde un mosaico de Ajustes rápidos, sigue usando el teléfono con normalidad y pausa o detén la grabación desde la notificación persistente. BAR guarda archivos de audio estándar en la carpeta que elijas.
+
+Sin cuenta. Sin anuncios. Sin seguimiento. Sin subida a la nube. Sin permiso de red.
+
+Funciones:
+- Mosaico de Ajustes rápidos para iniciar y detener grabaciones
+- Grabación fiable en segundo plano mientras usas otras apps
+- Almacenamiento local con el selector de carpetas de Android
+- Salida OGG/Opus, M4A/AAC, FLAC y WAV
+- Opciones de mono/estéreo, frecuencia de muestreo, fuente y profundidad de bits cuando estén disponibles
+- Opción de retención de archivos
+- Diagnósticos avanzados para probar la frecuencia de muestreo
+- Diseñada para funcionar bien con lectores de pantalla
+
+Limitaciones:
+- BAR graba audio del micrófono, no llamadas telefónicas.
+- Durante las llamadas, Android puede silenciar la grabación del micrófono por restricciones de privacidad de la plataforma.

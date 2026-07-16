@@ -1,0 +1,1 @@
+Pierwsze wydanie BAR: stabilne nagrywanie mikrofonu z kafelka szybkich ustawień, lokalny zapis, wiele formatów audio, dostępne ustawienia i brak uprawnienia sieciowego.

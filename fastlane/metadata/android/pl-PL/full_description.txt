@@ -1,0 +1,19 @@
+BAR to prosty, lokalny rejestrator dźwięku dla Androida, zaprojektowany z myślą o stabilnym nagrywaniu w tle.
+
+Uruchom nagrywanie z kafelka szybkich ustawień, korzystaj z telefonu normalnie, a potem wstrzymaj lub zatrzymaj nagranie z trwałego powiadomienia. BAR zapisuje standardowe pliki audio w wybranym przez Ciebie folderze.
+
+Bez konta. Bez reklam. Bez śledzenia. Bez wysyłania do chmury. Bez uprawnienia dostępu do sieci.
+
+Funkcje:
+- Kafelek szybkich ustawień do rozpoczynania i zatrzymywania nagrań
+- Stabilne nagrywanie w tle podczas używania innych aplikacji
+- Lokalny zapis plików przez systemowy wybór folderu Androida
+- Format wyjściowy OGG/Opus, M4A/AAC, FLAC i WAV
+- Opcje mono/stereo, częstotliwości próbkowania, źródła i głębi bitowej, gdy urządzenie je obsługuje
+- Opcja retencji plików
+- Zaawansowana diagnostyka częstotliwości próbkowania
+- Zaprojektowany tak, aby dobrze działać z czytnikami ekranu
+
+Ograniczenia:
+- BAR nagrywa dźwięk z mikrofonu, nie rozmowy telefoniczne.
+- Podczas rozmów telefonicznych Android może wyciszyć nagrywanie mikrofonu z powodu ograniczeń prywatności platformy.

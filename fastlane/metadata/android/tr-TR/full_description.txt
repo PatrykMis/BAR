@@ -1,0 +1,19 @@
+BAR, Android için basit ve yerel öncelikli bir ses kaydedicidir; güvenilir arka plan kaydı için tasarlanmıştır.
+
+Kaydı Hızlı Ayarlar kutucuğundan başlatın, telefonunuzu normal şekilde kullanmaya devam edin ve kalıcı bildirimden duraklatın veya durdurun. BAR, standart ses dosyalarını seçtiğiniz klasöre kaydeder.
+
+Hesap yok. Reklam yok. İzleme yok. Buluta yükleme yok. Ağ izni yok.
+
+Özellikler:
+- Kayıtları başlatmak ve durdurmak için Hızlı Ayarlar kutucuğu
+- Diğer uygulamaları kullanırken güvenilir arka plan kaydı
+- Android'in klasör seçicisiyle yerel dosya depolama
+- OGG/Opus, M4A/AAC, FLAC ve WAV çıktısı
+- Desteklendiğinde mono/stereo, örnekleme hızı, kaynak ve bit derinliği seçenekleri
+- Dosya saklama seçeneği
+- Örnekleme hızını test etmek için gelişmiş tanılama
+- Ekran okuyucularla iyi çalışacak şekilde tasarlandı
+
+Sınırlamalar:
+- BAR mikrofon sesini kaydeder, telefon görüşmelerini kaydetmez.
+- Telefon görüşmeleri sırasında Android, platform gizlilik kısıtlamaları nedeniyle mikrofon kaydını sessize alabilir.

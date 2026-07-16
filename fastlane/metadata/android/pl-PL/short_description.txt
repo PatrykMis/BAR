@@ -1,0 +1,1 @@
+Stabilne lokalne nagrywanie audio z kafelka szybkich ustawień.

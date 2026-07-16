@@ -1,0 +1,1 @@
+Versión inicial de BAR: grabación fiable del micrófono desde Ajustes rápidos, almacenamiento local, varios formatos de audio, ajustes accesibles y sin permiso de red.

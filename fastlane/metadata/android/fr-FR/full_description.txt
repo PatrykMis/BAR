@@ -1,0 +1,19 @@
+BAR est un enregistreur audio simple pour Android, pensé pour un enregistrement fiable en arrière-plan et un stockage local des fichiers.
+
+Démarrez l'enregistrement depuis une tuile des réglages rapides, continuez à utiliser votre téléphone normalement, puis mettez en pause ou arrêtez depuis la notification persistante. BAR enregistre des fichiers audio standards dans le dossier de votre choix.
+
+Aucun compte. Aucune publicité. Aucun suivi. Aucun envoi vers le cloud. Aucune permission réseau.
+
+Fonctionnalités :
+- Tuile de réglages rapides pour démarrer et arrêter les enregistrements
+- Enregistrement fiable en arrière-plan pendant l'utilisation d'autres applications
+- Stockage local avec le sélecteur de dossier d'Android
+- Sortie OGG/Opus, M4A/AAC, FLAC et WAV
+- Options mono/stéréo, fréquence d'échantillonnage, source et profondeur de bits lorsque l'appareil les prend en charge
+- Option de conservation des fichiers
+- Diagnostics avancés pour tester la fréquence d'échantillonnage
+- Conçu pour bien fonctionner avec les lecteurs d'écran
+
+Limites :
+- BAR enregistre le son du micro, pas les appels téléphoniques.
+- Pendant les appels, Android peut couper l'enregistrement du micro à cause des restrictions de confidentialité de la plateforme.

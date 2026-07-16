@@ -1,0 +1,1 @@
+Prvé vydanie BAR: spoľahlivé nahrávanie mikrofónu z rýchlych nastavení, miestne ukladanie, viac zvukových formátov, prístupné nastavenia a bez sieťového povolenia.

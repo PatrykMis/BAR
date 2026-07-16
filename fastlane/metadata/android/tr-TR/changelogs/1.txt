@@ -1,0 +1,1 @@
+BAR'ın ilk sürümü: Hızlı Ayarlar kutucuğundan güvenilir mikrofon kaydı, yerel depolama, birden fazla ses biçimi, erişilebilir ayarlar ve ağ izni yok.

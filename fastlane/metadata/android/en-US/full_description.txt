@@ -1,0 +1,19 @@
+BAR is a simple, local-first audio recorder for Android, built for reliable background recording.
+
+Start recording from a Quick Settings tile, keep using your phone normally, and pause or stop from the persistent notification. BAR saves standard audio files in a folder you choose.
+
+No account. No ads. No tracking. No cloud upload. No network permission.
+
+Features:
+- Quick Settings tile for starting and stopping recordings
+- Reliable background recording while using other apps
+- Local file storage with Android's folder picker
+- OGG/Opus, M4A/AAC, FLAC, and WAV output
+- Mono/stereo, sample rate, source, and bit depth options where supported
+- File retention option
+- Advanced diagnostics for sample rate testing
+- Designed to work well with screen readers
+
+Limitations:
+- BAR records microphone audio, not phone calls.
+- During phone calls, Android may mute microphone recording because of platform privacy restrictions.

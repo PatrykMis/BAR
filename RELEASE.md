@@ -1,3 +1,8 @@
+<!--
+    SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+
 The changelog can be found at: [`CHANGELOG.md`](./CHANGELOG.md).
 
 ---

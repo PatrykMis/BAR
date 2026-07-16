@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+
 <resources>
     <string name="app_name">BAR</string>
     <string name="app_name_full">Basit Ses Kaydedici</string>
@@ -39,6 +44,8 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">Sürüm</string>
+    <string name="pref_project_origin_name">Proje kökeni</string>
+    <string name="pref_project_origin_desc">BAR, Andrew Gunnerson\'ın BCR projesinden türetilmiştir; onun çalışması bu mikrofon kaydediciye ilham verdi.</string>
     <string name="pref_open_source_licenses_name">Açık kaynak lisansları</string>
     <string name="pref_open_source_licenses_desc">BAR tarafından kullanılan üçüncü taraf kütüphaneler ve lisanslar.</string>
     <string name="open_source_licenses_libraries">Kütüphaneler</string>

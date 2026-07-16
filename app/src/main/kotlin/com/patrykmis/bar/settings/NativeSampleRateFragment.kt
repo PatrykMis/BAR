@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
+
 package com.patrykmis.bar.settings
 
 import android.content.Context

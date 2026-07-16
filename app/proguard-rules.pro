@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022-2026 Andrew Gunnerson
+# SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+# SPDX-License-Identifier: GPL-3.0-only
+
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.kts.

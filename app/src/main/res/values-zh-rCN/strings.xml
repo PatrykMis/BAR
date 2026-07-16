@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+
 <resources>
     <string name="app_name">BAR</string>
     <string name="app_name_full">简易录音机</string>
@@ -39,6 +44,8 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">版本</string>
+    <string name="pref_project_origin_name">项目来源</string>
+    <string name="pref_project_origin_desc">BAR 源自 Andrew Gunnerson 的 BCR，他的工作启发了这款麦克风录音应用。</string>
     <string name="pref_open_source_licenses_name">开源许可证</string>
     <string name="pref_open_source_licenses_desc">BAR 使用的第三方库和许可证。</string>
     <string name="open_source_licenses_libraries">库</string>

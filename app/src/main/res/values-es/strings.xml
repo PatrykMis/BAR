@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+
 <resources>
     <string name="app_name">BAR</string>
     <string name="app_name_full">Grabadora de audio simple</string>
@@ -39,6 +44,8 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">Versión</string>
+    <string name="pref_project_origin_name">Origen del proyecto</string>
+    <string name="pref_project_origin_desc">BAR deriva de BCR de Andrew Gunnerson, cuyo trabajo inspiró esta grabadora de micrófono.</string>
     <string name="pref_open_source_licenses_name">Licencias de código abierto</string>
     <string name="pref_open_source_licenses_desc">Bibliotecas de terceros y licencias utilizadas por BAR.</string>
     <string name="open_source_licenses_libraries">Bibliotecas</string>

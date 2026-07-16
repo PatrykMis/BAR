@@ -1,3 +1,9 @@
+<!--
+    SPDX-FileCopyrightText: 2022-2026 Andrew Gunnerson
+    SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+
 # Basic Audio Recorder
 
 <img src="app/images/icon.svg" alt="app icon" width="72" />

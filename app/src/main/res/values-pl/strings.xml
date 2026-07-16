@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+
 <resources>
     <string name="app_name">BAR</string>
     <string name="app_name_full">Prosty rejestrator dźwięku</string>
@@ -39,6 +44,8 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">Wersja</string>
+    <string name="pref_project_origin_name">Pochodzenie projektu</string>
+    <string name="pref_project_origin_desc">BAR wywodzi się z BCR autorstwa Andrew Gunnersona, którego praca zainspirowała ten rejestrator mikrofonu.</string>
     <string name="pref_open_source_licenses_name">Licencje open source</string>
     <string name="pref_open_source_licenses_desc">Biblioteki zewnętrzne i licencje używane przez BAR.</string>
     <string name="open_source_licenses_libraries">Biblioteki</string>

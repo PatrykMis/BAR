@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022-2024 Andrew Gunnerson
+ * SPDX-FileCopyrightText: 2026 Patryk Miś <foss@patrykmis.com>
+ * SPDX-License-Identifier: GPL-3.0-only
+ */
+
 @file:Suppress("OPT_IN_IS_NOT_ENABLED")
 @file:OptIn(ExperimentalUnsignedTypes::class)
 

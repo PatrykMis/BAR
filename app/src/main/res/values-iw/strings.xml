@@ -39,6 +39,15 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">גרסה</string>
+    <string name="pref_open_source_licenses_name">רישיונות קוד פתוח</string>
+    <string name="pref_open_source_licenses_desc">ספריות צד שלישי ורישיונות שבשימוש BAR.</string>
+    <string name="open_source_licenses_libraries">ספריות</string>
+    <string name="open_source_licenses_empty">לא נוצרו מטא-נתונים של ספריות.</string>
+    <string name="open_source_licenses_version">גרסה: %s</string>
+    <string name="open_source_licenses_licenses">רישיונות: %s</string>
+    <string name="open_source_licenses_website">אתר: %s</string>
+    <string name="open_source_licenses_description">תיאור: %s</string>
+    <string name="open_source_licenses_no_license">אין פרטי רישיון זמינים.</string>
 
     <!-- Output directory bottom sheet -->
     <string name="output_dir_bottom_sheet_change_dir">שנה תיקייה</string>

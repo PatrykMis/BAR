@@ -39,6 +39,15 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">版本</string>
+    <string name="pref_open_source_licenses_name">开源许可证</string>
+    <string name="pref_open_source_licenses_desc">BAR 使用的第三方库和许可证。</string>
+    <string name="open_source_licenses_libraries">库</string>
+    <string name="open_source_licenses_empty">未生成库元数据。</string>
+    <string name="open_source_licenses_version">版本：%s</string>
+    <string name="open_source_licenses_licenses">许可证：%s</string>
+    <string name="open_source_licenses_website">网站：%s</string>
+    <string name="open_source_licenses_description">说明：%s</string>
+    <string name="open_source_licenses_no_license">没有可用的许可证详情。</string>
 
     <!-- Output directory bottom sheet -->
     <string name="output_dir_bottom_sheet_change_dir">更改目录</string>

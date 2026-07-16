@@ -39,6 +39,15 @@
 
     <!-- About "preference" -->
     <string name="pref_version_name">Wersja</string>
+    <string name="pref_open_source_licenses_name">Licencje open source</string>
+    <string name="pref_open_source_licenses_desc">Biblioteki zewnętrzne i licencje używane przez BAR.</string>
+    <string name="open_source_licenses_libraries">Biblioteki</string>
+    <string name="open_source_licenses_empty">Nie wygenerowano metadanych bibliotek.</string>
+    <string name="open_source_licenses_version">Wersja: %s</string>
+    <string name="open_source_licenses_licenses">Licencje: %s</string>
+    <string name="open_source_licenses_website">Strona: %s</string>
+    <string name="open_source_licenses_description">Opis: %s</string>
+    <string name="open_source_licenses_no_license">Brak informacji o licencji.</string>
 
     <!-- Output directory bottom sheet -->
     <string name="output_dir_bottom_sheet_change_dir">Zmień katalog</string>

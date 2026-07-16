@@ -67,6 +67,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".settings.OpenSourceLicensesActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".RecorderGateActivity"
             android:excludeFromRecents="true"
             android:exported="false"

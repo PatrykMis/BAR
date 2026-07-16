@@ -67,5 +67,12 @@
             app:key="version"
             app:persistent="false"
             app:title="@string/pref_version_name" />
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="open_source_licenses"
+            app:persistent="false"
+            app:summary="@string/pref_open_source_licenses_desc"
+            app:title="@string/pref_open_source_licenses_name" />
     </PreferenceCategory>
 </PreferenceScreen>

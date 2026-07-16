@@ -40,6 +40,7 @@ class Preferences(private val context: Context) {
         const val PREF_NATIVE_SAMPLE_RATE = "native_sample_rate"
         const val PREF_DEBUG_MODE = "debug_mode"
         const val PREF_RESET_WARNINGS = "reset_warnings"
+        const val PREF_OPEN_SOURCE_LICENSES = "open_source_licenses"
         const val PREF_VERSION = "version"
 
         // Not associated with a UI preference

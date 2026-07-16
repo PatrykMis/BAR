@@ -3,6 +3,7 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.aboutlibraries.android)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -112,6 +113,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.aboutlibraries.core)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.appcompat)

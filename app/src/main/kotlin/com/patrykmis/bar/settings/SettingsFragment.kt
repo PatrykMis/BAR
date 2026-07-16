@@ -29,6 +29,7 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
     private lateinit var prefNativeSampleRate: Preference
     private lateinit var prefDebugMode: SwitchPreferenceCompat
     private lateinit var prefResetWarnings: Preference
+    private lateinit var prefOpenSourceLicenses: Preference
     private lateinit var prefVersion: Preference
 
     private val requestPermissionRequired =
@@ -80,6 +81,9 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
         prefVersion = findPreference(Preferences.PREF_VERSION)!!
         prefVersion.isSelectable = false
         refreshVersion()
+
+        prefOpenSourceLicenses = findPreference(Preferences.PREF_OPEN_SOURCE_LICENSES)!!
+        prefOpenSourceLicenses.onPreferenceClickListener = this
     }
 
     override fun onStart() {
@@ -285,6 +289,11 @@ class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChan
             prefResetWarnings -> {
                 prefs.resetHiddenWarnings()
                 refreshResetWarnings()
+                return true
+            }
+
+            prefOpenSourceLicenses -> {
+                startActivity(Intent(requireContext(), OpenSourceLicensesActivity::class.java))
                 return true
             }
 

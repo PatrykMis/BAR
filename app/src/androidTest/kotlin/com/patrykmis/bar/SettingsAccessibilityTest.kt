@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.patrykmis.bar.settings.NativeSampleRateActivity
+import com.patrykmis.bar.settings.OpenSourceLicensesActivity
 import com.patrykmis.bar.settings.OutputFormatActivity
 import com.patrykmis.bar.settings.SettingsActivity
 import org.junit.Test
@@ -74,6 +75,17 @@ class SettingsAccessibilityTest {
 
         try {
             onView(withText(R.string.native_sample_rate_run_test)).perform(click())
+            checkCurrentRootAccessibility()
+        } finally {
+            scenario.close()
+        }
+    }
+
+    @Test
+    fun openSourceLicensesScreenPassesAccessibilityChecks() {
+        val scenario = ActivityScenario.launch(OpenSourceLicensesActivity::class.java)
+
+        try {
             checkCurrentRootAccessibility()
         } finally {
             scenario.close()

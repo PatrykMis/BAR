@@ -46,8 +46,9 @@ BAR also includes an advanced diagnostic screen for estimating a device's native
 rate. Android does not expose a direct, reliable API for this, so BAR uses a buffer-size heuristic:
 it compares `AudioRecord.getMinBufferSize()` results for 48000 Hz and 44100 Hz across common input
 channel configurations. This is not a native Android sample-rate query and should not be treated as
-absolute proof. So far, however, testing has matched known and observed device behavior: a Pixel 9
-Pro reports like a 48000 Hz device, while a Pixel 4 reports like a 44100 Hz device.
+absolute proof. So far, however, testing has matched known and observed device behavior: Google
+Pixel 9 Pro and Pixel 8 devices report like 48000 Hz devices, while a Pixel 4 and Xiaomi Redmi 7
+report like 44100 Hz devices.
 
 ### Non-features
 
@@ -59,12 +60,14 @@ As the name alludes, BAR intends to be a basic as possible. The project will hav
 
 ### Usage
 
-1. Releases are not published yet. Once v1.0 is available, download it from the[releases page](https://github.com/PatrykMis/BAR/releases).
+1. Releases are not published yet. Once v1.0 is available, download it from the [releases page](https://github.com/PatrykMis/BAR/releases).
     <!-- TODO(v1.0): Replace this with the normal releases-page sentence after publishing - "Download the latest version from the …" -->
 2. Install BAR.
 3. Open BAR.
 4. Grant the required microphone and notification permissions when prompted.
-5. Pick an output directory. If no output directory is selected or if the output directory is no longer accessible, then recordings will be saved to `/sdcard/Android/data/com.patrykmis.bar/files`.
+5. Pick an output directory, recording source, format, bitrate/quality, and sample rate. If no output directory is selected or if the output directory is no longer accessible, then recordings will be saved to `/sdcard/Android/data/com.patrykmis.bar/files`.
+6. Add and position the quick settings tile.
+7. Enable the tile whenever you want to record. You can also pause the recording from the persistent notification.
 
 BAR will prompt for microphone and notification (Android 13+) permissions. They are required for BAR to be able to record in the background.
 

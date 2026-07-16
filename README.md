@@ -23,6 +23,11 @@ I've decided to fork because BCR has a robust audio recording/encoding pipeline 
 * No third party dependencies
 * Fully usable with screen readers, using standard Android controls and accessibility-aware workflows.
 
+### Limitations
+
+* BAR records microphone audio, not phone calls.
+* During phone calls, Android mutes microphone recording because of platform privacy restrictions.
+
 ### Audio format choices
 
 BAR tries to keep format settings practical instead of pretending that every encoder option is

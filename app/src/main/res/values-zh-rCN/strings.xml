@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BAR</string>
-    <string name="app_name_full">基础录音机</string>
+    <string name="app_name_full">简易录音机</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">常规</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BAR</string>
-    <string name="app_name_full">Podstawowy rejestrator dźwięku</string>
+    <string name="app_name_full">Prosty rejestrator dźwięku</string>
 
     <!-- Preference headers -->
     <string name="pref_header_general">Ogólne</string>

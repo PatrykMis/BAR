@@ -1,1 +1,1 @@
-Basic Audio Recorder
+Простой диктофон

@@ -4,9 +4,9 @@
 
 ![license badge](https://img.shields.io/github/license/PatrykMis/BAR)
 
-BAR is a simple Android audio recording app forked from [BCR](https://github.com/chenxiaolong/BCR), with the microphone quick settings tile concept based [on this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).
+BAR is a simple Android audio recording app derived from [BCR](https://github.com/chenxiaolong/BCR), with its microphone quick settings tile concept based on [this pull request from the original author](https://github.com/chenxiaolong/BCR/pull/165).
 
-I've decided to fork because BCR has a robust audio recording/encoding pipeline that supports multiple output formats and accounts for many edge cases and failure conditions that other apps may ignore. BAR records from a selectable Android microphone input source. The output files are saved with a _mic suffix in the output directory.
+BAR started from BCR because it has a robust audio recording and encoding pipeline that supports multiple output formats and accounts for many edge cases and failure conditions that other apps may ignore. BAR records from a selectable Android microphone input source. The output files are saved with a `_mic` suffix in the output directory.
 
 ### Features
 
@@ -20,13 +20,13 @@ I've decided to fork because BCR has a robust audio recording/encoding pipeline 
 * Quick settings toggle
 * Material You dynamic theming
 * No network access permission
-* No third party dependencies
+* No ads or tracking
 * Fully usable with screen readers, using standard Android controls and accessibility-aware workflows.
 
 ### Limitations
 
 * BAR records microphone audio, not phone calls.
-* During phone calls, Android mutes microphone recording because of platform privacy restrictions.
+* During phone calls, Android may mute microphone recording because of platform privacy restrictions.
 
 ### Audio format choices
 
@@ -57,7 +57,7 @@ report like 44100 Hz devices.
 
 ### Non-features
 
-As the name alludes, BAR intends to be a basic as possible. The project will have succeeded at its goal if the only updates it ever needs are for compatibility with new Android versions. Thus, many potentially useful features will never be implemented, such as:
+As the name alludes, BAR intends to be as basic as possible. The project will have succeeded at its goal if the only updates it ever needs are for compatibility with new Android versions. Thus, many potentially useful features will never be implemented, such as:
 
 * Changing the filename format
 * Support for old (unsupported) Android versions (support is dropped as soon as maintenance becomes cumbersome)
@@ -66,7 +66,7 @@ As the name alludes, BAR intends to be a basic as possible. The project will hav
 ### Usage
 
 1. Releases are not published yet. Once v1.0 is available, download it from the [releases page](https://github.com/PatrykMis/BAR/releases).
-    <!-- TODO(v1.0): Replace this with the normal releases-page sentence after publishing - "Download the latest version from the …" -->
+    <!-- TODO(v1.0): Replace this with the normal releases-page sentence after publishing - "Download the latest version from the ..." -->
 2. Install BAR.
 3. Open BAR.
 4. Grant the required microphone and notification permissions when prompted.
@@ -78,7 +78,7 @@ BAR will prompt for microphone and notification (Android 13+) permissions. They 
 
 ### Building from source
 
-BAR can be built like most other Android apps using Android Studio or the gradle command line.
+BAR can be built like most other Android apps using Android Studio or the Gradle command line.
 
 To build the debug APK:
 
@@ -101,7 +101,7 @@ Then build the release APK:
 
 ### Contributing
 
-Bug fix and translation pull requests are welcome and much appreciated!
+Bug fixes and translation pull requests are welcome and much appreciated!
 
 If you are interested in implementing a new feature and would like to see it included in BAR, please open an issue to discuss it first. I intend for BAR to be as simple and low-maintenance as possible, so I am not too inclined to add any new features, but I could be convinced otherwise.
 

@@ -13,7 +13,7 @@ import com.patrykmis.bar.R
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+        setSettingsContentView()
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()

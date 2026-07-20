@@ -12,7 +12,7 @@ import com.patrykmis.bar.R
 class NativeSampleRateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+        setSettingsContentView()
 
         if (savedInstanceState == null) {
             supportFragmentManager

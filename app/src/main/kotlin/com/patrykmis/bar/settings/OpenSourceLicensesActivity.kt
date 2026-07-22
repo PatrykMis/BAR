@@ -12,7 +12,7 @@ import com.patrykmis.bar.R
 class OpenSourceLicensesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSettingsContentView()
+        setContentView(R.layout.settings_activity)
 
         if (savedInstanceState == null) {
             supportFragmentManager

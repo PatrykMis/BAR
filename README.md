@@ -53,13 +53,28 @@ because modern devices can normally handle it during recording.
 OGG/Opus does not offer 44100 Hz in BAR because that sample rate is not available for the Opus path
 used here, so the app only shows the supported Opus sample rates.
 
-BAR also includes an advanced diagnostic screen for estimating a device's native microphone sample
-rate. Android does not expose a direct, reliable API for this, so BAR uses a buffer-size heuristic:
-it compares `AudioRecord.getMinBufferSize()` results for 48000 Hz and 44100 Hz across common input
-channel configurations. This is not a native Android sample-rate query and should not be treated as
-absolute proof. So far, however, testing has matched known and observed device behavior: Google
-Pixel 9 Pro and Pixel 8 devices report like 48000 Hz devices, while a Pixel 4 and Xiaomi Redmi 7
-report like 44100 Hz devices.
+### Native microphone sample rate
+
+Most Android devices have a preferred, hardware-native microphone sample rate. If an app asks for a
+different sample rate, Android can still accept the request, but the audio may be resampled somewhere
+in the system audio pipeline. This matters because Android microphone recording is not the same as
+using a desktop audio interface through ASIO, WASAPI exclusive mode, ALSA, or another low-level audio path
+where the whole device can usually be switched to the requested clock rate. On Android, selecting
+44100 Hz or 48000 Hz in an app does not necessarily mean that the microphone hardware and audio HAL
+are actually running at that rate.
+
+Avoiding unnecessary resampling is one reason BAR exposes sample-rate choices instead of hiding them
+behind a single default. Resampling quality depends on the device, Android build, audio source, and
+vendor implementation. When the selected rate differs from the device's native microphone path, the
+result can be less clean than recording at the native rate.
+
+Android does not expose a direct, reliable API for querying the native microphone sample rate, so BAR
+includes an advanced diagnostic screen that estimates it with a buffer-size heuristic. It compares
+`AudioRecord.getMinBufferSize()` results for 48000 Hz and 44100 Hz across common input channel
+configurations. This is not a native Android sample-rate query and should not be treated as absolute
+proof. So far, however, testing has matched known and observed device behavior: Pixel 9 Pro and Pixel
+8 devices behave like 48000 Hz devices, while Pixel 4 and Xiaomi Redmi 7 devices behave like 44100 Hz
+devices.
 
 ### Non-features
 

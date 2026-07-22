@@ -111,6 +111,8 @@
     <string name="notification_recording_mic_paused">麦克风录音已暂停</string>
     <string name="notification_recording_mic_failed">麦克风录制失败</string>
     <string name="notification_recording_mic_succeeded">麦克风录制成功</string>
+    <string name="notification_move_failed">无法移动录音</string>
+    <string name="notification_move_error">无法将录音移动到所选输出目录。文件仍保存在 BAR 的默认输出目录中。</string>
     <string name="notification_internal_android_error">录音在 Android 内部组件中失败（%s）。此设备或固件可能不支持此音频来源。</string>
 
     <string name="notification_action_open">打开</string>

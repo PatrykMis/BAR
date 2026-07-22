@@ -113,6 +113,8 @@
     <string name="notification_recording_mic_paused">Enregistrement du micro en pause</string>
     <string name="notification_recording_mic_failed">Échec de l\'enregistrement du micro</string>
     <string name="notification_recording_mic_succeeded">Micro enregistré avec succès</string>
+    <string name="notification_move_failed">Échec du déplacement de l\'enregistrement</string>
+    <string name="notification_move_error">L\'enregistrement n\'a pas pu être déplacé vers le dossier de sortie sélectionné. Il est toujours présent dans le dossier de sortie par défaut de BAR.</string>
     <string name="notification_internal_android_error">L\'enregistrement a échoué dans un composant Android interne (%s). Cet appareil ou micrologiciel peut ne pas prendre en charge cette source audio.</string>
 
     <string name="notification_action_open">Ouvrir</string>

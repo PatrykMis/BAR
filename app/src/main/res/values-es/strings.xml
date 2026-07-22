@@ -113,6 +113,8 @@
     <string name="notification_recording_mic_paused">Grabación de micrófono pausada</string>
     <string name="notification_recording_mic_failed">No se pudo grabar el micrófono</string>
     <string name="notification_recording_mic_succeeded">Micrófono grabado correctamente</string>
+    <string name="notification_move_failed">No se pudo mover la grabación</string>
+    <string name="notification_move_error">La grabación no se pudo mover al directorio de salida seleccionado. Sigue estando en el directorio de salida predeterminado de BAR.</string>
     <string name="notification_internal_android_error">La grabación falló en un componente interno de Android (%s). Es posible que este dispositivo o firmware no admita esta fuente de audio.</string>
 
     <string name="notification_action_open">Abrir</string>

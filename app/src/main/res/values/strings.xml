@@ -113,6 +113,8 @@
     <string name="notification_recording_mic_paused">Mic recording paused</string>
     <string name="notification_recording_mic_failed">Failed to record mic</string>
     <string name="notification_recording_mic_succeeded">Successfully recorded mic</string>
+    <string name="notification_move_failed">Failed to move recording</string>
+    <string name="notification_move_error">The recording could not be moved to the selected output directory. It is still present in BAR\'s default output directory.</string>
     <string name="notification_internal_android_error">The recording failed in an internal Android component (%s). This device or firmware might not support this audio source.</string>
 
     <string name="notification_action_open">Open</string>

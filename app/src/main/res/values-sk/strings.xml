@@ -114,6 +114,8 @@
     <string name="notification_recording_mic_paused">Nahrávanie mikrofónu je pozastavené</string>
     <string name="notification_recording_mic_failed">Nepodarilo sa nahrať mikrofón</string>
     <string name="notification_recording_mic_succeeded">Mikrofón bol úspešne nahratý</string>
+    <string name="notification_move_failed">Nepodarilo sa presunúť nahrávku</string>
+    <string name="notification_move_error">Nahrávku sa nepodarilo presunúť do vybraného výstupného priečinka. Stále sa nachádza v predvolenom výstupnom priečinku BAR.</string>
     <string name="notification_internal_android_error">Nahrávanie zlyhalo vo vnútornom komponente Androidu (%s). Toto zariadenie alebo firmvér nemusí podporovať tento zdroj zvuku.</string>
 
     <string name="notification_action_open">Otvoriť</string>

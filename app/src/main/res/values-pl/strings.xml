@@ -114,6 +114,8 @@
     <string name="notification_recording_mic_paused">Nagrywanie dźwięku wstrzymane</string>
     <string name="notification_recording_mic_failed">Nie udało się nagrać dźwięku</string>
     <string name="notification_recording_mic_succeeded">Pomyślnie nagrano dźwięk</string>
+    <string name="notification_move_failed">Nie udało się przenieść nagrania</string>
+    <string name="notification_move_error">Nie udało się przenieść nagrania do wybranego katalogu wyjściowego. Plik nadal znajduje się w domyślnym katalogu wyjściowym BAR.</string>
     <string name="notification_internal_android_error">Nagrywanie nie powiodło się w wewnętrznym komponencie Androida (%s). To urządzenie lub firmware może nie obsługiwać tego źródła audio.</string>
 
     <string name="notification_action_open">Otwórz</string>

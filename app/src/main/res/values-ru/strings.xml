@@ -114,6 +114,8 @@
     <string name="notification_recording_mic_paused">Запись с микрофона приостановлена</string>
     <string name="notification_recording_mic_failed">Не удалось записать микрофон</string>
     <string name="notification_recording_mic_succeeded">Запись с микрофона завершена</string>
+    <string name="notification_move_failed">Не удалось переместить запись</string>
+    <string name="notification_move_error">Запись не удалось переместить в выбранный каталог вывода. Она по-прежнему находится в каталоге вывода BAR по умолчанию.</string>
     <string name="notification_internal_android_error">Сбой записи во внутреннем компоненте Android (%s). Это устройство или прошивка могут не поддерживать этот источник аудио.</string>
 
     <string name="notification_action_open">Открыть</string>

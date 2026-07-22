@@ -112,6 +112,8 @@
     <string name="notification_recording_mic_paused">Mikrofon kaydı duraklatıldı</string>
     <string name="notification_recording_mic_failed">Mikrofon kaydedilemedi</string>
     <string name="notification_recording_mic_succeeded">Mikrofon başarıyla kaydedildi</string>
+    <string name="notification_move_failed">Kayıt taşınamadı</string>
+    <string name="notification_move_error">Kayıt seçilen çıkış dizinine taşınamadı. Dosya hâlâ BAR varsayılan çıkış dizininde duruyor.</string>
     <string name="notification_internal_android_error">Kayıt, Android iç bileşeninde başarısız oldu (%s). Bu cihaz veya firmware bu ses kaynağını desteklemiyor olabilir.</string>
 
     <string name="notification_action_open">Aç</string>

@@ -113,6 +113,8 @@
     <string name="notification_recording_mic_paused">הקלטת מיקרופון מושהית</string>
     <string name="notification_recording_mic_failed">הקלטת המיקרופון נכשלה</string>
     <string name="notification_recording_mic_succeeded">המיקרופון הוקלט בהצלחה</string>
+    <string name="notification_move_failed">העברת ההקלטה נכשלה</string>
+    <string name="notification_move_error">לא ניתן היה להעביר את ההקלטה לתיקיית הפלט שנבחרה. היא עדיין נמצאת בתיקיית הפלט המוגדרת כברירת מחדל של BAR.</string>
     <string name="notification_internal_android_error">ההקלטה נכשלה ברכיב פנימי של Android (%s). ייתכן שהמכשיר או הקושחה אינם תומכים במקור שמע זה.</string>
 
     <string name="notification_action_open">פתח</string>

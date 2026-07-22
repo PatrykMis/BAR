@@ -303,6 +303,26 @@ class Notifications(
         vibrateIfEnabled(CHANNEL_ID_FAILURE)
     }
 
+    /** Send an alert when the recording could not be moved to the selected output directory. */
+    fun notifyMoveFailure(errorMsg: String?) {
+        val text = buildString {
+            append(context.getString(R.string.notification_move_error))
+
+            errorMsg?.trim()?.takeIf { it.isNotBlank() }?.let {
+                append("\n\n")
+                append(it)
+            }
+        }
+
+        sendAlertNotification(
+            CHANNEL_ID_FAILURE,
+            R.string.notification_move_failed,
+            R.drawable.ic_launcher_quick_settings,
+            text,
+            null,
+        )
+    }
+
     /** Dismiss all alert (non-persistent) notifications. */
     fun dismissAll() {
         // This is safe to run at any time because it doesn't dismiss notifications belonging to

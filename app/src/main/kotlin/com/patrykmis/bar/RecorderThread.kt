@@ -110,6 +110,7 @@ class RecorderThread(
         var success = false
         var errorMsg: String? = null
         var resultUri: Uri? = null
+        var moveError: String? = null
 
         outputFilenameGenerator.update()
 
@@ -149,8 +150,12 @@ class RecorderThread(
                         }
                     }
 
-                    dirUtils.tryMoveToUserDir(outputFile)?.let {
-                        resultUri = it.uri
+                    val moveResult = dirUtils.moveToUserDir(outputFile)
+                    resultUri = moveResult.file.uri
+                    moveError = moveResult.error?.let { it.localizedMessage ?: it.toString() }
+
+                    if (moveResult.error != null) {
+                        Log.w(tag, "Recording remains in default output directory")
                     }
 
                     processRetention()
@@ -189,6 +194,7 @@ class RecorderThread(
                     it,
                     outputFilenameGenerator.redactor.redact(it),
                     format.mimeTypeContainer,
+                    moveError,
                 )
             }
 

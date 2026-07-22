@@ -28,18 +28,31 @@ class OutputDirUtils(private val context: Context, private val redactor: Redacto
 
     private fun getErrorFallbackName(name: String) = "ERROR_$name"
 
+    data class MoveToUserDirResult(
+        val file: DocumentFile,
+        val moved: Boolean,
+        val error: Exception?,
+    )
+
     /**
      * Try to move [sourceFile] to the user output directory.
      *
      * @return Whether the user output directory is set and the file was successfully moved
      */
-    fun tryMoveToUserDir(sourceFile: DocumentFile): DocumentFile? {
+    fun tryMoveToUserDir(sourceFile: DocumentFile): DocumentFile? =
+        moveToUserDir(sourceFile).takeIf { it.moved && it.error == null }?.file
+
+    /**
+     * Move [sourceFile] to the user output directory and keep the original file if moving fails.
+     */
+    fun moveToUserDir(sourceFile: DocumentFile): MoveToUserDirResult {
         val userDir = prefs.outputDir?.let {
             // Only returns null on API <21
             DocumentFile.fromTreeUri(context, it)!!
-        } ?: return null
+        } ?: return MoveToUserDirResult(sourceFile, moved = false, error = null)
 
         val redactedSource = redactor.redact(sourceFile.uri)
+        val redactedTargetDir = redactor.redact(userDir.uri)
 
         return try {
             val targetFile = try {
@@ -52,10 +65,10 @@ class OutputDirUtils(private val context: Context, private val redactor: Redacto
 
             Log.i(TAG, "Successfully moved $redactedSource to $redactedTarget")
 
-            targetFile
+            MoveToUserDirResult(targetFile, moved = true, error = null)
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to move $redactedSource to $userDir", e)
-            null
+            Log.e(TAG, "Failed to move $redactedSource to $redactedTargetDir", e)
+            MoveToUserDirResult(sourceFile, moved = false, error = e)
         }
     }
 

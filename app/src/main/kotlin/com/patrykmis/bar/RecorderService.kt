@@ -180,6 +180,7 @@ class RecorderService : Service(), RecorderThread.OnRecordingCompletedListener {
             R.drawable.ic_launcher_quick_settings,
             file,
         )
+        notifyMoveFailure(file)
     }
 
     private fun notifyFailure(errorMsg: String?, file: OutputFile?) {
@@ -189,5 +190,12 @@ class RecorderService : Service(), RecorderThread.OnRecordingCompletedListener {
             errorMsg,
             file
         )
+        file?.let(::notifyMoveFailure)
+    }
+
+    private fun notifyMoveFailure(file: OutputFile) {
+        file.moveError?.let {
+            notifications.notifyMoveFailure(it)
+        }
     }
 }

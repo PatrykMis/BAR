@@ -24,6 +24,9 @@ data class OutputFile(
 
     /** MIME type of [uri]'s contents. */
     val mimeType: String,
+
+    /** Error from moving this file to the user-selected output directory, if any. */
+    val moveError: String? = null,
 ) {
     fun toDocumentFile(context: Context): DocumentFile =
         when (uri.scheme) {

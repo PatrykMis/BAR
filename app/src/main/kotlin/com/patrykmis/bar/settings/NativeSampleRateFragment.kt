@@ -10,13 +10,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceViewHolder
 import com.patrykmis.bar.R
 import com.patrykmis.bar.RecorderService
 import com.patrykmis.bar.audio.NativeSampleRateDetector
 
-class NativeSampleRateFragment : PreferenceFragmentCompat() {
+class NativeSampleRateFragment : SettingsPreferenceFragment() {
     private lateinit var prefResult: ResultPreference
     private lateinit var prefRunTest: Preference
 

@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import com.patrykmis.bar.BuildConfig
 import com.patrykmis.bar.Permissions
@@ -24,7 +23,7 @@ import com.patrykmis.bar.format.NoParamInfo
 import com.patrykmis.bar.format.RangedParamInfo
 import com.patrykmis.bar.output.Retention
 
-class SettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
+class SettingsFragment : SettingsPreferenceFragment(), Preference.OnPreferenceChangeListener,
     Preference.OnPreferenceClickListener, Preferences.OnPreferenceChangeListener {
     private lateinit var prefs: Preferences
     private lateinit var prefPermissions: Preference

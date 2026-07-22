@@ -9,7 +9,6 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.patrykmis.bar.Preferences
@@ -24,7 +23,7 @@ import com.patrykmis.bar.format.RangedParamInfo
 import com.patrykmis.bar.format.RangedParamType
 import com.patrykmis.bar.format.SampleRate
 
-class OutputFormatFragment : PreferenceFragmentCompat() {
+class OutputFormatFragment : SettingsPreferenceFragment() {
     private lateinit var prefs: Preferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

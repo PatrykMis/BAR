@@ -11,13 +11,12 @@ import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.patrykmis.bar.R
 
-class OpenSourceLicensesFragment : PreferenceFragmentCompat() {
+class OpenSourceLicensesFragment : SettingsPreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val context = requireContext()
         val screen = preferenceManager.createPreferenceScreen(context)

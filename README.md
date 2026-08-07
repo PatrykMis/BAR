@@ -55,26 +55,39 @@ used here, so the app only shows the supported Opus sample rates.
 
 ### Native microphone sample rate
 
-Most Android devices have a preferred, hardware-native microphone sample rate. If an app asks for a
-different sample rate, Android can still accept the request, but the audio may be resampled somewhere
-in the system audio pipeline. This matters because Android microphone recording is not the same as
-using a desktop audio interface through ASIO, WASAPI exclusive mode, ALSA, or another low-level audio path
-where the whole device can usually be switched to the requested clock rate. On Android, selecting
-44100 Hz or 48000 Hz in an app does not necessarily mean that the microphone hardware and audio HAL
-are actually running at that rate.
+On Android, the sample rate selected in BAR is the rate of PCM audio the app asks Android to deliver.
+It is not a command that forces the microphone ADC, DSP, vendor HAL, or active input route to run at
+the same hardware clock. Android can successfully open an `AudioRecord` stream at 44100 Hz or 48000
+Hz and still resample internally if the active capture path runs at a different rate.
 
-Avoiding unnecessary resampling is one reason BAR exposes sample-rate choices instead of hiding them
-behind a single default. Resampling quality depends on the device, Android build, audio source, and
-vendor implementation. When the selected rate differs from the device's native microphone path, the
-result can be less clean than recording at the native rate.
+[Android's `AudioFormat` documentation](https://developer.android.com/reference/android/media/AudioFormat)
+describes the sample rate as the rate of the audio content, not necessarily the rate at which that
+content is physically produced or captured. It also recommends matching `AudioRecord` to the endpoint
+sample rate to improve efficiency and avoid lossy sample-rate conversion.
 
-Android does not expose a direct, reliable API for querying the native microphone sample rate, so BAR
-includes an advanced diagnostic screen that estimates it with a buffer-size heuristic. It compares
-`AudioRecord.getMinBufferSize()` results for 48000 Hz and 44100 Hz across common input channel
-configurations. This is not a native Android sample-rate query and should not be treated as absolute
-proof. So far, however, testing has matched known and observed device behavior: Pixel 9 Pro and Pixel
-8 devices behave like 48000 Hz devices, while Pixel 4 and Xiaomi Redmi 7 devices behave like 44100 Hz
-devices.
+This is different from using a desktop or pro-audio path through ASIO, WASAPI exclusive mode, a
+directly configured ALSA device, or similar. Those setups can often switch the actual device clock.
+With Android `AudioRecord`, the app receives a client-facing PCM stream managed by Android's audio
+policy and the device vendor's audio stack. `AudioRecord.getSampleRate()` can tell you the configured
+stream rate, but it does not prove that no conversion happened before the audio reached the app.
+
+BAR exposes sample-rate choices because matching the most likely native capture path removes an
+unnecessary conversion stage. In practical listening tests, avoiding Android's resampler can be
+audible on some devices, so BAR does not hide this behind a single default.
+
+Android does not expose a public API that definitively reports the physical native rate of the
+complete microphone path. `AudioDeviceInfo.getSampleRates()` reports advertised endpoint support, and
+`AudioFormat.SAMPLE_RATE_UNSPECIFIED` asks Android for a route-dependent default, but neither value
+certifies the ADC, DSP, or HAL clock rate or proves that resampling is absent.
+
+BAR therefore includes an advanced diagnostic screen that estimates the most likely native capture
+rate with a buffer-size heuristic. It compares `AudioRecord.getMinBufferSize()` results for 48000 Hz
+and 44100 Hz across common input channel configurations. `getMinBufferSize()` is not defined as a
+native-rate query, but it is influenced by Android's input-buffer path and HAL, so its values can
+provide useful diagnostic evidence. Current BAR testing has consistently matched known and
+independently reported device behavior: Pixel 4 has previously been reported as a 44100 Hz device,
+and BAR's heuristic classifies it the same way. Pixel 9 Pro and Pixel 8 devices behave like 48000 Hz
+devices, while Xiaomi Redmi 7 behaves like a 44100 Hz device.
 
 ### Non-features
 
@@ -95,7 +108,7 @@ As the name alludes, BAR intends to be as basic as possible. The project will ha
 6. Add and position the quick settings tile.
 7. Enable the tile whenever you want to record. You can also pause the recording from the persistent notification.
 
-BAR will prompt for microphone and notification (Android 13+) permissions. They are required for BAR to be able to record in the background.
+BAR will prompt for microphone and notification permissions. They are required for BAR to be able to record in the background.
 
 ### Building from source
 

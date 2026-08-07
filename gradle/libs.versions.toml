@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 [versions]
-aboutlibraries = "15.0.3"
+aboutlibraries = "15.0.4"
 androidx-activity = "1.13.0"
 androidx-annotation = "1.10.0"
 androidx-appcompat = "1.7.1"

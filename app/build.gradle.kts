@@ -127,6 +127,8 @@ dependencies {
     implementation(libs.androidx.preference.ktx)
     implementation(libs.material)
 
+    testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.test.espresso.accessibility)
     androidTestImplementation(libs.androidx.test.espresso.core)

@@ -7,7 +7,7 @@
 package com.patrykmis.bar.format
 
 import android.media.MediaFormat
-import android.media.MediaMuxer
+import android.os.Build
 import com.patrykmis.bar.audio.AudioSampleFormat
 import java.io.FileDescriptor
 
@@ -42,6 +42,5 @@ object OpusFormat : Format() {
         }
     }
 
-    override fun getContainer(fd: FileDescriptor): Container =
-        MediaMuxerContainer(fd, MediaMuxer.OutputFormat.MUXER_OUTPUT_OGG)
+    override fun getContainer(fd: FileDescriptor): Container = OggContainer(fd)
 }
